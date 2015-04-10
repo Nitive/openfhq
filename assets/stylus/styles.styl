@@ -1,0 +1,57 @@
+webfont("AvenirNextCyr", "AvenirNextCyr-Light", true, bold)
+webfont("AvenirNextCyr", "AvenirNextCyr-UltraLight", true)
+
+main-green = #00e090
+
+body
+  font-family: "AvenirNextCyr", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-size: 25px
+  -webkit-font-smoothing: subpixel-antialiased
+  background-color: #f6f6f6
+  overflow-x: hidden
+  @media (max-width: $screen-xs-max)
+    font-size: 20px
+
+div, a
+  &:focus
+    outline: none
+
+$max-row-width = 1100px
+@media (min-width: $max-row-width + 30px)
+  .maxwidth
+    width: $max-row-width
+    margin-left: auto
+    margin-right: auto
+
+.transparent-button
+  -webkit-tap-highlight-color: main-green
+  transition: color 0.3s ease
+  transition: background-color 0.3s ease
+  padding: 11px 53px 15px
+  color: main-green
+  background-color: transparent !important
+  border: 1px solid main-green
+  border-radius: 5px
+  font-size: 32px
+  cursor: pointer
+  user-select: none
+  &:hover
+    color: white
+    background-color: main-green !important
+
+a, a:hover
+  -webkit-tap-highlight-color: white
+  transition: box-shadow 0.5s ease
+  color: main-green
+  text-decoration: none
+
+input.ondark
+  display: block
+  width: 100%
+  padding: 12px 20px
+  margin-bottom: 24px
+  font-size: 25px
+  background: #2f2f2f
+  border: 1px solid main-green
+  border-radius: 5px
+  outline: none

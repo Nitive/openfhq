@@ -1,0 +1,20 @@
+{
+  "name": "fhq-design",
+  "version": "0.0.1",
+  "authors": [
+    "Nitive <samoilowmaxim@gmail.com>"
+  ],
+  "main": "public/index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery.hotkeys": "*",
+    "jquery": "~2.1.3"
+  }
+}
