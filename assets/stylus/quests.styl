@@ -1,0 +1,50 @@
+nav-menu-width = 227px
+info-menu-width = 225px
+max-screen = 1440px
+
+html, body
+	height 100%
+
+.wrap
+	position relative
+	height 100%
+	margin 0 auto
+	width 100%
+	max-width max-screen
+
+.nav-menu
+	position fixed
+	height 100%
+	width nav-menu-width
+	background-color #0ca
+
+.info-menu
+	position fixed
+	top 0
+	height 100%
+	width info-menu-width
+	background-color #ff0
+
+	// always in right
+	right "calc((100% - %s) / 2)" % max-screen
+	@media (max-width: max-screen)
+		right 0
+
+.main-container
+	position relative
+	height 100%
+	margin-left nav-menu-width
+	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
+
+header
+	position fixed
+	height 60px
+	width inherit
+	background-color red
+
+.quest
+	display inline-block
+	height 200px
+	width 380px
+	background-color #aaa
+	margin 1px
