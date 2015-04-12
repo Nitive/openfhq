@@ -84,7 +84,7 @@ gulp.task 'js', ->
 gulp.task 'stylus', ->
   gulp.src('assets/stylus/main.styl')
     .pipe stylus 'include css': true, compress: true
-    .on 'error', console.log
+    .on 'error', -> console.log("Stylus parse error"); this.emit('end')
     .pipe cmq()
     .pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
     .pipe cssmin()
