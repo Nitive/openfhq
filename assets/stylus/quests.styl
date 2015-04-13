@@ -1,18 +1,21 @@
 nav-menu-width = 227px // slideout padding
 info-menu-width = 225px
 max-screen = 1440px
-hide-info-point = 1100px
+hide-info-menu = 1100px
+hide-nav-menu = 600px
 fast = .3s
 
 html, body
 	height 100%
 	width 100%
 
-#toggle
+.menu-toggle
 	height 100px
 	width 100px
 	background-color #444
 	cursor pointer
+	@media (min-width: hide-nav-menu)
+		display none
 
 .wrap
 	position relative
@@ -40,17 +43,25 @@ html, body
 		right 0
 
 	transition margin fast ease
-	@media (max-width: hide-info-point)
+	@media (max-width: hide-info-menu)
 		margin-right "-%s" % info-menu-width
+
+.main-container.opened-menu
+	@media (max-width: hide-nav-menu)
+		margin-left nav-menu-width
+		width 100%
 
 .main-container
 	position relative
 	height 100%
-	transition width fast ease
+	transition margin fast ease, width fast ease
 	margin-left nav-menu-width
 	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
-	@media (max-width: hide-info-point)
+	@media (max-width: hide-info-menu)
 		width "calc(100% - %s)" % nav-menu-width
+	@media (max-width: hide-nav-menu)
+		margin-left 0
+		width 100%
 
 header
 	height 60px

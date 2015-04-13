@@ -70,13 +70,13 @@ gulp.task 'html', ->
         transform: fileContents
         name: extnameFiles))
       i++
-      htmlSrc.pipe replace /<head>/i, '<head><link rel="stylesheet" href="main.css">'
-             .pipe gulp.dest(destPath)
+      htmlSrc.pipe gulp.dest(destPath)
              .pipe sync.reload(stream: true)
 
 
 gulp.task 'js', ->
-  gulp.src [jsPath, coffeePath]
+  # gulp.src [jsPath, coffeePath]
+  gulp.src [coffeePath]
     .pipe(gulpif(/[.]coffee$/, coffee bare: true))
     .on 'error', -> console.log("Goffee parse error"); this.emit('end')
     .pipe concat 'main.js'
