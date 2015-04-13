@@ -3,6 +3,7 @@ stylus = require 'gulp-stylus'
 cmq = require 'gulp-combine-media-queries'
 autoprefixer = require 'gulp-autoprefixer'
 cssmin = require 'gulp-cssmin'
+sourcemaps = require 'gulp-sourcemaps'
 
 # svg
 svgmin = require 'gulp-svgmin'
@@ -34,13 +35,14 @@ imgPath = 'assets/images/*.{jpg,png}'
 destPath = 'public/'
 
 components = [
+  # 'bower_components/slideout.js/dist/slideout.min.js'
   'bower_components/jquery/dist/jquery.min.js'
-  'bower_components/jquery.hotkeys/jquery.hotkeys.js'
+  # 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
 ]
 
 gulp.task 'default', ['html', 'stylus']
 
-gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'js'
+gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'components', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
   gulp.watch stylusPath,                    ['stylus']
@@ -74,20 +76,30 @@ gulp.task 'html', ->
 
 
 gulp.task 'js', ->
-  gulp.src components.concat([jsPath]).concat([coffeePath])
+  gulp.src [jsPath, coffeePath]
     .pipe(gulpif(/[.]coffee$/, coffee bare: true))
+    .on 'error', -> console.log("Goffee parse error"); this.emit('end')
     .pipe concat 'main.js'
+    .pipe uglify()
+    .pipe gulp.dest(destPath)
+    .pipe sync.reload(stream: true)
+
+gulp.task 'components', ->
+  gulp.src components
+    .pipe concat 'components.js'
     .pipe uglify()
     .pipe gulp.dest(destPath)
     .pipe sync.reload(stream: true)
 
 gulp.task 'stylus', ->
   gulp.src('assets/stylus/main.styl')
+    .pipe sourcemaps.init()
     .pipe stylus 'include css': true, compress: true
     .on 'error', -> console.log("Stylus parse error"); this.emit('end')
     .pipe cmq()
     .pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
     .pipe cssmin()
+    .pipe sourcemaps.write()
     .pipe gulp.dest destPath
     .pipe sync.reload(stream: true)
 
@@ -102,9 +114,9 @@ gulp.task 'imgfont', ->
 gulp.task 'browser-sync', ->
   console.log __dirname
   sync
+    open: false
     server:
       baseDir: destPath
-      index: 'index.html'
     snippetOptions: rule:
       match: /<\/body>/i
       fn: (snippet, match) ->
