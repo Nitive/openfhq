@@ -35,8 +35,8 @@ imgPath = 'assets/images/*.{jpg,png}'
 destPath = 'public/'
 
 components = [
-  'bower_components/jquery/dist/jquery.min.js'
-  # 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
+	'bower_components/jquery/dist/jquery.min.js'
+	# 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
 ]
 
 gulp.task 'default', ['watch']
@@ -44,79 +44,79 @@ gulp.task 'default', ['watch']
 gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'components', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
-  gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
-  gulp.watch htmlPath,                       -> run 'html', 'stylus'
-  gulp.watch imgPath,                        -> run 'imgfont', 'html'
-  gulp.watch [jsPath, coffeePath],                 ['js']
+	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
+	gulp.watch htmlPath,                       -> run 'html', 'stylus'
+	gulp.watch imgPath,                        -> run 'imgfont', 'html'
+	gulp.watch [jsPath, coffeePath],                 ['js']
 
 gulp.task 'html', ->
-  htmlSrc = gulp.src(htmlPath)
+	htmlSrc = gulp.src(htmlPath)
 
-  fileContents = (filePath, file) ->
-    file.contents.toString()
+	fileContents = (filePath, file) ->
+		file.contents.toString()
 
-  fileset svgPath, (err, files) ->
-    if err
-      return console.error(err)
-    i = 0
-    while i < files.length
-      extension = parsePath(files[i]).extname
-      extnameFiles = files[i].replace(extension, '')
-      htmlSrc = htmlSrc.pipe(inject(gulp.src(files[i]).pipe(svgmin(plugins: [
-        { removeTitle: true }
-        { removeDesc: true }
-      ])),
-        transform: fileContents
-        name: extnameFiles))
-      i++
-      htmlSrc.pipe gulp.dest(destPath)
-             .pipe sync.reload(stream: true)
+	fileset svgPath, (err, files) ->
+		if err
+			return console.error(err)
+		i = 0
+		while i < files.length
+			extension = parsePath(files[i]).extname
+			extnameFiles = files[i].replace(extension, '')
+			htmlSrc = htmlSrc.pipe(inject(gulp.src(files[i]).pipe(svgmin(plugins: [
+				{ removeTitle: true }
+				{ removeDesc: true }
+			])),
+				transform: fileContents
+				name: extnameFiles))
+			i++
+			htmlSrc.pipe gulp.dest(destPath)
+						 .pipe sync.reload(stream: true)
 
 
 gulp.task 'js', ->
-  gulp.src [jsPath, coffeePath]
-    .pipe gulpif(/[.]coffee$/, coffee bare: true)
-    .on 'error', -> console.log("Goffee parse error"); this.emit('end')
-    .pipe concat 'main.js'
-    .pipe uglify()
-    .pipe gulp.dest(destPath)
-    .pipe sync.reload(stream: true)
+	gulp.src [jsPath, coffeePath]
+		.pipe gulpif(/[.]coffee$/, coffee bare: true)
+		.on 'error', -> console.log("Goffee parse error"); this.emit('end')
+		.pipe concat 'main.js'
+		.pipe uglify()
+		.pipe gulp.dest(destPath)
+		.pipe sync.reload(stream: true)
 
 gulp.task 'components', ->
-  gulp.src components
-    .pipe concat 'components.js'
-    .pipe uglify()
-    .pipe gulp.dest(destPath)
-    .pipe sync.reload(stream: true)
+	gulp.src components
+		.pipe concat 'components.js'
+		.pipe uglify()
+		.pipe gulp.dest(destPath)
+		.pipe sync.reload(stream: true)
 
 gulp.task 'stylus', ->
-  gulp.src(stylusPath)
-    .pipe ignore.exclude /_.*\.styl$/
-    .pipe sourcemaps.init()
-    .pipe stylus 'include css': true, compress: true
-    .on 'error', -> console.log("Stylus parse error"); this.emit('end')
-    .pipe cmq()
-    .pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
-    .pipe cssmin()
-    .pipe sourcemaps.write()
-    .pipe gulp.dest destPath
-    .pipe sync.reload(stream: true)
+	gulp.src(stylusPath)
+		.pipe ignore.exclude /_.*\.styl$/
+		.pipe sourcemaps.init()
+		.pipe stylus 'include css': true, compress: true
+		.on 'error', -> console.log("Stylus parse error"); this.emit('end')
+		.pipe cmq()
+		.pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
+		.pipe cssmin()
+		.pipe sourcemaps.write()
+		.pipe gulp.dest destPath
+		.pipe sync.reload(stream: true)
 
 gulp.task 'imgfont', ->
-  gulp
-    .src 'assets/fonts/*/*'
-    .pipe gulp.dest(destPath + 'fonts')
-  gulp
-    .src imgPath
-    .pipe gulp.dest(destPath + 'images')
+	gulp
+		.src 'assets/fonts/*/*'
+		.pipe gulp.dest(destPath + 'fonts')
+	gulp
+		.src imgPath
+		.pipe gulp.dest(destPath + 'images')
 
 gulp.task 'browser-sync', ->
-  console.log __dirname
-  sync
-    open: false
-    server:
-      baseDir: destPath
-    snippetOptions: rule:
-      match: /<\/body>/i
-      fn: (snippet, match) ->
-        snippet + match
+	console.log __dirname
+	sync
+		open: false
+		server:
+			baseDir: destPath
+		snippetOptions: rule:
+			match: /<\/body>/i
+			fn: (snippet, match) ->
+				snippet + match

@@ -1,112 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Welcome | FHQ</title>
-  <link rel="stylesheet" href="startpage.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Welcome | FHQ</title>
+	<link rel="stylesheet" href="startpage.css">
 </head>
+
 <body class="body-background">
-  <div id="sign-in-window">
-    <div class="title">Free Hack Quest</div>
-    <form action="#">
-      <input class="ondark" type="email" placeholder="Pick your email">
-      <input class="ondark" type="password" placeholder="Pick your password">
-      <input class="transparent-button ondark" type="submit" value="Sign in">
-    </form>
-  </div>
-  <div id="blackout" onclick="hideSignInWindow();"></div>
-  <div class="container-fluid">
-    <div class="row header">
-      <div class="over-logo">
-        <div class="logo">Free Hack Quest</div>
-        <div class="slogan">Games for hackers</div>
-      </div>
-      <div class="transparent-button sign-in" onclick="showSignInWindow();">Sign in</div>
-      <div class="video hidden-xs">
-        <video autoplay loop>
-          <source src="http://designcode.io/images/mp4/sketch-demo.mp4" type="video/mp4"></source>
-          <source src="http://designcode.io/images/webm/sketch-demo.webm" type="video/webm"></source>
-        </video>
-      </div>
-    </div>
-    <div class="row sign-up">
-      <div class="maxwidth">
-        <div class="col-sm-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, atque. Placeat temporibus omnis consequatur quidem exercitationem quam, natus molestias qui vero, eligendi laborum animi. Maiores adipisci neque, facilis dicta optio!</div>
-        <div class="col-sm-6">
-          <form action="" id="sign-up-form" novalidate>
-            <input class="ondark" type="email" placeholder="Pick your email">
-            <input class="ondark" type="password" placeholder="Create a password">
-            <input class="ondark transparent-button" type="submit" value="Sign up for FHQ" onclick="this.value = 'Signing up...';">
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="row maxwidth features">
-      <article class="col-sm-6">
-        <!-- assets/images/icon1:svg --><!-- endinject -->
-        <div class="title">Lorem ipsum dolor sit.</div>
-        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium rerum beatae tempora nesciunt, fuga iste laboriosam quos reprehenderit, similique vero, officia maiores quaerat! Numquam, dolorum!</div>
-      </article>
-      <article class="col-sm-6">
-        <!-- assets/images/icon2:svg --><!-- endinject -->
-        <div class="title">Facilis, quibusdam ab iusto.</div>
-        <div class="text">Sapiente sit, provident illum dicta sequi beatae eos libero animi, veritatis quisquam dignissimos quos qui. Repellat velit rem, sequi dolorum accusantium itaque praesentium ipsa non.</div>
-      </article>
-      <div class="col-xs-12"></div><!-- Split -->
-      <article class="col-sm-6">
-        <!-- assets/images/icon3:svg --><!-- endinject -->
-        <div class="title">Sed blanditiis at eaque.</div>
-        <div class="text">Voluptas a, quo! Accusamus itaque ducimus dignissimos laborum sunt minima blanditiis, aliquid voluptatum modi eaque atque rem, culpa ipsam ex aliquam, officia consequatur, est assumenda.</div>
-      </article>
-      <article class="col-sm-6">
-        <!-- assets/images/icon4:svg --><!-- endinject -->
-        <div class="title">Ipsa, earum. Ullam, eveniet.</div>
-        <div class="text">Cupiditate nesciunt quaerat unde iure eaque, repellat fugit! Sint minima expedita neque a ut quidem impedit fugiat ipsam ex sunt, excepturi, voluptates blanditiis voluptatum. Earum!</div>
-      </article>
-    </div>
-    <div class="row maxwidth reviews">
-      <article class="col-sm-6">
-        <img src="images/person1.jpg" height="128" width="128" alt="Photo" class="photo">
-        <div class="name">Jean Perez</div>
-        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, illo eius nostrum id, consectetur, odio enim odit deleniti repudiandae animi eaque alias debitis, aspernatur tempora!</div>
-      </article>
-      <article class="col-sm-6">
-        <img src="images/person2.jpg" height="128" width="128" alt="Photo" class="photo">
-        <div class="name">Samuel Ellis</div>
-        <div class="text">Quae, fugit. Id reiciendis dolor cum animi mollitia consequuntur ipsum et officia perspiciatis. Corporis voluptas, totam laboriosam, aliquam provident delectus optio velit veniam.</div>
-      </article>
-    </div>
-    <div class="row maxwidth over-tweet">
-      <div class="title">Tweet "You can be a hacker!"</div>
-      <a target="_blank" class="tweet" href="https://twitter.com/intent/tweet?text=You can be a hacker! http://fhq.keva.su">
-        <border></border>
-      <pulse></pulse>
-    <!-- assets/images/twitter:svg --><!-- endinject -->
-    </a>
-  </div>
-  <div class="row scroll-up">
-    <div class="transparent-button" onclick="scrollToElement({class: 'sign-up'});">Start for free</div>
-  </div>
-  <footer class="row">
-    <div class="maxwidth">
-      <nav class="links col-sm-6">
-        <div>© 2015 Free Hack Quest</div>
-        <div>
-          <a target="_blank" href="http://github.com/sea-kg/fhq">GitHub</a>
-          <a target="_blank" href="http://gitlab.keva.su/keva/kevactfplatform">GitLab</a>
-          <a target="_blank" href="http://keva.su">Team&nbsp;<b>keva</b></a>
-        </div>
-        <div><a target="_blank" href="https://vk.com/freehackquest">VK</a>
-        <a href="mailto:nitive@icloud.com">Email</a></div>
-      </nav>
-      <nav class="icons col-sm-6">
-        <a target="_blank" href="https://vk.com/freehackquest"><!-- assets/images/vk:svg --><!-- endinject --></a>
-        <a target="_blank" href="http://github.com/sea-kg/fhq"><!-- assets/images/github:svg --><!-- endinject --></a>
-      </nav>
-    </div>
-  </footer>
-</div>
-<script src="main.js"</script>
+	<div id="sign-in-window">
+		<div class="title">Free Hack Quest</div>
+		<form action="#">
+			<input class="ondark" type="email" placeholder="Pick your email">
+			<input class="ondark" type="password" placeholder="Pick your password">
+			<input class="transparent-button ondark" type="submit" value="Sign in">
+		</form>
+	</div>
+	<div id="blackout" onclick="hideSignInWindow();"></div>
+	<div class="container-fluid">
+		<div class="row header">
+			<div class="over-logo">
+				<div class="logo">Free Hack Quest</div>
+				<div class="slogan">Games for hackers</div>
+			</div>
+			<div class="transparent-button sign-in" onclick="showSignInWindow();">Sign in</div>
+			<div class="video hidden-xs">
+				<video autoplay loop>
+					<source src="http://designcode.io/images/mp4/sketch-demo.mp4" type="video/mp4"></source>
+					<source src="http://designcode.io/images/webm/sketch-demo.webm" type="video/webm"></source>
+				</video>
+			</div>
+		</div>
+		<div class="row sign-up">
+			<div class="maxwidth">
+				<div class="col-sm-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, atque. Placeat temporibus omnis consequatur quidem exercitationem quam, natus molestias qui vero, eligendi laborum animi. Maiores adipisci neque, facilis dicta optio!</div>
+				<div class="col-sm-6">
+					<form action="" id="sign-up-form" novalidate>
+						<input class="ondark" type="email" placeholder="Pick your email">
+						<input class="ondark" type="password" placeholder="Create a password">
+						<input class="ondark transparent-button" type="submit" value="Sign up for FHQ" onclick="this.value = 'Signing up...';">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="row maxwidth features">
+			<article class="col-sm-6">
+				<!-- assets/images/icon1:svg -->
+				<!-- endinject -->
+				<div class="title">Lorem ipsum dolor sit.</div>
+				<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium rerum beatae tempora nesciunt, fuga iste laboriosam quos reprehenderit, similique vero, officia maiores quaerat! Numquam, dolorum!</div>
+			</article>
+			<article class="col-sm-6">
+				<!-- assets/images/icon2:svg -->
+				<!-- endinject -->
+				<div class="title">Facilis, quibusdam ab iusto.</div>
+				<div class="text">Sapiente sit, provident illum dicta sequi beatae eos libero animi, veritatis quisquam dignissimos quos qui. Repellat velit rem, sequi dolorum accusantium itaque praesentium ipsa non.</div>
+			</article>
+			<div class="col-xs-12"></div>
+			<!-- Split -->
+			<article class="col-sm-6">
+				<!-- assets/images/icon3:svg -->
+				<!-- endinject -->
+				<div class="title">Sed blanditiis at eaque.</div>
+				<div class="text">Voluptas a, quo! Accusamus itaque ducimus dignissimos laborum sunt minima blanditiis, aliquid voluptatum modi eaque atque rem, culpa ipsam ex aliquam, officia consequatur, est assumenda.</div>
+			</article>
+			<article class="col-sm-6">
+				<!-- assets/images/icon4:svg -->
+				<!-- endinject -->
+				<div class="title">Ipsa, earum. Ullam, eveniet.</div>
+				<div class="text">Cupiditate nesciunt quaerat unde iure eaque, repellat fugit! Sint minima expedita neque a ut quidem impedit fugiat ipsam ex sunt, excepturi, voluptates blanditiis voluptatum. Earum!</div>
+			</article>
+		</div>
+		<div class="row maxwidth reviews">
+			<article class="col-sm-6">
+				<img src="images/person1.jpg" height="128" width="128" alt="Photo" class="photo">
+				<div class="name">Jean Perez</div>
+				<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, illo eius nostrum id, consectetur, odio enim odit deleniti repudiandae animi eaque alias debitis, aspernatur tempora!</div>
+			</article>
+			<article class="col-sm-6">
+				<img src="images/person2.jpg" height="128" width="128" alt="Photo" class="photo">
+				<div class="name">Samuel Ellis</div>
+				<div class="text">Quae, fugit. Id reiciendis dolor cum animi mollitia consequuntur ipsum et officia perspiciatis. Corporis voluptas, totam laboriosam, aliquam provident delectus optio velit veniam.</div>
+			</article>
+		</div>
+		<div class="row maxwidth over-tweet">
+			<div class="title">Tweet "You can be a hacker!"</div>
+			<a target="_blank" class="tweet" href="https://twitter.com/intent/tweet?text=You can be a hacker! http://fhq.keva.su">
+				<border></border>
+				<pulse></pulse>
+				<!-- assets/images/twitter:svg -->
+				<!-- endinject -->
+			</a>
+		</div>
+		<div class="row scroll-up">
+			<div class="transparent-button" onclick="scrollToElement({class: 'sign-up'});">Start for free</div>
+		</div>
+		<footer class="row">
+			<div class="maxwidth">
+				<nav class="links col-sm-6">
+					<div>© 2015 Free Hack Quest</div>
+					<div>
+						<a target="_blank" href="http://github.com/sea-kg/fhq">GitHub</a>
+						<a target="_blank" href="http://gitlab.keva.su/keva/kevactfplatform">GitLab</a>
+						<a target="_blank" href="http://keva.su">Team&nbsp;<b>keva</b></a>
+					</div>
+					<div><a target="_blank" href="https://vk.com/freehackquest">VK</a>
+						<a href="mailto:nitive@icloud.com">Email</a></div>
+				</nav>
+				<nav class="icons col-sm-6">
+					<a target="_blank" href="https://vk.com/freehackquest">
+						<!-- assets/images/vk:svg -->
+						<!-- endinject -->
+					</a>
+					<a target="_blank" href="http://github.com/sea-kg/fhq">
+						<!-- assets/images/github:svg -->
+						<!-- endinject -->
+					</a>
+				</nav>
+			</div>
+		</footer>
+	</div>
+	<script src="main.js"></script>
 </body>
+
 </html>
