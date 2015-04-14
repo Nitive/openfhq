@@ -1,1 +1,0 @@
-$(function(){return $(".menu-toggle").click(function(){return $(".main-container").toggleClass("opened-menu")})});

@@ -23,6 +23,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-cssmin": "^0.1.6",
     "gulp-if": "^1.2.5",
+    "gulp-ignore": "^1.2.1",
     "gulp-inject": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.3",

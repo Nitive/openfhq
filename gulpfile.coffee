@@ -18,9 +18,9 @@ run = require 'run-sequence'
 inject = require 'gulp-inject'
 parsePath = require 'parse-filepath'
 fileset = require 'fileset'
-rename = require 'gulp-rename'
 replace = require 'gulp-replace'
 gulpif = require 'gulp-if'
+ignore = require 'gulp-ignore'
 sync = require 'browser-sync'
 gulp = require 'gulp'
 
@@ -35,7 +35,6 @@ imgPath = 'assets/images/*.{jpg,png}'
 destPath = 'public/'
 
 components = [
-  # 'bower_components/slideout.js/dist/slideout.min.js'
   'bower_components/jquery/dist/jquery.min.js'
   # 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
 ]
@@ -44,10 +43,10 @@ gulp.task 'default', ['html', 'stylus']
 
 gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'components', 'js'
 
-gulp.task 'watch', ['browser-sync'], ->
-  gulp.watch stylusPath,                    ['stylus']
-  gulp.watch htmlPath,                -> run 'html', 'stylus'
-  gulp.watch imgPath,                 -> run 'imgfont', 'html', 'stylus'
+gulp.task 'dev', ['browser-sync'], ->
+  gulp.watch stylusPath,                    ['devstylus']
+  gulp.watch htmlPath,                -> run 'html', 'devstylus'
+  gulp.watch imgPath,                 -> run 'imgfont', 'html'
   gulp.watch [jsPath, coffeePath],          ['js']
 
 gulp.task 'html', ->
@@ -75,9 +74,8 @@ gulp.task 'html', ->
 
 
 gulp.task 'js', ->
-  # gulp.src [jsPath, coffeePath]
-  gulp.src [coffeePath]
-    .pipe(gulpif(/[.]coffee$/, coffee bare: true))
+  gulp.src [jsPath, coffeePath]
+    .pipe gulpif(/[.]coffee$/, coffee bare: true)
     .on 'error', -> console.log("Goffee parse error"); this.emit('end')
     .pipe concat 'main.js'
     .pipe uglify()
@@ -92,7 +90,8 @@ gulp.task 'components', ->
     .pipe sync.reload(stream: true)
 
 gulp.task 'stylus', ->
-  gulp.src('assets/stylus/main.styl')
+  gulp.src(stylusPath)
+    .pipe ignore.exclude /_.*\.styl$/
     .pipe sourcemaps.init()
     .pipe stylus 'include css': true, compress: true
     .on 'error', -> console.log("Stylus parse error"); this.emit('end')
