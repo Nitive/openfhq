@@ -39,15 +39,15 @@ components = [
   # 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
 ]
 
-gulp.task 'default', ['html', 'stylus']
+gulp.task 'default', ['watch']
 
 gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'components', 'js'
 
-gulp.task 'dev', ['browser-sync'], ->
-  gulp.watch stylusPath,                    ['devstylus']
-  gulp.watch htmlPath,                -> run 'html', 'devstylus'
-  gulp.watch imgPath,                 -> run 'imgfont', 'html'
-  gulp.watch [jsPath, coffeePath],          ['js']
+gulp.task 'watch', ['browser-sync'], ->
+  gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
+  gulp.watch htmlPath,                       -> run 'html', 'stylus'
+  gulp.watch imgPath,                        -> run 'imgfont', 'html'
+  gulp.watch [jsPath, coffeePath],                 ['js']
 
 gulp.task 'html', ->
   htmlSrc = gulp.src(htmlPath)
