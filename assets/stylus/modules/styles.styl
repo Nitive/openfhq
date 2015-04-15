@@ -1,5 +1,5 @@
-webfont("AvenirNextCyr", "AvenirNextCyr-Light", bold)
-webfont("AvenirNextCyr", "AvenirNextCyr-UltraLight")
+webfont("AvenirNextCyr", "AvenirNextCyr-Medium", bold)
+webfont("AvenirNextCyr", "AvenirNextCyr-Light")
 
 main-green = #00e090
 
@@ -9,6 +9,15 @@ body
   -webkit-font-smoothing: subpixel-antialiased
   background-color: #f6f6f6
   overflow-x: hidden
+
+  // fonts
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  line-height 1.5
+  letter-spacing 0.01rem
+  text-rendering optimizeLegibility
+  -moz-font-feature-settings "liga" on
+
   @media (max-width: $screen-xs-max)
     font-size: 20px
 
