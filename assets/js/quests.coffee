@@ -4,7 +4,7 @@ $(->
 	$menuToggle = $('.menu-toggle')
 	startMargin = 0
 
-	$mainContainer.hammer().bind 'swipe', (event) ->
+	$('.wrap').hammer().bind 'swipe', (event) ->
 		if event.gesture.direction == Hammer.DIRECTION_LEFT
 			$mainContainer.removeClass 'opened-menu'
 		if event.gesture.direction == Hammer.DIRECTION_RIGHT

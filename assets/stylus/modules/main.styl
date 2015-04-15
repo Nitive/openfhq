@@ -3,16 +3,17 @@
 nav-menu-width = 228px
 info-menu-width = 227px
 max-screen = 1440px
+header-height = 60px
 hide-info-menu = 1100px
 hide-nav-menu = 600px
-footer-height = 300px
+footer-height = 100px
 fast = .3s
 
 html, body
 	width 100%
 
 .menu-toggle
-	height 60px
+	height header-height
 	width 100px
 	background-color #444
 	cursor pointer
@@ -68,14 +69,18 @@ html, body
 		margin-left 0
 		width 100%
 
-header
-	height 60px
+.page-header
+	height header-height
 	width 100%
 	background-color red
 
 main
-	min-height 100%
+	min-height "calc(100% - %s)" % (footer-height + header-height)
 	background-color green
+
+.page-footer
+	height footer-height
+	background-color red
 
 .quest
 	display inline-block
