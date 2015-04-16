@@ -9,9 +9,6 @@ hide-nav-menu = 600px
 footer-height = 100px
 fast = .3s
 
-html, body
-	width 100%
-
 .menu-toggle
 	height header-height
 	width 100px
@@ -23,7 +20,6 @@ html, body
 .wrap
 	position relative
 	margin 0 auto
-	width 100%
 	max-width max-screen
 	@media (max-width: hide-info-menu)
 		overflow-x hidden
@@ -75,9 +71,13 @@ html, body
 	width 100%
 	background-color red
 
+.search
+	height header-height
+	padding-top header-height
+	background-color blue
+
 .quests
 	display table
-	margin-top 60px
 	min-height "calc(100% - %s)" % (footer-height + header-height)
 	background-color green
 
