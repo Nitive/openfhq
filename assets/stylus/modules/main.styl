@@ -70,11 +70,14 @@ html, body
 		width 100%
 
 .page-header
+	position fixed
 	height header-height
 	width 100%
 	background-color red
 
 .quests
+	display table
+	margin-top 60px
 	min-height "calc(100% - %s)" % (footer-height + header-height)
 	background-color green
 
@@ -83,8 +86,8 @@ html, body
 	background-color red
 
 .quest
-	display inline-block
+	display inline-table
 	height 200px
 	width 380px
 	background-color #aaa
-	margin-top 10px
+	margin 10px
