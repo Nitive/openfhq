@@ -78,7 +78,7 @@ gulp.task 'html', ->
 gulp.task 'js', ->
 	gulp.src [jsPath, coffeePath]
 		.pipe gulpif(/[.]coffee$/, coffee bare: true)
-		.on 'error', -> console.log("Goffee parse error"); this.emit('end')
+		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'main.js'
 		.pipe uglify()
 		.pipe gulp.dest(destPath)
@@ -96,7 +96,7 @@ gulp.task 'stylus', ->
 		.pipe ignore.exclude /_.*\.styl$/
 		.pipe sourcemaps.init()
 		.pipe stylus 'include css': true, compress: true
-		.on 'error', -> console.log("Stylus parse error"); this.emit('end')
+		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
 		.pipe cmq()
 		.pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
 		.pipe cssmin()
