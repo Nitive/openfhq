@@ -1,16 +1,20 @@
-webfont("AvenirNextCyr", "AvenirNextCyr-Medium", bold)
-webfont("AvenirNextCyr", "AvenirNextCyr-Light")
+webfont("Avenir Next Cyr", "AvenirNextCyr-Medium", bold)
+webfont("Avenir Next Cyr", "AvenirNextCyr-Light")
 
 main-green = #00e090
 
+// font
+font-min-size = 20
+font-max-size = 25
+font-max-screen-height = 1440
+font-min-screen-height = 320
+
 body
-  font-family: "AvenirNextCyr", "Helvetica Neue", Helvetica, Arial, sans-serif
-  font-size: 25px
-  -webkit-font-smoothing: subpixel-antialiased
-  background-color: #f6f6f6
-  overflow-x: hidden
+  background-color #f6f6f6
+  overflow-x hidden
 
   // fonts
+  font-family "Avenir Next Cyr", "Helvetica Neue", Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   line-height 1.5
@@ -18,8 +22,10 @@ body
   text-rendering optimizeLegibility
   -moz-font-feature-settings "liga" on
 
-  @media (max-width: $screen-xs-max)
-    font-size: 20px
+  font-size s("calc(" + font-min-size + "px + " + (font-max-size - font-min-size) + " * ((100vw - " + font-min-screen-height + "px) / " + (font-max-screen-height - font-min-screen-height) + "))")
+
+  // @media (max-width: $screen-xs-max)
+  //   font-size: 20px
 
 div, a
   &:focus

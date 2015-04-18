@@ -6,8 +6,8 @@ webfont(family, file, weight = normal)
   @font-face
     font-family family
     file += '/' + file
-    src url(font-url(file + '.eot'))
-        url(font-url(file + '.woff')) format('woff')
+    src url(font-url(file + '.eot')),
+        url(font-url(file + '.woff')) format('woff'),
         url(font-url(file + '.ttf')) format('truetype')
     font-weight weight
     font-style normal
