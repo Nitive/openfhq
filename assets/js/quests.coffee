@@ -2,8 +2,6 @@ $(->
 
 	########## jQuery variables ##########
 
-	$toggleExtraMenuButton = $('.nav-menu svg')
-
 	$document = $(document)
 	$htmlbody = $('html, body') # html for firefox, body for webkit
 	$field = $('.ios-search-field')
@@ -11,13 +9,15 @@ $(->
 	$mainContainer = $('.main-container')
 	$menuToggle = $('.menu-toggle')
 
+	$navMenuHeader = $('.nav-menu header')
+
 	############# Extra menu #############
 
-	$toggleExtraMenuButton.hammer().bind 'tap', ->
+	$navMenuHeader.hammer({cssProps: { userSelect: true }}).bind 'tap', ->
 		$(this).find(' + ul').slideToggle()
 
 		# toggle class (svg)
-		$(this).attr 'class', (i, attr) ->
+		$navMenuHeader.find('svg').attr 'class', (i, attr) ->
 			if attr then '' else 'upside'
 
 	########## Open/Close menu ###########

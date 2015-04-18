@@ -48,24 +48,26 @@ body
 		display inline-block
 		color main-green
 
-	svg
-		transition transform normal
+	header
 		cursor pointer
-		position absolute
-		top offset
-		right offset
-		path
-			transition fill-opacity normal
 		&:hover
-			path
-				fill-opacity .4
-		+ ul
+			svg
+				path
+					fill-opacity .4
+		& + ul
 			display none
 			background-color #242a30
 			li
 				center-of 40px
 			li:first-child
 				border-top 2px
+	svg
+		transition transform normal
+		position absolute
+		top offset
+		right offset
+		path
+			transition fill-opacity normal
 	ul
 		margin 0
 		padding 0
@@ -76,7 +78,7 @@ body
 		border-bottom 1px
 		border-image: separator
 	li
-		font-size 24px
+		font-size 23px
 		cursor pointer
 		center-of 45px
 		// text-align center
@@ -84,8 +86,6 @@ body
 		border 0
 		border-bottom 1px
 		border-image: separator
-		// transition background normal
-		transition background-image 2s
 		&:hover
 			background-image radial-gradient(35% 120%, rgba(0, 223, 144, .2) 10%, rgba(0, 223, 144, 0) 120%)
 
