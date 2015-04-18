@@ -25,6 +25,46 @@ body
 	height 100%
 	width nav-menu-width
 	background-color main-dark-bg
+	line-height 1
+
+	radius = 14px
+	offset = ((header-height - radius * 2) / 2)
+
+	h1
+		position relative
+		font-weight light
+		font-size 24px
+		text-align center
+		margin 0
+		padding ((header-height - @font-size) / 2) 0
+		width nav-menu-width - header-height + offset
+		display inline-block
+		color main-green
+		&:after
+			content ''
+			position absolute
+			right 0
+			top header-height
+			height 5px
+			width 100%
+			background-color #fff
+
+	svg
+		cursor pointer
+		position absolute
+		top offset
+		right offset
+		+ ul
+			display none
+	ul
+		margin 0
+		list-style-type none
+	li
+		cursor pointer
+		margin-left -40px
+		background-color #333
+	a:hover
+		box-shadow: 0 1px 0 0 white
 
 .info-menu
 	position fixed
