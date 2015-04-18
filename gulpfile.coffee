@@ -63,8 +63,8 @@ gulp.task 'html', ->
 		i = 0
 		while i < files.length
 			pathToFolder = 'assets/images/'
-			file = files[i].replace('assets/images/', '')
-			console.log file
+			file = files[i].replace(pathToFolder, '')
+			# console.log file
 			extension = parsePath(file).extname
 			extnameFiles = file.replace(extension, '')
 			htmlSrc = htmlSrc.pipe(inject(gulp.src(pathToFolder + file).pipe(svgmin(plugins: [
