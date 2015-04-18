@@ -1,7 +1,7 @@
 @import 'nav-menu'
 
 body
-	background-color gray
+	background-color main-light-bg
 
 .menu-toggle
 	height header-height
@@ -24,14 +24,14 @@ body
 	position fixed
 	height 100%
 	width nav-menu-width
-	background-color #0ca
+	background-color main-dark-bg
 
 .info-menu
 	position fixed
 	top 0
 	height 100%
 	width info-menu-width
-	background-color #ff0
+	background-color main-dark-bg
 
 	// always in right
 	right "calc((100% - %s) / 2)" % max-screen
@@ -63,7 +63,7 @@ body
 	position fixed
 	height header-height
 	width 100%
-	background-color red
+	background-color main-dark-bg
 
 .search
 	height header-height
@@ -73,7 +73,7 @@ body
 .quests
 	display table
 	min-height "calc(100% - %s)" % (footer-height + header-height)
-	background-color green
+	background-color main-light-bg
 
 .page-footer
 	height footer-height
