@@ -20,6 +20,9 @@ body
 		overflow-y scroll
 		-webkit-overflow-scrolling touch
 
+.upside
+	transform rotate(.5turn)
+
 .nav-menu
 	position fixed
 	height 100%
@@ -29,6 +32,10 @@ body
 
 	radius = 14px
 	offset = ((header-height - radius * 2) / 2)
+	menu-font-size = 24px
+	center-of(height)
+		padding-top ((height - menu-font-size) / 2)
+		padding-bottom ((height - menu-font-size) / 2)
 
 	h1
 		position relative
@@ -36,35 +43,51 @@ body
 		font-size 24px
 		text-align center
 		margin 0
-		padding ((header-height - @font-size) / 2) 0
+		center-of header-height
 		width nav-menu-width - header-height + offset
 		display inline-block
 		color main-green
-		&:after
-			content ''
-			position absolute
-			right 0
-			top header-height
-			height 5px
-			width 100%
-			background-color #fff
 
 	svg
+		transition transform normal
 		cursor pointer
 		position absolute
 		top offset
 		right offset
+		path
+			transition fill-opacity normal
+		&:hover
+			path
+				fill-opacity .4
 		+ ul
 			display none
+			background-color #242a30
+			li
+				center-of 40px
+			li:first-child
+				border-top 2px
 	ul
 		margin 0
+		padding 0
 		list-style-type none
+	li:first-child
+		border 0
+		border-top 1px
+		border-bottom 1px
+		border-image: separator
 	li
+		font-size 24px
 		cursor pointer
-		margin-left -40px
-		background-color #333
-	a:hover
-		box-shadow: 0 1px 0 0 white
+		center-of 45px
+		// text-align center
+		padding-left 30px
+		border 0
+		border-bottom 1px
+		border-image: separator
+		// transition background normal
+		transition background-image 2s
+		&:hover
+			background-image radial-gradient(35% 120%, rgba(0, 223, 144, .2) 10%, rgba(0, 223, 144, 0) 120%)
 
 .info-menu
 	position fixed
@@ -78,7 +101,7 @@ body
 	@media (max-width: max-screen)
 		right 0
 
-	transition margin fast
+	transition margin normal
 	@media (max-width: hide-info-menu)
 		margin-right "-%s" % info-menu-width
 
@@ -90,7 +113,7 @@ body
 .main-container
 	position relative
 	height 100vh
-	transition margin fast, width fast
+	transition margin normal, width normal
 	margin-left nav-menu-width
 	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
 	@media (max-width: hide-info-menu)

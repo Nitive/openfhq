@@ -9,8 +9,8 @@
             <g id="menu" sketch:type="MSLayerGroup">
                 <g id="top" transform="translate(0.000000, 15.000000)" sketch:type="MSShapeGroup">
                     <g id="Кнопочка-вниз" transform="translate(186.000000, 2.000000)">
+                        <path d="M13,26 C20.1797017,26 26,20.1797017 26,13 C26,5.82029825 20.1797017,0 13,0 C5.82029825,0 0,5.82029825 0,13 C0,20.1797017 5.82029825,26 13,26 Z" id="oval-//-main-border" fill-opacity="0.01" fill="#000000"></path>
                         <path d="M7,10 L13,17 L19,10" id="arrow-//-main-border"></path>
-                        <path d="M13,26 C20.1797017,26 26,20.1797017 26,13 C26,5.82029825 20.1797017,0 13,0 C5.82029825,0 0,5.82029825 0,13 C0,20.1797017 5.82029825,26 13,26 Z" id="oval-//-main-border" fill-opacity="0.05" fill="#E7F3FF"></path>
                     </g>
                 </g>
             </g>

@@ -1,17 +1,26 @@
 $(->
 
-	######################################
 	########## jQuery variables ##########
-	######################################
+
+	$toggleExtraMenuButton = $('.nav-menu svg')
 
 	$document = $(document)
-	$htmlbody = $('html, body')
+	$htmlbody = $('html, body') # html for firefox, body for webkit
 	$field = $('.ios-search-field')
 
 	$mainContainer = $('.main-container')
 	$menuToggle = $('.menu-toggle')
 
-	######################################
+	############# Extra menu #############
+
+	$toggleExtraMenuButton.hammer().bind 'tap', ->
+		$(this).find(' + ul').slideToggle()
+
+		# toggle class (svg)
+		$(this).attr 'class', (i, attr) ->
+			if attr then '' else 'upside'
+
+	########## Open/Close menu ###########
 
 	$('.wrap').hammer({cssProps: { userSelect: true }}).bind 'swipe', (event) ->
 		if event.gesture.direction == Hammer.DIRECTION_LEFT
@@ -22,9 +31,8 @@ $(->
 	$menuToggle.hammer().bind 'tap', (event) ->
 		$mainContainer.toggleClass 'opened-menu'
 
-	######################################
 	########## ios search field ##########
-	######################################
+
 	fieldHeight = $field.height()
 	delay = 300
 	timer = 0
