@@ -29,6 +29,13 @@ body
 	width nav-menu-width
 	background-color main-dark-bg
 	line-height 1
+	-webkit-tap-highlight-color alpha(main-green, .1)
+	@media (max-width: hide-nav-menu)
+		user-select none
+	 & ul:last-child
+		border 0
+		border-image separator
+		border-bottom 1px
 
 	radius = 14px
 	offset = ((header-height - radius * 2) / 2)
@@ -53,14 +60,13 @@ body
 		&:hover
 			svg
 				path
-					fill-opacity .4
+					@media (min-width: hide-nav-menu)
+						fill-opacity .4
 		& + ul
 			display none
 			background-color #242a30
 			li
 				center-of 40px
-			li:first-child
-				border-top 2px
 	svg
 		transition transform normal
 		position absolute
@@ -72,22 +78,19 @@ body
 		margin 0
 		padding 0
 		list-style-type none
-	li:first-child
-		border 0
-		border-top 1px
-		border-bottom 1px
-		border-image: separator
 	li
 		font-size 23px
 		cursor pointer
 		center-of 45px
-		// text-align center
 		padding-left 30px
 		border 0
-		border-bottom 1px
+		border-top 1px
 		border-image: separator
-		&:hover
-			background-image radial-gradient(35% 120%, rgba(0, 223, 144, .2) 10%, rgba(0, 223, 144, 0) 120%)
+		&:first-child
+			border-top 2px
+		@media (min-width: hide-nav-menu)
+			&:hover
+				background-image radial-gradient(35% 120%, rgba(0, 223, 144, .2) 10%, rgba(0, 223, 144, 0) 120%)
 
 .info-menu
 	position fixed
@@ -105,11 +108,6 @@ body
 	@media (max-width: hide-info-menu)
 		margin-right "-%s" % info-menu-width
 
-.main-container.opened-menu
-	@media (max-width: hide-nav-menu)
-		margin-left nav-menu-width
-		width 100%
-
 .main-container
 	position relative
 	height 100vh
@@ -121,6 +119,10 @@ body
 	@media (max-width: hide-nav-menu)
 		margin-left 0
 		width 100%
+	&.opened-menu
+		@media (max-width: hide-nav-menu)
+			margin-left nav-menu-width
+			width 100%
 
 .page-header
 	position fixed

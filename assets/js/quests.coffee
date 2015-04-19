@@ -9,7 +9,8 @@ $(->
 	$mainContainer = $('.main-container')
 	$menuToggle = $('.menu-toggle')
 
-	$navMenuHeader = $('.nav-menu header')
+	$navMenu = $('.nav-menu')
+	$navMenuHeader = $navMenu.find('header')
 
 	############# Extra menu #############
 
@@ -22,14 +23,24 @@ $(->
 
 	########## Open/Close menu ###########
 
+	hideMenu = ->
+		$mainContainer.removeClass 'opened-menu'
+		setTimeout (-> $navMenu.hide()), 400
+	showMenu = ->
+		$navMenu.show()
+		$mainContainer.addClass 'opened-menu'
+
 	$('.wrap').hammer({cssProps: { userSelect: true }}).bind 'swipe', (event) ->
 		if event.gesture.direction == Hammer.DIRECTION_LEFT
-			$mainContainer.removeClass 'opened-menu'
+			hideMenu()
 		if event.gesture.direction == Hammer.DIRECTION_RIGHT
-			$mainContainer.addClass 'opened-menu'
+			showMenu()
 
 	$menuToggle.hammer().bind 'tap', (event) ->
-		$mainContainer.toggleClass 'opened-menu'
+		if $mainContainer.hasClass 'opened-menu'
+			hideMenu()
+		else
+			showMenu()
 
 	########## ios search field ##########
 
