@@ -79,13 +79,25 @@ body
 		padding 0
 		list-style-type none
 	li
+		position relative
 		font-size 23px
 		cursor pointer
 		center-of 45px
 		padding-left 30px
-		border 0
-		border-top 1px
-		border-image: separator
+		// border 0
+		// border-top 1px
+		// border-image: separator
+		:after
+			content ''
+			position absolute
+			top 0
+			left 0
+			// background-color #5a2
+			background-image radial-gradient(35% 120%, rgba(0, 223, 144, .2) 10%, rgba(0, 223, 144, 0) 120%)
+			background-image separator
+			height 3px
+			width 100%
+
 		&:first-child
 			border-top 2px
 		@media (min-width: hide-nav-menu)
