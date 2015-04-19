@@ -22,6 +22,7 @@ replace = require 'gulp-replace'
 gulpif = require 'gulp-if'
 ignore = require 'gulp-ignore'
 sync = require 'browser-sync'
+rename = require 'gulp-rename'
 gulp = require 'gulp'
 
 
@@ -34,6 +35,7 @@ svgPath = 'assets/images/*.svg'
 imgPath = 'assets/images/*.{jpg,png}'
 destPath = 'public/'
 
+production = false
 components = [
 	'bower_components/jquery/dist/jquery.min.js'
 	'bower_components/hammer.js/hammer.min.js'
@@ -43,7 +45,9 @@ components = [
 
 gulp.task 'default', ['watch']
 
-gulp.task 'product', -> run 'imgfont', 'html', 'stylus', 'components', 'js'
+gulp.task 'product', ->
+	production = true
+	run 'imgfont', 'html', 'stylus', 'components', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
@@ -96,7 +100,8 @@ gulp.task 'components', ->
 
 gulp.task 'stylus', ->
 	gulp.src(stylusPath)
-		.pipe ignore.exclude /_.*\.styl$/
+		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
+		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe sourcemaps.init()
 		.pipe stylus 'include css': true, compress: true
 		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
