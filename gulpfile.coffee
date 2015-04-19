@@ -40,7 +40,6 @@ components = [
 	'bower_components/jquery/dist/jquery.min.js'
 	'bower_components/hammer.js/hammer.min.js'
 	'bower_components/jquery.hammer.js/jquery.hammer.js'
-	# 'bower_components/jquery.hotkeys/jquery.hotkeys.js'
 ]
 
 gulp.task 'default', ['watch']
