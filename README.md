@@ -8,5 +8,5 @@ OpenFHQ
 
 Server run at http://localhost:5000
 
-Run `gulp watch` for watching changes and autocompile html, stylus, coffee, etc
+Run `gulp watch` for watching changes and autocompile html, stylus, coffee, etc  
 Stylus files with `_` prefix won't compile.
