@@ -44,6 +44,7 @@ $(->
 
 	########## ios search field ##########
 
+	enableIOSSearchField = false
 	fieldHeight = $field.height()
 	delay = 300
 	timer = 0
@@ -60,8 +61,9 @@ $(->
 			$htmlbody.animate { scrollTop: fieldHeight }, animateTime, 'swing'
 
 	$(window).scroll ->
-		clearTimeout timer
-		timer = setTimeout endScroll, delay
+		if enableIOSSearchField
+			clearTimeout timer
+			timer = setTimeout endScroll, delay
 	######################################
 
 ) if $?
