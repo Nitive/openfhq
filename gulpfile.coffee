@@ -41,18 +41,23 @@ components = [
 	'bower_components/hammer.js/hammer.min.js'
 	'bower_components/jquery.hammer.js/jquery.hammer.js'
 ]
+headjs = [
+	'bower_components/nprogress/nprogress.js'
+	'assets/js/_head.coffee'
+]
 
 gulp.task 'default', ['watch']
 
 gulp.task 'product', ->
 	production = true
-	run 'imgfont', 'html', 'stylus', 'components', 'js'
+	run 'imgfont', 'html', 'stylus', 'components', 'headjs', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
 	gulp.watch htmlPath,                       -> run 'html', 'stylus'
 	gulp.watch imgPath,                        -> run 'imgfont', 'html'
 	gulp.watch [jsPath, coffeePath],                 ['js']
+	gulp.watch 'assets/js/_head.coffee',             ['headjs']
 
 gulp.task 'html', ->
 	htmlSrc = gulp.src(htmlPath)
@@ -83,9 +88,19 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src [jsPath, coffeePath]
+		.pipe ignore.exclude /^_.*/
 		.pipe gulpif(/[.]coffee$/, coffee bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'main.js'
+		.pipe uglify()
+		.pipe gulp.dest(destPath)
+		.pipe sync.reload(stream: true)
+
+gulp.task 'headjs', ->
+	gulp.src headjs
+		.pipe gulpif(/[.]coffee$/, coffee bare: true)
+		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
+		.pipe concat 'head.js'
 		.pipe uglify()
 		.pipe gulp.dest(destPath)
 		.pipe sync.reload(stream: true)
@@ -100,7 +115,7 @@ gulp.task 'components', ->
 gulp.task 'stylus', ->
 	gulp.src(stylusPath)
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
-		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
+		.pipe gulpif !production, ignore.exclude /^_.*\.styl$/
 		.pipe sourcemaps.init()
 		.pipe stylus 'include css': true, compress: true
 		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
