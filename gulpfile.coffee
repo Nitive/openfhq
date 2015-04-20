@@ -88,7 +88,7 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src [jsPath, coffeePath]
-		.pipe ignore.exclude /^_.*/
+		.pipe ignore.exclude /_.*/
 		.pipe gulpif(/[.]coffee$/, coffee bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'main.js'
@@ -115,7 +115,7 @@ gulp.task 'components', ->
 gulp.task 'stylus', ->
 	gulp.src(stylusPath)
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
-		.pipe gulpif !production, ignore.exclude /^_.*\.styl$/
+		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe sourcemaps.init()
 		.pipe stylus 'include css': true, compress: true
 		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
