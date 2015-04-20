@@ -4,6 +4,8 @@ $(->
 
 	$document = $(document)
 	$htmlbody = $('html, body') # html for firefox, body for webkit
+	$window = $(window)
+
 	$field = $('.ios-search-field')
 
 	$mainContainer = $('.main-container')
@@ -42,6 +44,9 @@ $(->
 		else
 			showMenu()
 
+	$window.resize ->
+		$navMenu.show()
+
 	########## ios search field ##########
 
 	enableIOSSearchField = false
@@ -60,7 +65,7 @@ $(->
 		else if $document.scrollTop() > fieldHeight * rate and $document.scrollTop() < fieldHeight
 			$htmlbody.animate { scrollTop: fieldHeight }, animateTime, 'swing'
 
-	$(window).scroll ->
+	$window.scroll ->
 		if enableIOSSearchField
 			clearTimeout timer
 			timer = setTimeout endScroll, delay
