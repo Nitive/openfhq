@@ -10,6 +10,7 @@ svgmin = require 'gulp-svgmin'
 
 # js
 coffee = require 'gulp-coffee'
+cjsx = require 'gulp-cjsx'
 concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 
@@ -23,6 +24,8 @@ gulpif = require 'gulp-if'
 ignore = require 'gulp-ignore'
 sync = require 'browser-sync'
 rename = require 'gulp-rename'
+notify = require 'gulp-notify'
+plumber = require 'gulp-plumber'
 gulp = require 'gulp'
 
 
@@ -30,13 +33,14 @@ gulp = require 'gulp'
 htmlPath = 'assets/template/*.html'
 stylusPath = 'assets/stylus/*.styl'
 jsPath = 'assets/js/*.js'
-coffeePath = 'assets/js/*.coffee'
+coffeePath = 'assets/js/*.{coffee,cjsx}'
 svgPath = 'assets/images/*.svg'
 imgPath = 'assets/images/*.{jpg,png}'
 destPath = 'public/'
 
 production = false
 components = [
+	'bower_components/react/react.min.js'
 	'bower_components/jquery/dist/jquery.min.js'
 	'bower_components/hammer.js/hammer.min.js'
 	'bower_components/jquery.hammer.js/jquery.hammer.js'
@@ -88,8 +92,9 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src [jsPath, coffeePath]
+    # .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe ignore.exclude /_.*/
-		.pipe gulpif(/[.]coffee$/, coffee bare: true)
+		.pipe gulpif(/[.](coffee|cjsx)$/, cjsx bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'main.js'
 		.pipe uglify()
@@ -98,7 +103,8 @@ gulp.task 'js', ->
 
 gulp.task 'headjs', ->
 	gulp.src headjs
-		.pipe gulpif(/[.]coffee$/, coffee bare: true)
+    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe gulpif(/[.](coffee|cjsx)$/, coffee bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'head.js'
 		.pipe uglify()
@@ -107,6 +113,7 @@ gulp.task 'headjs', ->
 
 gulp.task 'components', ->
 	gulp.src components
+    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe concat 'components.js'
 		.pipe uglify()
 		.pipe gulp.dest(destPath)
@@ -114,6 +121,7 @@ gulp.task 'components', ->
 
 gulp.task 'stylus', ->
 	gulp.src(stylusPath)
+    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe sourcemaps.init()
