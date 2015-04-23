@@ -26,11 +26,11 @@ $(->
 	########## Open/Close menu ###########
 
 	hideMenu = ->
-		$mainContainer.removeClass 'opened-menu'
+		$mainContainer.removeClass 'opened-nav-menu'
 		setTimeout (-> $navMenu.hide()), 400
 	showMenu = ->
 		$navMenu.show()
-		$mainContainer.addClass 'opened-menu'
+		$mainContainer.addClass 'opened-nav-menu'
 
 	$('.wrap').hammer({cssProps: { userSelect: true }}).bind 'swipe', (event) ->
 		if event.gesture.direction == Hammer.DIRECTION_LEFT
@@ -39,7 +39,7 @@ $(->
 			showMenu()
 
 	$menuToggle.hammer().bind 'tap', (event) ->
-		if $mainContainer.hasClass 'opened-menu'
+		if $mainContainer.hasClass 'opened-nav-menu'
 			hideMenu()
 		else
 			showMenu()

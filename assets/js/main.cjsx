@@ -1,7 +1,5 @@
 # React
 
-L = React.DOM
-
 quests = [
 	{
 		title: "Task name"
@@ -30,12 +28,30 @@ Quest = React.createClass
 Quests = React.createClass
 	render: ->
 		<div>
-			{
-				@props.quests.map ->
-					<Quest />
-			}
+			<header className="page-header">
+				<div className="menu-toggle" />
+			</header>
+			<div className="search ios-search-field" />
+			<div className="quests">
+				{
+					@props.quests.map ->
+						<Quest />
+				}
+			</div>
+			<footer className="page-footer"></footer>
 		</div>
 
-React.render <Quests quests={quests} />, document.getElementsByClassName('quests')[0]
+React.render <Quests quests={quests} />, document.querySelector('.main-container')
 
 
+		# <header className="page-header">
+		# 	<div className="menu-toggle"></div>
+		# </header>
+		# <div className="search ios-search-field"></div>
+		# <div className="quests">
+		# 	{
+		# 		@props.quests.map ->
+		# 			<Quest />
+		# 	}
+		# </div>
+		# <footer className="page-footer"></footer>

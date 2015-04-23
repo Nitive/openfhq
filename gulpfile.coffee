@@ -92,7 +92,7 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src [jsPath, coffeePath]
-    # .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe ignore.exclude /_.*/
 		.pipe gulpif(/[.](coffee|cjsx)$/, cjsx bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
@@ -103,7 +103,7 @@ gulp.task 'js', ->
 
 gulp.task 'headjs', ->
 	gulp.src headjs
-    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe gulpif(/[.](coffee|cjsx)$/, coffee bare: true)
 		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
 		.pipe concat 'head.js'
@@ -113,7 +113,7 @@ gulp.task 'headjs', ->
 
 gulp.task 'components', ->
 	gulp.src components
-    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe concat 'components.js'
 		.pipe uglify()
 		.pipe gulp.dest(destPath)
@@ -121,7 +121,7 @@ gulp.task 'components', ->
 
 gulp.task 'stylus', ->
 	gulp.src(stylusPath)
-    .pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe sourcemaps.init()
