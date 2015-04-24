@@ -42,8 +42,6 @@ body
 	transition margin normal, width normal
 	margin-left nav-menu-width
 	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
-	// div:first-child
-		// height 100%
 	@media (max-width: hide-info-menu)
 		width "calc(100% - %s)" % nav-menu-width
 	@media (max-width: hide-nav-menu)
@@ -58,7 +56,7 @@ body
 .page-header
 	position fixed
 	height header-height
-	width 100%
+	width max-screen - nav-menu-width - info-menu-width
 	background-color main-dark-bg
 
 .search
