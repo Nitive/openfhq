@@ -2,9 +2,10 @@
   "name": "openfhq",
   "version": "0.0.3",
   "description": "Front-end for Free Hack Quest",
-  "main": "index.js",
+  "main": "index.coffee",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "preinstall": "npm install -g coffee-script"
   },
   "repository": {
     "type": "git",
