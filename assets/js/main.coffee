@@ -1,5 +1,4 @@
-$(->
-
+if $? then $ ->
 	########## jQuery variables ##########
 
 	$document = $(document)
@@ -70,6 +69,3 @@ $(->
 			clearTimeout timer
 			timer = setTimeout endScroll, delay
 	######################################
-
-) if $?
-NProgress.done()

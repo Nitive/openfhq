@@ -9,12 +9,12 @@ sourcemaps = require 'gulp-sourcemaps'
 svgmin = require 'gulp-svgmin'
 
 # js
-coffee = require 'gulp-coffee'
 cjsx = require 'gulp-cjsx'
 concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 
 # utilities
+args = require('yargs').argv
 run = require 'run-sequence'
 inject = require 'gulp-inject'
 parsePath = require 'parse-filepath'
@@ -28,55 +28,45 @@ notify = require 'gulp-notify'
 plumber = require 'gulp-plumber'
 gulp = require 'gulp'
 
+fs = require 'fs'
 
-# paths
-htmlPath = 'assets/template/*.html'
-stylusPath = 'assets/stylus/*.styl'
-jsPath = 'assets/js/*.js'
-coffeePath = 'assets/js/*.{coffee,cjsx}'
-svgPath = 'assets/images/*.svg'
-imgPath = 'assets/images/*.{jpg,png}'
-destPath = 'public/'
+production = args.p or args.production
 
-production = false
-components = [
-	'bower_components/react/react.min.js'
-	'bower_components/jquery/dist/jquery.min.js'
-	'bower_components/hammer.js/hammer.min.js'
-	'bower_components/jquery.hammer.js/jquery.hammer.js'
-]
-headjs = [
-	'bower_components/nprogress/nprogress.js'
-	'assets/js/_head.coffee'
-]
+paths =
+	html: 'assets/template/*.html'
+	stylus: 'assets/stylus/*.styl'
+	js: 'assets/js/**/*.{js,json}'
+	coffee: 'assets/js/**/*.{coffee,cjsx,json}'
+	img: 'assets/images/*.{png,jpg,svg}'
+	png: 'assets/images/*.png'
+	jpg: 'assets/images/*.jpg'
+	svg: 'assets/images/*.svg'
+	dest: 'public/'
+	jsmap: JSON.parse(fs.readFileSync('assets/js/jsmap.json').toString()).map (filename) -> 'assets/js/' + filename
+	jscomponents: JSON.parse fs.readFileSync('assets/js/jscomponents.json').toString()
 
-gulp.task 'default', ['watch']
-
-gulp.task 'product', ->
-	production = true
-	run 'imgfont', 'html', 'stylus', 'components', 'headjs', 'js'
+gulp.task 'default', ->
+	run 'imgfont', 'html', 'stylus', 'components', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
-	gulp.watch htmlPath,                       -> run 'html', 'stylus'
-	gulp.watch imgPath,                        -> run 'imgfont', 'html'
-	gulp.watch [jsPath, coffeePath],                 ['js']
-	gulp.watch 'assets/js/_head.coffee',             ['headjs']
+	gulp.watch paths.html,                     -> run 'html', 'stylus'
+	gulp.watch paths.img,                      -> run 'imgfont', 'html'
+	gulp.watch [paths.js, paths.coffee],             ['js']
 
 gulp.task 'html', ->
-	htmlSrc = gulp.src(htmlPath)
+	htmlSrc = gulp.src(paths.html)
 
 	fileContents = (filePath, file) ->
 		file.contents.toString()
 
-	fileset svgPath, (err, files) ->
+	fileset paths.svg, (err, files) ->
 		if err
 			return console.error(err)
 		i = 0
 		while i < files.length
 			pathToFolder = 'assets/images/'
 			file = files[i].replace(pathToFolder, '')
-			# console.log file
 			extension = parsePath(file).extname
 			extnameFiles = file.replace(extension, '')
 			htmlSrc = htmlSrc.pipe(inject(gulp.src(pathToFolder + file).pipe(svgmin(plugins: [
@@ -86,68 +76,53 @@ gulp.task 'html', ->
 				transform: fileContents
 				name: extnameFiles))
 			i++
-			htmlSrc.pipe gulp.dest(destPath)
+			htmlSrc.pipe gulp.dest(paths.dest)
 						 .pipe sync.reload(stream: true)
 
-
 gulp.task 'js', ->
-	gulp.src [jsPath, coffeePath]
+	gulp.src paths.jsmap
 		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
-		.pipe ignore.exclude /_.*/
-		.pipe gulpif(/[.](coffee|cjsx)$/, cjsx bare: true)
-		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
-		.pipe concat 'main.js'
-		.pipe uglify()
-		.pipe gulp.dest(destPath)
-		.pipe sync.reload(stream: true)
-
-gulp.task 'headjs', ->
-	gulp.src headjs
-		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
-		.pipe gulpif(/[.](coffee|cjsx)$/, coffee bare: true)
-		.on 'error', (err) -> console.log("Goffee parse error\n#{err}"); this.emit('end')
-		.pipe concat 'head.js'
-		.pipe uglify()
-		.pipe gulp.dest(destPath)
+		.pipe gulpif '**/*.{coffee,cjsx}', cjsx bare: true
+		.pipe concat 'app.js'
+		.pipe gulpif production, uglify()
+		.pipe gulp.dest paths.dest
 		.pipe sync.reload(stream: true)
 
 gulp.task 'components', ->
-	gulp.src components
-		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+	gulp.src paths.jscomponents
 		.pipe concat 'components.js'
-		.pipe uglify()
-		.pipe gulp.dest(destPath)
+		.pipe gulpif production, uglify()
+		.pipe gulp.dest paths.dest
 		.pipe sync.reload(stream: true)
 
 gulp.task 'stylus', ->
-	gulp.src(stylusPath)
+	gulp.src(paths.stylus)
 		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
-		.pipe sourcemaps.init()
-		.pipe stylus 'include css': true, compress: true
+		.pipe gulpif not production, sourcemaps.init()
+		.pipe stylus 'include css': true, compress: production
 		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
-		.pipe cmq()
-		.pipe autoprefixer { browsers: ['last 2 version', '> 1%'] }
-		.pipe cssmin()
-		.pipe sourcemaps.write()
-		.pipe gulp.dest destPath
+		.pipe gulpif production, cmq()
+		.pipe autoprefixer browsers: ['last 2 version', '> 1%']
+		.pipe gulpif production, cssmin()
+		.pipe gulpif not production, sourcemaps.write()
+		.pipe gulp.dest paths.dest
 		.pipe sync.reload(stream: true)
 
 gulp.task 'imgfont', ->
 	gulp
 		.src 'assets/fonts/*/*'
-		.pipe gulp.dest(destPath + 'fonts')
+		.pipe gulp.dest(paths.dest + 'fonts')
 	gulp
-		.src imgPath
-		.pipe gulp.dest(destPath + 'images')
+		.src paths.img
+		.pipe gulp.dest(paths.dest + 'images')
 
 gulp.task 'browser-sync', ->
-	console.log __dirname
 	sync
 		open: false
 		server:
-			baseDir: destPath
+			baseDir: paths.dest
 		snippetOptions: rule:
 			match: /<\/body>/i
 			fn: (snippet, match) ->
