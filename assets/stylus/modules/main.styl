@@ -1,15 +1,8 @@
 @import 'nav-menu'
+@import 'page-header'
 
 body
 	background-color main-light-bg
-
-.menu-toggle
-	height header-height
-	width 100px
-	background-color #444
-	cursor pointer
-	@media (min-width: hide-nav-menu)
-		display none
 
 .wrap
 	position relative
@@ -52,20 +45,6 @@ body
 	@media (max-width: hide-nav-menu)
 		margin-left nav-menu-width
 		width 100%
-
-.page-header
-	position fixed
-	height header-height
-	background-color main-dark-bg
-
-	// width always is 100%
-	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
-	@media (max-width: hide-info-menu)
-		width "calc(100% - %s)" % info-menu-width
-	@media (max-width: hide-nav-menu)
-		width 100%
-	@media (min-width: max-screen)
-		width max-screen - (nav-menu-width + info-menu-width)
 
 .search
 	height header-height

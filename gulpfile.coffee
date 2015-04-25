@@ -33,8 +33,6 @@ fs = require 'fs'
 
 production = args.p or args.production
 
-errorHandler = notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
-
 paths =
 	html: 'assets/template/*.html'
 	stylus: 'assets/stylus/*.styl'
@@ -88,8 +86,8 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src paths.jsmap
-		.pipe plumber errorHandler: errorHandler
-		.pipe gulpif '**/*.{coffee,cjsx}', cjsx bare: true
+		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe gulpif '**/*.{coffee,cjsx}', do cjsx
 		.pipe concat 'app.js'
 		.pipe gulpif production, uglify()
 		.pipe gulp.dest paths.dest
@@ -104,12 +102,12 @@ gulp.task 'components', ->
 
 gulp.task 'stylus', ->
 	gulp.src(paths.stylus)
-		.pipe plumber errorHandler: errorHandler
+		.pipe plumber errorHandler: notify.onError "Error: <%= error.message %>"
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe gulpif not production, sourcemaps.init()
 		.pipe stylus 'include css': true, compress: production
-		.on 'error', (err) -> console.log("Stylus parse error\n#{err}"); this.emit('end')
+		# .on 'error', (error) -> console.log("Stylus parse error\n#{error}"); this.emit('end')
 		.pipe gulpif production, cmq()
 		.pipe autoprefixer browsers: ['last 2 version', '> 1%']
 		.pipe gulpif production, cssmin()

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="31px" height="24px" viewBox="0 0 31 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>navicon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Main-Page-1200" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Desktop-HD" sketch:type="MSArtboardGroup" transform="translate(-243.000000, -18.000000)" fill="#F4F4F4">
+            <g id="navicon" sketch:type="MSLayerGroup" transform="translate(243.500000, 17.543300)">
+                <path d="M0,1.99895656 C0,1.44724809 0.447365195,1 0.998153687,1 L29.0018463,1 C29.5531114,1 30,1.44266033 30,1.99895656 L30,3.00104344 C30,3.55275191 29.5526348,4 29.0018463,4 L0.998153687,4 C0.446888627,4 0,3.55733967 0,3.00104344 L0,1.99895656 Z" id="Fill-19" sketch:type="MSShapeGroup"></path>
+                <path d="M0,11.9989566 C0,11.4472481 0.447365195,11 0.998153687,11 L29.0018463,11 C29.5531114,11 30,11.4426603 30,11.9989566 L30,13.0010434 C30,13.5527519 29.5526348,14 29.0018463,14 L0.998153687,14 C0.446888627,14 0,13.5573397 0,13.0010434 L0,11.9989566 Z" id="Fill-20" sketch:type="MSShapeGroup"></path>
+                <path d="M0,21.9989566 C0,21.4472481 0.447365195,21 0.998153687,21 L29.0018463,21 C29.5531114,21 30,21.4426603 30,21.9989566 L30,23.0010434 C30,23.5527519 29.5526348,24 29.0018463,24 L0.998153687,24 C0.446888627,24 0,23.5573397 0,23.0010434 L0,21.9989566 Z" id="Fill-21" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

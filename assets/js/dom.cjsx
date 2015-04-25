@@ -18,6 +18,15 @@ if $? then $ ->
 		}
 	]
 
+	title_prefix = "FHQ | "
+
+	page =
+		title: "#{title_prefix}Quests"
+		icons:
+			main: "quests-icon.svg"
+			navicon: "navicon.svg"
+			toggleExtraMenu: "toggle-extra-menu.svg"
+
 	userData =
 		name: "Nitive"
 
@@ -52,6 +61,11 @@ if $? then $ ->
 		]
 	]
 
+	loadIcon = (id, file) ->
+		s = Snap "##{id}"
+		Snap.load "images/#{file}", (f) ->
+			s.append f.select "g"
+
 	Quest = React.createClass
 		render: ->
 			<article className="quest">
@@ -60,17 +74,30 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
+			<div className="quests">
+				{
+					@props.quests.map ->
+						<Quest />
+				}
+			</div>
+
+	PageHeader = React.createClass
+		componentDidMount: ->
+			loadIcon "page-icon", page.icons.main
+			loadIcon "navicon", page.icons.navicon
+		render: ->
+			<header className="page-header">
+				<svg id="navicon" />
+				<svg id="page-icon" />
+				<h2>Quests</h2>
+			</header>
+
+	MainContainer = React.createClass
+		render: ->
 			<section className="main-container">
-				<header className="page-header">
-					<div className="menu-toggle" />
-				</header>
+				<PageHeader />
 				<div className="search ios-search-field" />
-				<div className="quests">
-					{
-						@props.quests.map ->
-							<Quest />
-					}
-				</div>
+				<Quests quests={quests} />
 				<footer className="page-footer"></footer>
 			</section>
 
@@ -78,9 +105,8 @@ if $? then $ ->
 		render: ->
 			data = navMenuData.map (ul) ->
 				<ul>
-				{ ul.map (li) -> <li><a href={li.href}>{li.text}</a></li> }
+					{ ul.map (li) -> <li><a href={li.href}>{li.text}</a></li> }
 				</ul>
-
 			<nav className="nav-menu">
 					<header>
 						<h1>Nitive</h1>
@@ -93,16 +119,17 @@ if $? then $ ->
 
 	Page = React.createClass
 		componentDidMount: ->
-			s = Snap "#toggle-extra-menu"
-			Snap.load "images/toggle-extra-menu.svg", (f) ->
-				g = f.select "g"
-				s.append g
+			loadIcon "toggle-extra-menu", page.icons.toggleExtraMenu
+			# s = Snap "#toggle-extra-menu"
+			# Snap.load "images/toggle-extra-menu.svg", (f) ->
+			# 	g = f.select "g"
+			# 	s.append g
 		render: ->
 			<div className="wrap">
 				<NavMenu />
-				<Quests quests={@props.quests} />
+				<MainContainer quests={@props.quests} />
 				<aside className="info-menu"></aside>
 			</div>
 
 
-	React.render <Page quests={quests} />, document.body
+	React.render <Page />, document.body

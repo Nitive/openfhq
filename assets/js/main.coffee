@@ -8,7 +8,7 @@ if $? then $ ->
 	$field = $('.ios-search-field')
 
 	$mainContainer = $('.main-container')
-	$menuToggle = $('.menu-toggle')
+	$menuToggle = $('#navicon')
 
 	$navMenu = $('.nav-menu')
 	$navMenuHeader = $navMenu.find('header')
