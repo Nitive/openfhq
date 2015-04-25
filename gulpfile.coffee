@@ -26,6 +26,7 @@ sync = require 'browser-sync'
 rename = require 'gulp-rename'
 notify = require 'gulp-notify'
 plumber = require 'gulp-plumber'
+nodemon = require 'gulp-nodemon'
 gulp = require 'gulp'
 
 fs = require 'fs'
@@ -53,6 +54,8 @@ gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch paths.html,                     -> run 'html', 'stylus'
 	gulp.watch paths.img,                      -> run 'imgfont', 'html'
 	gulp.watch [paths.js, paths.coffee],             ['js']
+	nodemon
+		script: 'index.coffee'
 
 gulp.task 'html', ->
 	htmlSrc = gulp.src(paths.html)
@@ -121,8 +124,7 @@ gulp.task 'imgfont', ->
 gulp.task 'browser-sync', ->
 	sync
 		open: false
-		server:
-			baseDir: paths.dest
+		proxy: 'localhost:5000'
 		snippetOptions: rule:
 			match: /<\/body>/i
 			fn: (snippet, match) ->

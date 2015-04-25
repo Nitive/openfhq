@@ -56,8 +56,16 @@ body
 .page-header
 	position fixed
 	height header-height
-	width max-screen - nav-menu-width - info-menu-width
 	background-color main-dark-bg
+
+	// width always is 100%
+	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
+	@media (max-width: hide-info-menu)
+		width "calc(100% - %s)" % info-menu-width
+	@media (max-width: hide-nav-menu)
+		width 100%
+	@media (min-width: max-screen)
+		width max-screen - (nav-menu-width + info-menu-width)
 
 .search
 	height header-height
