@@ -46,7 +46,7 @@
 		& + ul
 			display none
 			background-color #242a30
-			li
+			a
 				center-of 42px
 	svg
 		width 28px
@@ -61,12 +61,11 @@
 		margin 0
 		padding 0
 		list-style-type none
-	li
-		position relative
 		font-size 23px
+	li
+		box-sizing padding-box
+		position relative
 		cursor pointer
-		center-of 46px
-		padding-left 30px
 		&:after
 			content ''
 			position absolute
@@ -78,6 +77,10 @@
 		&:first-child
 			&:after
 				height 2px
+	a
+		display block
+		center-of 46px
+		padding-left 30px
 
 		@media (min-width: hide-nav-menu)
 			&:hover

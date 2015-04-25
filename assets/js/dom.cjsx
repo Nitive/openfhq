@@ -18,6 +18,40 @@ if $? then $ ->
 		}
 	]
 
+	userData =
+		name: "Nitive"
+
+	navMenuData = [
+		[
+			{
+				text: "Profile"
+				href: "#"
+			}
+			{
+				text: "Favorites"
+				href: "#"
+			}
+		]
+		[
+			{
+				text: "Quests"
+				href: "#"
+			}
+			{
+				text: "Games"
+				href: "#"
+			}
+			{
+				text: "Rating"
+				href: "#"
+			}
+			{
+				text: "News"
+				href: "#"
+			}
+		]
+	]
+
 	Quest = React.createClass
 		render: ->
 			<article className="quest">
@@ -40,6 +74,23 @@ if $? then $ ->
 				<footer className="page-footer"></footer>
 			</section>
 
+	NavMenu = React.createClass
+		render: ->
+			data = navMenuData.map (ul) ->
+				<ul>
+				{ ul.map (li) -> <li><a href={li.href}>{li.text}</a></li> }
+				</ul>
+
+			<nav className="nav-menu">
+					<header>
+						<h1>Nitive</h1>
+						<svg id="toggle-extra-menu" />
+					</header>
+				{data}
+			</nav>
+
+
+
 	Page = React.createClass
 		componentDidMount: ->
 			s = Snap "#toggle-extra-menu"
@@ -48,24 +99,10 @@ if $? then $ ->
 				s.append g
 		render: ->
 			<div className="wrap">
-				<nav className="nav-menu">
-					<header>
-						<h1>Nitive</h1>
-						<svg id="toggle-extra-menu" />
-					</header>
-					<ul>
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Favorites</a></li>
-					</ul>
-					<ul>
-						<li><a href="#">Quests</a></li>
-						<li><a href="#">Games</a></li>
-						<li><a href="#">Rating</a></li>
-						<li><a href="#">News</a></li>
-					</ul>
-				</nav>
+				<NavMenu />
 				<Quests quests={@props.quests} />
 				<aside className="info-menu"></aside>
 			</div>
+
 
 	React.render <Page quests={quests} />, document.body
