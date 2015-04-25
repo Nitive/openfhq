@@ -1,14 +1,14 @@
 OpenFHQ
 =======
 ##Get started
-1. Clone repository
-2. Install [node.js](http://nodejs.org) (npm will install automatically)
-3. Run `npm install --global gulp`
-4. Run `npm install`
-5. Run `gulp`
-6. Run `node index.js`
+1. Клонировать репозиторий
+2. Установить [node.js](http://nodejs.org) (npm будет установлен автоматически)
+3. Выполнить `npm install --global gulp`
+4. Выполнить `npm install`
+5. Выполнить `gulp`
+6. Выполнить `node index.js`
 
-Server run at `http://localhost:5000`
+Сервер запушен на `http://localhost:5000`
 
-Run `gulp watch` for watching changes and autocompile html, stylus, coffee, etc  
-Stylus files with `_` prefix won't compile.
+Чтобы следить за изменениями исходников и автоматически компилировать coffee, stylus и другие, запустите команду `gulp watch`.  
+Файлы с префиксом `_` игнорируются.
