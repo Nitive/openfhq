@@ -33,6 +33,8 @@ fs = require 'fs'
 
 production = args.p or args.production
 
+errorHandler = notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+
 paths =
 	html: 'assets/template/*.html'
 	stylus: 'assets/stylus/*.styl'
@@ -54,8 +56,10 @@ gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch paths.html,                     -> run 'html', 'stylus'
 	gulp.watch paths.img,                      -> run 'imgfont', 'html'
 	gulp.watch [paths.js, paths.coffee],             ['js']
+	gulp.watch 'assets/js/jscomponents.json',        ['components']
 	nodemon
 		script: 'index.coffee'
+		watch: 'index.coffee'
 
 gulp.task 'html', ->
 	htmlSrc = gulp.src(paths.html)
@@ -84,7 +88,7 @@ gulp.task 'html', ->
 
 gulp.task 'js', ->
 	gulp.src paths.jsmap
-		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: errorHandler
 		.pipe gulpif '**/*.{coffee,cjsx}', cjsx bare: true
 		.pipe concat 'app.js'
 		.pipe gulpif production, uglify()
@@ -100,7 +104,7 @@ gulp.task 'components', ->
 
 gulp.task 'stylus', ->
 	gulp.src(paths.stylus)
-		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
+		.pipe plumber errorHandler: errorHandler
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe gulpif not production, sourcemaps.init()
@@ -119,6 +123,7 @@ gulp.task 'imgfont', ->
 		.pipe gulp.dest(paths.dest + 'fonts')
 	gulp
 		.src paths.img
+		.pipe gulpif paths.svg, do svgmin
 		.pipe gulp.dest(paths.dest + 'images')
 
 gulp.task 'browser-sync', ->

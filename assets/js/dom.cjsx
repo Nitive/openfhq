@@ -41,11 +41,17 @@ if $? then $ ->
 			</section>
 
 	Page = React.createClass
+		componentDidMount: ->
+			s = Snap "#toggle-extra-menu"
+			Snap.load "images/toggle-extra-menu.svg", (f) ->
+				g = f.select "g"
+				s.append g
 		render: ->
 			<div className="wrap">
 				<nav className="nav-menu">
 					<header>
 						<h1>Nitive</h1>
+						<svg id="toggle-extra-menu" />
 					</header>
 					<ul>
 						<li><a href="#">Profile</a></li>
