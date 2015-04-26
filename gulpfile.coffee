@@ -107,7 +107,6 @@ gulp.task 'stylus', ->
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe gulpif not production, sourcemaps.init()
 		.pipe stylus 'include css': true, compress: production
-		# .on 'error', (error) -> console.log("Stylus parse error\n#{error}"); this.emit('end')
 		.pipe gulpif production, cmq()
 		.pipe autoprefixer browsers: ['last 2 version', '> 1%']
 		.pipe gulpif production, cssmin()
@@ -126,6 +125,7 @@ gulp.task 'imgfont', ->
 
 gulp.task 'browser-sync', ->
 	sync
+		notify: false
 		open: false
 		proxy: 'localhost:5000'
 		snippetOptions: rule:

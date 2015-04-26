@@ -7,30 +7,26 @@
 	width nav-menu-width
 	background-color main-dark-bg
 	line-height 1
-	-webkit-tap-highlight-color alpha(main-green, .1)
+	-webkit-tap-highlight-color alpha(link-color, .1)
 	@media (max-width: hide-nav-menu)
 		user-select none
 	ul:last-child:after
-		content ''
-		position absolute
-		left 0
-		background-image separator
+		{separator-after}
 		height 2px
-		width 100%
 
 	radius = 14px
 	offset = ((header-height - radius * 2) / 2)
 
 	h1
 		position relative
-		font-weight ultra-light
+		font-weight light
 		font-size 24px
 		text-align center
 		margin 0
 		center-of header-height
 		width nav-menu-width - header-height + offset
 		display inline-block
-		color main-green
+		color link-color
 
 	header
 		cursor pointer
@@ -63,13 +59,9 @@
 		position relative
 		cursor pointer
 		&:after
-			content ''
-			position absolute
+			{separator-after}
 			top 0
-			left 0
-			background-image separator
 			height 1px
-			width 100%
 		&:first-child
 			&:after
 				height 2px

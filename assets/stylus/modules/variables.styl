@@ -1,7 +1,8 @@
 // colors
 main-dark-bg = #343d46
 main-light-bg = #c0c5ce
-main-green = #00e090
+link-color = #00e090
+dim-link = #0e775f
 
 // font
 font-min-size = 20
@@ -26,9 +27,17 @@ normal = .4s
 slow = .6s
 separator = linear-gradient(to left, rgba(0,223,144,0.00) 0%, #00E090 19%, #00E090 83%, rgba(0,223,144,0.00) 100%)
 
-nprogress-color = main-green
+nprogress-color = link-color
 
 menu-font-size = 24px
 center-of(height, font-size = menu-font-size)
 	padding-top ((height - font-size) / 2)
 	padding-bottom ((height - font-size) / 2)
+
+separator-after =
+	content ''
+	position absolute
+	// top 0
+	left 0
+	background-image separator
+	width 100%

@@ -9,7 +9,23 @@ if $? then $ ->
 			score: 200
 		}
 		{
-			title: "Minimized task"
+			title: "Another task"
+			author: "sea-kg"
+			subject: "forensic"
+			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			file: null
+			score: 200
+		}
+		{
+			title: "Also another task"
+			author: "sea-kg"
+			subject: "forensic"
+			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			file: null
+			score: 200
+		}
+		{
+			title: "4th task"
 			author: "sea-kg"
 			subject: "forensic"
 			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
@@ -18,10 +34,23 @@ if $? then $ ->
 		}
 	]
 
-	title_prefix = "FHQ | "
+	ratingData = [
+		{
+			team: "keva"
+			score: 1591995
+			country: "Russia"
+		}
+		{
+			team: "More Smoked Leet Chicken"
+			score: 769207
+			country: "Russia"
+		}
+	]
+
+	titlePrefix = "FHQ | "
 
 	page =
-		title: "#{title_prefix}Quests"
+		title: "#{titlePrefix}Quests"
 		icons:
 			main: "quests-icon.svg"
 			navicon: "navicon.svg"
@@ -61,6 +90,7 @@ if $? then $ ->
 		]
 	]
 
+	random = (min, max) -> Math.floor do Math.random * (max - min) + min
 	loadIcon = (id, file) ->
 		s = Snap "##{id}"
 		Snap.load "images/#{file}", (f) ->
@@ -68,7 +98,7 @@ if $? then $ ->
 
 	Quest = React.createClass
 		render: ->
-			<article className="quest">
+			<article className="quest" style={height: random(150, 300)}>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi, ex natus.
 			</article>
 
@@ -115,20 +145,27 @@ if $? then $ ->
 				{data}
 			</nav>
 
+	RatingMenu = React.createClass
+		render: ->
+			data = ratingData
+			<aside className="rating">
+				<h1>Rating</h1>
+				<figure>
+					<h4>keva</h4>
+					<div>1591995</div>
+					<div>Russia</div>
+				</figure>
+			</aside>
 
 
 	Page = React.createClass
 		componentDidMount: ->
 			loadIcon "toggle-extra-menu", page.icons.toggleExtraMenu
-			# s = Snap "#toggle-extra-menu"
-			# Snap.load "images/toggle-extra-menu.svg", (f) ->
-			# 	g = f.select "g"
-			# 	s.append g
 		render: ->
 			<div className="wrap">
 				<NavMenu />
 				<MainContainer quests={@props.quests} />
-				<aside className="info-menu"></aside>
+				<RatingMenu />
 			</div>
 
 

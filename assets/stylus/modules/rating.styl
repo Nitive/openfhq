@@ -1,0 +1,96 @@
+place-width = 50px
+
+.rating
+	position fixed
+	top 0
+	height 100%
+	width info-menu-width
+	background-color main-dark-bg
+
+	// always in right
+	right "calc((100% - %s) / 2)" % max-screen
+	@media (max-width: max-screen)
+		right 0
+
+	transition margin normal
+	@media (max-width: hide-info-menu)
+		margin-right "-%s" % info-menu-width
+
+	h1
+		margin 0
+		color link-color
+		text-align center
+		font-size 34px
+		center-of header-height, @font-size * 1.5
+		font-weight ultra-light
+		&:after
+			{separator-after}
+			top header-height
+			height 2px
+
+	figure
+		position relative
+		color link-color
+		margin 0
+		pdg-right = 24px
+		pdg-bottom = 10px
+		padding-left 41px
+		padding-right pdg-right
+		padding-bottom pdg-bottom
+
+		h4
+			margin 6px 0 0px
+			font-weight light
+
+		div
+			color dim-link
+			font-size 13px
+			font-weight bold
+			letter-spacing -.01rem
+			margin-left 11px
+		:last-child
+			position absolute
+			bottom pdg-bottom
+			right pdg-right
+
+		&:before
+			content '1'
+			position absolute
+			left 0
+
+			font-size 14px
+			margin-left 7px
+			diameter = 24px
+			line-height diameter
+			width diameter
+			text-align center
+			top "calc(50% - %s)" % (diameter / 2)
+			border solid 1px link-color
+			border-radius 50%
+
+		&:after
+			{separator-after}
+			bottom 0
+			height 1px
+		&:hover
+			background-color #fff
+
+// .team-info
+// 	&:before
+// 		content 'oaeu'
+// 		background-color #fff
+// 	background-color red
+// 	width 100%
+// 	// margin 0
+// 	margin-left place-width
+// 	h4
+// 		margin 0
+// 	div
+// 		font-size 14px
+// 		padding-left 15px
+// 		font-weight bold
+// 		color dim-link
+// 	:last-child
+// 		position absolute
+// 		right 20px
+// 		bottom 0

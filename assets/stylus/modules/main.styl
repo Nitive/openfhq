@@ -1,5 +1,6 @@
 @import 'nav-menu'
 @import 'page-header'
+@import 'rating'
 
 body
 	background-color main-light-bg
@@ -12,22 +13,6 @@ body
 		overflow-x hidden
 		overflow-y scroll
 		-webkit-overflow-scrolling touch
-
-.info-menu
-	position fixed
-	top 0
-	height 100%
-	width info-menu-width
-	background-color main-dark-bg
-
-	// always in right
-	right "calc((100% - %s) / 2)" % max-screen
-	@media (max-width: max-screen)
-		right 0
-
-	transition margin normal
-	@media (max-width: hide-info-menu)
-		margin-right "-%s" % info-menu-width
 
 .main-container
 	position relative
