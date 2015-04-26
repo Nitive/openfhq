@@ -1,0 +1,10 @@
+[
+	"/node_modules/react/dist/react.min.js",
+	"/node_modules/snapsvg/dist/snap.svg-min.js",
+	"/node_modules/hammerjs/hammer.min.js",
+	"/node_modules/jquery/dist/jquery.min.js",
+	"/node_modules/jquery-hammerjs/jquery.hammer.js",
+	"startpage.js",
+	"dom.cjsx",
+	"main.coffee"
+]

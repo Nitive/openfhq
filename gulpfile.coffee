@@ -43,18 +43,24 @@ paths =
 	jpg: 'assets/images/*.jpg'
 	svg: 'assets/images/*.svg'
 	dest: 'public/'
-	jsmap: JSON.parse(fs.readFileSync('assets/js/jsmap.json').toString()).map (filename) -> 'assets/js/' + filename
-	jscomponents: JSON.parse fs.readFileSync('assets/js/jscomponents.json').toString()
+	jsmap: JSON.parse fs.readFileSync('assets/js/js.map.json').toString()
+		.map (filename) ->
+			if filename[0] == "/"
+				filename[1..]
+			else
+				'assets/js/' + filename
+
+gulp.task 'test', ->
+	console.log paths.jsmap
 
 gulp.task 'default', ->
-	run 'imgfont', 'html', 'stylus', 'components', 'js'
+	run 'imgfont', 'html', 'stylus', 'js'
 
 gulp.task 'watch', ['browser-sync'], ->
 	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
 	gulp.watch paths.html,                     -> run 'html', 'stylus'
 	gulp.watch paths.img,                      -> run 'imgfont', 'html'
 	gulp.watch [paths.js, paths.coffee],             ['js']
-	gulp.watch 'assets/js/jscomponents.json',        ['components']
 	nodemon
 		script: 'index.coffee'
 		watch: 'index.coffee'
@@ -89,13 +95,6 @@ gulp.task 'js', ->
 		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
 		.pipe gulpif '**/*.{coffee,cjsx}', do cjsx
 		.pipe concat 'app.js'
-		.pipe gulpif production, uglify()
-		.pipe gulp.dest paths.dest
-		.pipe sync.reload(stream: true)
-
-gulp.task 'components', ->
-	gulp.src paths.jscomponents
-		.pipe concat 'components.js'
 		.pipe gulpif production, uglify()
 		.pipe gulp.dest paths.dest
 		.pipe sync.reload(stream: true)
