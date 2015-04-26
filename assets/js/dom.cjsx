@@ -36,14 +36,39 @@ if $? then $ ->
 
 	ratingData = [
 		{
-			team: "keva"
-			score: 1591995
+			name: "keva"
+			score: 159195
 			country: "Russia"
 		}
 		{
-			team: "More Smoked Leet Chicken"
+			name: "More Smoked Leet Chicken"
 			score: 769207
 			country: "Russia"
+		}
+		{
+			name: "Hackers"
+			score: 98234
+			country: "India"
+		}
+		{
+			name: "0x234"
+			score: 2143623
+			country: "USA"
+		}
+		{
+			name: "hex"
+			score: 235522
+			country: "Kazakhstan"
+		}
+		{
+			name: "coolbki"
+			score: 234156
+			country: "Britain"
+		}
+		{
+			name: "Whatever"
+			score: 1235561
+			country: "Germany"
 		}
 	]
 
@@ -148,13 +173,17 @@ if $? then $ ->
 	RatingMenu = React.createClass
 		render: ->
 			data = ratingData
+				.sort (team, prev) -> prev.score - team.score
+				.map (team, i) ->
+					<figure data-place="#{i+1}">
+						<h4>{team.name}</h4>
+						<div>{team.score}</div>
+						<div>{team.country}</div>
+					</figure>
+
 			<aside className="rating">
 				<h1>Rating</h1>
-				<figure>
-					<h4>keva</h4>
-					<div>1591995</div>
-					<div>Russia</div>
-				</figure>
+				{data}
 			</aside>
 
 
