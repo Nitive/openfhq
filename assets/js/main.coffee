@@ -24,6 +24,9 @@ if $? then $ ->
 
 	########## Open/Close menu ###########
 
+	if $window.width() < 600
+		$navMenu.hide()
+
 	hideMenu = ->
 		$mainContainer.removeClass 'opened-nav-menu'
 		setTimeout (-> $navMenu.hide()), 400

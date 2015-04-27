@@ -1,6 +1,8 @@
 @import 'nav-menu'
 @import 'page-header'
 @import 'rating'
+@import 'quests'
+@import 'search'
 
 body
 	background-color main-light-bg
@@ -31,23 +33,6 @@ body
 		margin-left nav-menu-width
 		width 100%
 
-.search
-	height header-height
-	padding-top header-height
-	background-color blue
-
-.quests
-	display table
-	min-height "calc(100% - %s)" % (footer-height + header-height)
-	background-color main-light-bg
-
 .page-footer
 	height footer-height
 	background-color red
-
-.quest
-	display inline-table
-	height 200px
-	width 380px
-	background-color #aaa
-	margin 10px

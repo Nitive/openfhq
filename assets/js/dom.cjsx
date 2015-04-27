@@ -123,7 +123,7 @@ if $? then $ ->
 
 	Quest = React.createClass
 		render: ->
-			<article className="quest" style={height: random(150, 300)}>
+			<article style={height: random(150, 300)}>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi, ex natus.
 			</article>
 
@@ -147,11 +147,17 @@ if $? then $ ->
 				<h2>Quests</h2>
 			</header>
 
+	Search = React.createClass
+		render: ->
+			<div className="search ios-search-field">
+				<input placeholder="Type to search..." />
+			</div>
+
 	MainContainer = React.createClass
 		render: ->
 			<section className="main-container">
 				<PageHeader />
-				<div className="search ios-search-field" />
+				<Search />
 				<Quests quests={quests} />
 				<footer className="page-footer"></footer>
 			</section>
