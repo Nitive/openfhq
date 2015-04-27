@@ -123,8 +123,10 @@ if $? then $ ->
 
 	Quest = React.createClass
 		render: ->
-			<article style={height: random(150, 300)}>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi, ex natus.
+			<article>
+				<h4>Minimized task<sup>5</sup></h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi, ex natus.</p>
+				<footer />
 			</article>
 
 	Quests = React.createClass
@@ -160,8 +162,10 @@ if $? then $ ->
 		render: ->
 			<section className="main-container">
 				<PageHeader />
-				<Search />
-				<Quests quests={quests} />
+				<div className="content">
+					<Search />
+					<Quests quests={quests} />
+				</div>
 				<footer className="page-footer"></footer>
 			</section>
 

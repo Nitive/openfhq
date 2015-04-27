@@ -33,6 +33,18 @@ body
 		margin-left nav-menu-width
 		width 100%
 
+.content
+	min-height "calc(100% - %s)" % footer-height
+	background-color main-light-bg
+	transition padding normal
+	padding 0
+	@media (min-width: hide-nav-menu - 100px) and (max-width: hide-nav-menu)
+		padding 0 30px 5px
+	@media (min-width: hide-nav-menu + 150px)
+		padding 0 30px 5px
+	@media (min-width: hide-nav-menu + 230px) and (max-width: hide-nav-menu + 430px)
+		padding 0
+
 .page-footer
 	height footer-height
 	background-color red

@@ -1,15 +1,12 @@
 .search
 	padding-top header-height
-	background-color main-light-bg
 
 	input
-		mrg-t-b = 16px
-		mrg-l-r = 39px
-		margin mrg-t-b mrg-l-r
-		pdg-l-r = 16px
-		pdg-t-b = 3px
-		padding pdg-t-b pdg-l-r
-		width "calc(100% - %s)" % (mrg-l-r * 2 + pdg-l-r * 2 + pdg-t-b)
+		box-sizing border-box
+		padding 2px 20px
+		margin 15px 10px 0
+		width calc(100% - 20px)
+
 		border 0
 		border-radius 4px
 		font-size 24px
@@ -17,7 +14,3 @@
 		letter-spacing -.1rem
 		background-color #e4e4e4
 		outline none
-		@media (max-width: hide-nav-menu)
-			mrg-l-r = 9px
-			margin mrg-t-b mrg-l-r
-			width "calc(100% - %s)" % (mrg-l-r * 2 + pdg-l-r * 2 + pdg-t-b)

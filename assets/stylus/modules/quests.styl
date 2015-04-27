@@ -1,13 +1,6 @@
 .quests
-	min-height "calc(100% - %s)" % (footer-height + header-height)
-	background-color main-light-bg
-	transition padding normal
-	@media (min-width: hide-nav-menu - 100px) and (max-width: hide-nav-menu)
-		padding 0 30px
-	@media (min-width: hide-nav-menu + 150px)
-		padding 0 30px
-	@media (min-width: hide-nav-menu + 230px) and (max-width: hide-nav-menu + 430px)
-		padding 0
+	// min-height "calc(100% - %s)" % (footer-height + header-height)
+	padding-top 15px
 
 	& > div
 		display inline-table
@@ -16,7 +9,33 @@
 			width 100%
 
 	article
-		height 200px
+		margin 0 10px 20px
+		height 178px
 
-		background-color #aaa
-		margin 10px
+		background-color #f4f4f4
+		border-radius 4px
+
+		h4
+			margin 0
+			display inline
+			color link-color
+			font-weight light
+			&:after
+				content ' by sea-kg'
+				color gray
+		p
+			$font-size = 26px;
+			$line-height = 1.4;
+			$lines-to-show = 2;
+
+			display: block; /* Fallback for non-webkit */
+			display: -webkit-box;
+			max-width: 400px;
+			height: $font-size * $line-height * $lines-to-show; /* Fallback for non-webkit */
+			margin: 0 auto;
+			font-size: $font-size;
+			line-height: $line-height;
+			-webkit-line-clamp: $lines-to-show;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
