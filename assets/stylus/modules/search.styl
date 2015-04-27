@@ -17,3 +17,7 @@
 		letter-spacing -.1rem
 		background-color #e4e4e4
 		outline none
+		@media (max-width: hide-nav-menu)
+			mrg-l-r = 9px
+			margin mrg-t-b mrg-l-r
+			width "calc(100% - %s)" % (mrg-l-r * 2 + pdg-l-r * 2 + pdg-t-b)

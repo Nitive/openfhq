@@ -129,11 +129,14 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
+			quests = @props.quests.map -> <Quest />
 			<div className="quests">
-				{
-					@props.quests.map ->
-						<Quest />
-				}
+				<div>
+					{quests[..(quests.length // 2 - 1)]}
+				</div>
+				<div>
+					{quests[(quests.length // 2)..]}
+				</div>
 			</div>
 
 	PageHeader = React.createClass

@@ -16,7 +16,7 @@ if $? then $ ->
 	############# Extra menu #############
 
 	$navMenuHeader.hammer({cssProps: { userSelect: true }}).bind 'tap', ->
-		$(this).find(' + ul').slideToggle()
+		$(this).find(' + ul').slideToggle('fast')
 
 		# toggle class (svg)
 		$navMenuHeader.find('svg').attr 'class', (i, attr) ->

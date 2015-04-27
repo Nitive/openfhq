@@ -1,11 +1,22 @@
 .quests
-	display table
 	min-height "calc(100% - %s)" % (footer-height + header-height)
 	background-color main-light-bg
+	transition padding normal
+	@media (min-width: hide-nav-menu - 100px) and (max-width: hide-nav-menu)
+		padding 0 30px
+	@media (min-width: hide-nav-menu + 150px)
+		padding 0 30px
+	@media (min-width: hide-nav-menu + 230px) and (max-width: hide-nav-menu + 430px)
+		padding 0
+
+	& > div
+		display inline-table
+		width 50%
+		@media (max-width: hide-nav-menu + 230px)
+			width 100%
 
 	article
-		display inline-table
 		height 200px
-		width 380px
+
 		background-color #aaa
 		margin 10px
