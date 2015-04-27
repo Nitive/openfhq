@@ -125,8 +125,9 @@ if $? then $ ->
 		render: ->
 			<article>
 				<h4>Minimized task<sup>5</sup></h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat sequi, ex natus.</p>
-				<footer />
+				<div className="download" />
+				<p>Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum.</p>
+				<footer><svg className="quests__footer-arrow" /></footer>
 			</article>
 
 	Quests = React.createClass
