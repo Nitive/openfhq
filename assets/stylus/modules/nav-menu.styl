@@ -2,6 +2,7 @@
 	transform rotate(.5turn)
 
 .nav-menu
+	user-select none
 	position fixed
 	height 100%
 	width nav-menu-width
@@ -32,9 +33,8 @@
 		cursor pointer
 		&:hover
 			svg
-				path
-					@media (min-width: hide-nav-menu)
-						fill-opacity .4
+				@media (min-width: hide-nav-menu)
+					fill-opacity .3
 		& + ul
 			display none
 			background-color #242a30
@@ -47,8 +47,8 @@
 		position absolute
 		top offset
 		right offset
-		path
-			transition fill-opacity normal
+		fill-opacity 0
+		transition fill-opacity normal, transform normal
 	ul
 		margin 0
 		padding 0

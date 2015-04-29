@@ -122,12 +122,19 @@ if $? then $ ->
 			s.append f.select "g"
 
 	Quest = React.createClass
+		componentDidMount: ->
+			sn = Snap React.findDOMNode(@refs.footer)
+			sn.path "M 2,10 L 17,24 L 32,10"
+				.attr
+					fill: "none"
+					stroke: "#343d46"
+					strokeWidth: 3.0
 		render: ->
 			<article>
 				<h4>Minimized task<sup>5</sup></h4>
 				<div className="download" />
 				<p>Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum.</p>
-				<footer><svg className="quests__footer-arrow" /></footer>
+				<footer><svg ref="footer" /></footer>
 			</article>
 
 	Quests = React.createClass
@@ -180,15 +187,17 @@ if $? then $ ->
 
 	NavMenu = React.createClass
 		componentDidMount: ->
-			sn = Snap ".toggle-extra-menu"
-			attrs =
-				fill: "none"
-				stroke: "#00e090"
-				strokeWidth: 1.2
+			sn = Snap ".nav-menu header svg"
 			sn.circle 14, 14, 13
-				.attr attrs
+				.attr
+					fill: "#000"
+					stroke: "#00e090"
+					strokeWidth: 1.2
 			sn.path "M8,11 L14,18 L20,11"
-				.attr attrs
+				.attr
+					fill: "none"
+					stroke: "#00e090"
+					strokeWidth: 1.2
 
 		render: ->
 			data = navMenuData.map (ul) ->
@@ -198,7 +207,7 @@ if $? then $ ->
 			<nav className="nav-menu">
 					<header>
 						<h1>Nitive</h1>
-						<svg className="toggle-extra-menu" />
+						<svg />
 					</header>
 				{data}
 			</nav>

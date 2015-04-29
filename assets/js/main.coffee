@@ -8,15 +8,15 @@ if $? then $ ->
 	$field = $('.ios-search-field')
 
 	$mainContainer = $('.main-container')
-	$menuToggle = $('#navicon')
+	$menuToggle = $('.navicon')
 
 	$navMenu = $('.nav-menu')
 	$navMenuHeader = $navMenu.find('header')
 
 	############# Extra menu #############
 
-	$navMenuHeader.hammer({cssProps: { userSelect: true }}).bind 'tap', ->
-		$(this).find(' + ul').slideToggle('fast')
+	$navMenuHeader.hammer().bind 'tap', ->
+		$(this).find(' + ul').stop().slideToggle('fast')
 
 		# toggle class (svg)
 		$navMenuHeader.find('svg').attr 'class', (i, attr) ->
