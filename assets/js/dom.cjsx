@@ -116,8 +116,8 @@ if $? then $ ->
 	]
 
 	random = (min, max) -> Math.floor do Math.random * (max - min) + min
-	loadIcon = (id, file) ->
-		s = Snap "##{id}"
+	loadIcon = (querySelector, file) ->
+		s = Snap querySelector
 		Snap.load "images/#{file}", (f) ->
 			s.append f.select "g"
 
@@ -144,12 +144,20 @@ if $? then $ ->
 
 	PageHeader = React.createClass
 		componentDidMount: ->
-			loadIcon "page-icon", page.icons.main
-			loadIcon "navicon", page.icons.navicon
+			loadIcon ".navicon", page.icons.navicon
+			# loadIcon ".page-icon", page.icons.main
+			sn = Snap ".page-icon"
+			for i in [0..1]
+				for j in [0..1]
+					sn.rect i*12, j*12, 8, 8, 1
+						.attr
+							fill: "none"
+							stroke: "#fff"
+							strokeWidth: 1.7
 		render: ->
 			<header className="page-header">
-				<svg id="navicon" />
-				<svg id="page-icon" />
+				<svg className="navicon" />
+				<svg className="page-icon" />
 				<h2>Quests</h2>
 			</header>
 
@@ -171,6 +179,17 @@ if $? then $ ->
 			</section>
 
 	NavMenu = React.createClass
+		componentDidMount: ->
+			sn = Snap ".toggle-extra-menu"
+			attrs =
+				fill: "none"
+				stroke: "#00e090"
+				strokeWidth: 1.2
+			sn.circle 14, 14, 13
+				.attr attrs
+			sn.path "M8,11 L14,18 L20,11"
+				.attr attrs
+
 		render: ->
 			data = navMenuData.map (ul) ->
 				<ul>
@@ -179,7 +198,7 @@ if $? then $ ->
 			<nav className="nav-menu">
 					<header>
 						<h1>Nitive</h1>
-						<svg id="toggle-extra-menu" />
+						<svg className="toggle-extra-menu" />
 					</header>
 				{data}
 			</nav>
@@ -202,8 +221,6 @@ if $? then $ ->
 
 
 	Page = React.createClass
-		componentDidMount: ->
-			loadIcon "toggle-extra-menu", page.icons.toggleExtraMenu
 		render: ->
 			<div className="wrap">
 				<NavMenu />
