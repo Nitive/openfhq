@@ -37,7 +37,7 @@ if $? then $ ->
 	ratingData = [
 		{
 			name: "keva"
-			score: 159195
+			score: 859195
 			country: "Russia"
 		}
 		{
@@ -52,7 +52,7 @@ if $? then $ ->
 		}
 		{
 			name: "0x234"
-			score: 2143623
+			score: 543623
 			country: "USA"
 		}
 		{
@@ -123,18 +123,28 @@ if $? then $ ->
 
 	Quest = React.createClass
 		componentDidMount: ->
-			sn = Snap React.findDOMNode(@refs.footer)
+			sn = Snap React.findDOMNode @refs.footer
 			sn.path "M 2,10 L 17,24 L 32,10"
 				.attr
 					fill: "none"
 					stroke: "#343d46"
 					strokeWidth: 3.0
+			sm = Snap React.findDOMNode @refs.submit
+			sm.path "M34.8,6.5 C34.5,6.1 33.9,6.1 33.6,6.5 L21.8,18.7 L16.8,13.5 C16.5,13.2 16,13.2 15.6,13.5 L12.8,16.5 C12.5,16.8 12.5,17.4 12.8,17.7 L21.2,26.5 C21.4,26.7 21.6,26.8 21.8,26.8 C22,26.8 22.3,26.7 22.4,26.5 L37.6,10.7 C37.8,10.5 37.9,10.3 37.9,10 C37.9,9.8 37.8,9.6 37.6,9.4 L34.8,6.5 Z"
+				.attr
+					fill: "#343d46"
 		render: ->
 			<article>
 				<h4>Minimized task<sup>5</sup></h4>
 				<div className="download" />
 				<p>Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum.</p>
-				<footer><svg ref="footer" /></footer>
+				<footer>
+					<div className="footer-arrow"><svg ref="footer" /></div>
+					<div className="footer-right">
+						<input type="text" placeholder="Type your flag..." />
+						<svg className="submit-quest" ref="submit" />
+					</div>
+				</footer>
 			</article>
 
 	Quests = React.createClass
@@ -170,7 +180,7 @@ if $? then $ ->
 
 	Search = React.createClass
 		render: ->
-			<div className="search ios-search-field">
+			<div className="search">
 				<input placeholder="Type to search..." />
 			</div>
 

@@ -2,25 +2,38 @@ if $? then $ ->
 	########## jQuery variables ##########
 
 	$document = $(document)
-	$htmlbody = $('html, body') # html for firefox, body for webkit
+	$htmlbody = $("html, body") # html for firefox, body for webkit
 	$window = $(window)
 
-	$field = $('.ios-search-field')
+	$field = $(".ios-search-field")
 
-	$mainContainer = $('.main-container')
-	$menuToggle = $('.navicon')
+	$mainContainer = $(".main-container")
+	$menuToggle = $(".navicon")
 
-	$navMenu = $('.nav-menu')
-	$navMenuHeader = $navMenu.find('header')
+	$navMenu = $(".nav-menu")
+	$navMenuHeader = $navMenu.find("header")
+
+	$footerArrow = $(".footer-arrow")
+	$submitQuest = $(".submit-quest")
+
+	############### Quest ################
+	checkFlag = (e) ->
+		console.log "send request here"
+
+	$footerArrow.hammer().bind "tap", ->
+		$(this).parent().parent().toggleClass "opened"
+
+	$submitQuest.hammer().bind "tap", ->
+		do checkFlag
 
 	############# Extra menu #############
 
-	$navMenuHeader.hammer().bind 'tap', ->
-		$(this).find(' + ul').stop().slideToggle('fast')
+	$navMenuHeader.hammer().bind "tap", ->
+		$(this).find(" + ul").stop().slideToggle("fast")
 
 		# toggle class (svg)
-		$navMenuHeader.find('svg').attr 'class', (i, attr) ->
-			if attr then '' else 'upside'
+		$navMenuHeader.find("svg").attr "class", (i, attr) ->
+			if attr then "" else "upside"
 
 	########## Open/Close menu ###########
 
@@ -28,20 +41,20 @@ if $? then $ ->
 		$navMenu.hide()
 
 	hideMenu = ->
-		$mainContainer.removeClass 'opened-nav-menu'
+		$mainContainer.removeClass "opened-nav-menu"
 		setTimeout (-> $navMenu.hide()), 400
 	showMenu = ->
 		$navMenu.show()
-		$mainContainer.addClass 'opened-nav-menu'
+		$mainContainer.addClass "opened-nav-menu"
 
-	$('.wrap').hammer({cssProps: { userSelect: true }}).bind 'swipe', (event) ->
+	$(".wrap").hammer({cssProps: { userSelect: true }}).bind "swipe", (event) ->
 		if event.gesture.direction == Hammer.DIRECTION_LEFT
 			hideMenu()
 		if event.gesture.direction == Hammer.DIRECTION_RIGHT
 			showMenu()
 
-	$menuToggle.hammer().bind 'tap', (event) ->
-		if $mainContainer.hasClass 'opened-nav-menu'
+	$menuToggle.hammer().bind "tap", (event) ->
+		if $mainContainer.hasClass "opened-nav-menu"
 			hideMenu()
 		else
 			showMenu()
@@ -49,26 +62,4 @@ if $? then $ ->
 	$window.resize ->
 		$navMenu.show()
 
-	########## ios search field ##########
-
-	enableIOSSearchField = false
-	fieldHeight = $field.height()
-	delay = 300
-	timer = 0
-	rate = .5
-	animateTime = 200
-
-	$htmlbody.animate {scrollTop:fieldHeight }, 500, 'swing'
-	# $htmlbody.scrollTop(fieldHeight)
-
-	endScroll = ->
-		if $document.scrollTop() <= fieldHeight * rate
-			$htmlbody.animate { scrollTop: 0 }, animateTime, 'swing'
-		else if $document.scrollTop() > fieldHeight * rate and $document.scrollTop() < fieldHeight
-			$htmlbody.animate { scrollTop: fieldHeight }, animateTime, 'swing'
-
-	$window.scroll ->
-		if enableIOSSearchField
-			clearTimeout timer
-			timer = setTimeout endScroll, delay
 	######################################
