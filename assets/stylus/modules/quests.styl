@@ -132,6 +132,8 @@ submit-button-width = 50px
 		width 35px
 		height 100%
 		margin-left "calc(50% - %s)" % (@width / 2)
+	&:hover
+		animation shake 2s infinite
 
 @keyframes surge
 	from
@@ -140,3 +142,15 @@ submit-button-width = 50px
 		padding-bottom article-padding-bottom + 5
 	to
 		padding-bottom article-padding-bottom
+
+@keyframes shake {
+	80%, 90% {
+		transform: translateX(-2px);
+	}
+	85%, 95% {
+		transform: translateX(2px);
+	}
+	75%, 100% {
+		transform: translateX(0);
+	}
+}
