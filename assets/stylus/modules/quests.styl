@@ -91,17 +91,16 @@ submit-button-width = 50px
 
 	arrow-up-width = 55px
 	.opened
-		transition max-height 3s
-		animation surge .4s
-		max-height 4000px // хитрый способ починить анимацию max-height (2)
-		footer
-			&:before
-				opacity 0
-			.footer-arrow svg
-				transform rotate(.5turn) scale(.7)
-				margin-left 0
-			.footer-right
-				margin-left arrow-up-width
+		transition max-height 5s // хитрый способ починить анимацию max-height (2)
+		animation surge .5s
+		max-height 4000px // хитрый способ починить анимацию max-height (3)
+		footer:before
+			opacity 0
+		.footer-arrow svg
+			transform rotate(.5turn) scale(.7)
+			margin-left 0
+		.footer-right
+			margin-left arrow-up-width
 		.footer-arrow
 			width arrow-up-width
 
@@ -126,7 +125,7 @@ submit-button-width = 50px
 	width 100%
 	transition width .3s, background .3s
 	svg
-		transition transform .3s easeInOutBack, margin-left .5s easeInOutBack
+		transition transform .6s easeInOutBack, margin-left .6s easeInOutBack
 		position absolute
 		padding 0 10px
 		width 35px
