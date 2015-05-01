@@ -6,9 +6,8 @@ OpenFHQ
 3. Выполнить `npm install --global gulp`
 4. Выполнить `npm install`
 5. Выполнить `gulp`
-6. Выполнить `node index.js`
 
-Сервер запушен на `http://localhost:5000`
+`npm start` запускает сервер на `http://localhost:5000`
 
 Чтобы следить за изменениями исходников и автоматически компилировать coffee, stylus и другие, запустите команду `gulp watch`.  
 Файлы с префиксом `_` игнорируются.
