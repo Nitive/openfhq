@@ -107,7 +107,7 @@ if $? then $ ->
 				href: "#"
 			}
 			{
-				text: "Favorites"
+				text: "Starred"
 				href: "#"
 			}
 		]
@@ -145,13 +145,72 @@ if $? then $ ->
 					fill: "none"
 					stroke: "#343d46"
 					strokeWidth: 3.0
+
 			sm = Snap React.findDOMNode @refs.submit
-			sm.rect 0, 0, 50, 50
+			bg = sm.rect 0, 0, 50, 32
 				.attr
 					fill: "none"
-			sm.path "M 34,6 L 22,19 16,13 13,16 22,25 37,9 34,6 Z"
+					opacity: 0
+			g = do sm.g
+			g.transform "T13,6"
+			path = g.path "M 21,0 L 9,13 3,7 0,10 9,19 24,3 21,0 Z"
 				.attr
 					fill: "#343d46"
+
+			smClicking = 0
+			sm.hover (->
+				if smClicking then return
+				path.animate
+					fill: "#00e090"
+					300
+					mina.ease
+				bg.animate
+					fill: "#232831"
+					opacity: 1
+					300
+					mina.ease
+			), ->
+				if smClicking then return
+				path.animate
+					fill: "#232831"
+					300
+					mina.ease
+				bg.animate
+					fill: "none"
+					opacity: 0
+					300
+					mina.ease
+
+			sm.click ->
+				smClicking = yes
+				rightFlag = Math.random() > .5
+				bg.stop()
+				path.stop()
+				bgColor =
+				if rightFlag then "#00e090" else "#f22e3e"
+				path.attr
+					fill: "#fff"
+				bg.attr
+					fill: bgColor
+				.animate
+					opacity: 1
+					500
+					mina.lineal
+				path.animate
+					transform: "s 1.3,1.3"
+					1000
+					mina.elastic
+					->
+						@animate
+							fill: "#232831"
+							transform: "s 1,1",
+							100
+							mina.lineal
+						bg.animate
+							opacity: 0
+							100
+							mina.lineal
+							-> smClicking = no
 
 		render: ->
 			<article>
