@@ -237,13 +237,19 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
-			data = quests.map (a, i) -> <Quest id=i />
+			filterText = @props.filterText
+			data = quests.map (e, i) -> e.id = i; e
+				.filter (e) -> e.text.indexOf(filterText) != -1
+				.map (e, i) -> <Quest id={e.id} />
+
+			center = data.length // 2
+
 			<div className="quests">
 				<div>
-					{data[..(data.length // 2 - 1)]}
+					{data[...center]}
 				</div>
 				<div>
-					{data[(data.length // 2)..]}
+					{data[center..]}
 				</div>
 			</div>
 
@@ -266,10 +272,35 @@ if $? then $ ->
 				<h2>Quests</h2>
 			</header>
 
-	Search = React.createClass
+	SearchBar = React.createClass
+		handleChange: ->
+			@props.onUserInput @refs.filterTextInput.getDOMNode().value
 		render: ->
 			<div className="search">
-				<input placeholder="Type to search..." />
+				<input
+					type="text"
+					value={@props.filterText}
+					ref="filterTextInput"
+					placeholder="Type to search..."
+					onChange={@handleChange}
+				/>
+			</div>
+
+	FilterableQuests = React.createClass
+		getInitialState: ->
+			filterText: ""
+		handleUserInput: (filterText) ->
+			@setState
+				filterText: filterText
+		render: ->
+			<div>
+				<SearchBar
+					filterText={@state.filterText}
+					onUserInput={@handleUserInput}
+				/>
+				<Quests
+					filterText={@state.filterText}
+				/>
 			</div>
 
 	MainContainer = React.createClass
@@ -277,8 +308,7 @@ if $? then $ ->
 			<section className="main-container">
 				<PageHeader />
 				<div className="content">
-					<Search />
-					<Quests />
+					<FilterableQuests />
 				</div>
 				<footer className="page-footer"></footer>
 			</section>
