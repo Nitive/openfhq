@@ -157,7 +157,7 @@ if $? then $ ->
 				.attr
 					fill: "#343d46"
 
-			smClicking = 0
+			smClicking = no
 			sm.hover (->
 				if smClicking then return
 				path.animate
@@ -181,7 +181,8 @@ if $? then $ ->
 					300
 					mina.ease
 
-			sm.click ->
+			sm.mousedown (e) ->
+				if smClicking then return
 				smClicking = yes
 				rightFlag = Math.random() > .5
 				bg.stop()
@@ -210,7 +211,8 @@ if $? then $ ->
 							opacity: 0
 							100
 							mina.lineal
-							-> smClicking = no
+							->
+								smClicking = no
 
 		render: ->
 			<article>
