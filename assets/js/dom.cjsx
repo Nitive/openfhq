@@ -1,52 +1,58 @@
 if $? then $ ->
 	quests = [
 		{
-			title: "Task name"
+			title: "Sudoku"
 			author: "sea-kg"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			subject: "crypto"
+			text: "Necessitatibus facere excepturi fuga cum tenetur ipsa corporis perferendis deleniti deserunt, officia expedita saepe voluptate aperiam non."
 			file: null
-			score: 200
+			score: 100
+			solved: 8
 		}
 		{
-			title: "Another task"
+			title: "Terrorists"
+			author: "by.smirnowmaks"
+			subject: "forensic"
+			text: "Doloribus expedita hic reiciendis eum, at ab consectetur quidem ducimus sequi, consequuntur eos quas dignissimos incidunt assumenda dicta et quisquam tenetur. Vitae, mollitia fuga sequi omnis, sint earum possimus odit cumque? Nulla?"
+			file: null
+			score: 200
+			solved: 14
+		}
+		{
+			title: "Maximus"
+			author: "IS_Chaser"
+			subject: "forensic"
+			text: "Provident voluptatibus consequatur a modi, accusamus molestiae atque debitis repellendus nostrum rerum dolores quas ipsam ex obcaecati necessitatibus nulla quasi. Temporibus cumque perspiciatis omnis molestiae praesentium rem mollitia, necessitatibus ipsam, vero ut."
+			file: null
+			score: 500
+			solved: 0
+		}
+		{
+			title: "Mikki"
 			author: "sea-kg"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			subject: "reverse"
+			text: "Sed obcaecati recusandae, molestiae eos suscipit quod, natus dolorem facilis ipsam sunt, inventore aut."
 			file: null
-			score: 200
+			score: 300
+			solved: 123
 		}
 		{
-			title: "Also another task"
+			title: "Aliens"
 			author: "sea-kg"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			subject: "stego"
+			text: "Quos ullam, tempore asperiores quae provident debitis ut repellat excepturi sapiente voluptatum illum magnam, ab saepe accusantium earum voluptatibus quibusdam eaque."
 			file: null
-			score: 200
+			score: 500
+			solved: 999
 		}
 		{
-			title: "4th task"
+			title: "Small data"
 			author: "sea-kg"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
+			subject: "ppc"
+			text: "Assumenda ipsa ex nisi illum impedit, minima quod deleniti enim."
 			file: null
 			score: 200
-		}
-		{
-			title: "5th task"
-			author: "Nitive"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
-			file: null
-			score: 200
-		}
-		{
-			title: "6th task"
-			author: "Nitive"
-			subject: "forensic"
-			text: "Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum."
-			file: null
-			score: 200
+			solved: 214552
 		}
 	]
 
@@ -215,10 +221,11 @@ if $? then $ ->
 								smClicking = no
 
 		render: ->
+			quest = quests[@props.id]
 			<article>
-				<h4>Minimized task<sup>5</sup></h4>
+				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{quest.title}<sup>{quest.solved}</sup></h4>
 				<div className="download" />
-				<p>Curabitur lobortis id lorem id bibendum. Ut id consectetur magna. Quisque volutpat augue enim, pulvinar lobortis nibh lacinia at. Vestibulum nec erat ut mi sollicitudin porttitor id sit amet risus. Nam tempus vel odio vitae aliquam. In imperdiet eros id lacus vestibulum vestibulum.</p>
+				<p>{quest.text}</p>
 				<footer>
 					<div className="footer-arrow"><svg ref="footer" /></div>
 					<div className="footer-right">
@@ -230,13 +237,13 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
-			quests = @props.quests.map -> <Quest />
+			data = quests.map (a, i) -> <Quest id=i />
 			<div className="quests">
 				<div>
-					{quests[..(quests.length // 2 - 1)]}
+					{data[..(data.length // 2 - 1)]}
 				</div>
 				<div>
-					{quests[(quests.length // 2)..]}
+					{data[(data.length // 2)..]}
 				</div>
 			</div>
 
@@ -271,7 +278,7 @@ if $? then $ ->
 				<PageHeader />
 				<div className="content">
 					<Search />
-					<Quests quests={quests} />
+					<Quests />
 				</div>
 				<footer className="page-footer"></footer>
 			</section>

@@ -21,6 +21,7 @@ submit-button-width = 50px
 		background-color #f4f4f4
 		border-radius 4px
 
+		min-height 125px
 		max-height 125px
 		transition max-height .5s cubic-bezier(0, 1.1, 0, 1) // хитрый способ починить анимацию max-height (1)
 
@@ -35,10 +36,10 @@ submit-button-width = 50px
 		line-height 1
 		&:after
 			margin-left 10px
-			content 'by sea-kg'
+			content attr(data-author)
 			color #c0c5ce
 		&:before
-			content 'forensic 200'
+			content attr(data-info)
 			position absolute
 			font-weight bold
 			font-size 12px
