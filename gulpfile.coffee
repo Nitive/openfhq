@@ -4,6 +4,7 @@ cmq = require 'gulp-combine-media-queries'
 autoprefixer = require 'gulp-autoprefixer'
 cssmin = require 'gulp-cssmin'
 sourcemaps = require 'gulp-sourcemaps'
+bootstrap = require 'bootstrap-styl'
 
 # svg
 svgmin = require 'gulp-svgmin'
@@ -105,7 +106,10 @@ gulp.task 'stylus', ->
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
 		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
 		.pipe gulpif not production, sourcemaps.init()
-		.pipe stylus 'include css': true, compress: production
+		.pipe stylus
+			'include css': true
+			compress: production
+			use: [bootstrap()]
 		.pipe gulpif production, cmq()
 		.pipe autoprefixer browsers: ['last 2 version', '> 1%']
 		.pipe gulpif production, cssmin()

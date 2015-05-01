@@ -24,6 +24,7 @@
     "snapsvg": "adobe-webplatform/Snap.svg"
   },
   "devDependencies": {
+    "bootstrap-styl": "^4.0.4",
     "browser-sync": "^2.5.3",
     "coffee-reactify": "^3.0.0",
     "coffee-script": "^1.9.1",
