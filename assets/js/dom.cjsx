@@ -168,23 +168,23 @@ if $? then $ ->
 				if smClicking then return
 				path.animate
 					fill: "#00e090"
-					300
+					100
 					mina.ease
 				bg.animate
 					fill: "#232831"
 					opacity: 1
-					300
+					100
 					mina.ease
 			), ->
 				if smClicking then return
 				path.animate
 					fill: "#232831"
-					300
+					100
 					mina.ease
 				bg.animate
 					fill: "none"
 					opacity: 0
-					300
+					100
 					mina.ease
 
 			sm.mousedown (e) ->
@@ -224,11 +224,10 @@ if $? then $ ->
 			opened: false
 
 		handleClick: ->
-			console.log 'click'
 			@setState opened: not @state.opened
 
 		render: ->
-			quest = quests[@props.id]
+			quest = @props.data
 			filter = @props.filterText
 
 			if filter
@@ -271,9 +270,9 @@ if $? then $ ->
 	Quests = React.createClass
 		render: ->
 			filterText = @props.filterText.toLowerCase().trim()
-			data = quests.map (e, i) -> e.id = i; e
+			data = quests
 				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
-				.map (e, i) -> <Quest filterText={filterText} id={e.id} />
+				.map (e) -> <Quest filterText={filterText} data={e} />
 
 			center = data.length // 2
 			center += 1 if data.length % 2 != 0
