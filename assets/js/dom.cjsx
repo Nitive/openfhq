@@ -222,10 +222,36 @@ if $? then $ ->
 
 		render: ->
 			quest = quests[@props.id]
+			filter = @props.filterText
+
+			if filter
+				title = []
+				arr = quest.title.split new RegExp filter, "i"
+				position = 0
+				for i in [0...arr.length]
+					mainText = arr[i]
+					len = filter.length
+					position += mainText.length + len
+					title.push {mainText}
+					title.push <mark>{quest.title.substr(position - len, len)}</mark> if (i != arr.length - 1) and filter
+
+				text = []
+				arr = quest.text.split new RegExp filter, "i"
+				position = 0
+				for i in [0...arr.length]
+					mainText = arr[i]
+					len = filter.length
+					position += mainText.length + len
+					text.push {mainText}
+					text.push <mark>{quest.text.substr(position - len, len)}</mark> if (i != arr.length - 1) and filter
+			else
+				title = quest.title
+				text = quest.text
+
 			<article>
-				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{quest.title}<sup>{quest.solved}</sup></h4>
+				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{title}<sup>{quest.solved}</sup></h4>
 				<div className="download" />
-				<p>{quest.text}</p>
+				<p>{text}</p>
 				<footer>
 					<div className="footer-arrow"><svg ref="footer" /></div>
 					<div className="footer-right">
@@ -237,10 +263,10 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
-			filterText = @props.filterText.toLowerCase()
+			filterText = @props.filterText.toLowerCase().trim()
 			data = quests.map (e, i) -> e.id = i; e
 				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
-				.map (e, i) -> <Quest id={e.id} />
+				.map (e, i) -> <Quest filterText={filterText} id={e.id} />
 
 			center = data.length // 2
 			center += 1 if data.length % 2 != 0
