@@ -17,7 +17,7 @@ if $? then $ ->
 	$submitQuest = $(".submit-quest")
 
 	############### Quest ################
-	checkFlag = (e) ->
+	checkFlag = ->
 		console.log "send request here"
 
 	$footerArrow.hammer().bind "tap", ->

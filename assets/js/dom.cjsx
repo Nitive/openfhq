@@ -237,12 +237,13 @@ if $? then $ ->
 
 	Quests = React.createClass
 		render: ->
-			filterText = @props.filterText
+			filterText = @props.filterText.toLowerCase()
 			data = quests.map (e, i) -> e.id = i; e
-				.filter (e) -> e.text.indexOf(filterText) != -1
+				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
 				.map (e, i) -> <Quest id={e.id} />
 
 			center = data.length // 2
+			center += 1 if data.length % 2 != 0
 
 			<div className="quests">
 				<div>
