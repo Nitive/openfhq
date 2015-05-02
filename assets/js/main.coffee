@@ -16,13 +16,6 @@ if $? then $ ->
 	$footerArrow = $(".footer-arrow")
 	$submitQuest = $(".submit-quest")
 
-	############### Quest ################
-	checkFlag = ->
-		console.log "send request here"
-
-	$submitQuest.hammer().bind "tap", ->
-		do checkFlag
-
 	############# Extra menu #############
 
 	$navMenuHeader.hammer().bind "tap", ->
