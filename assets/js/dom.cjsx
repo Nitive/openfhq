@@ -220,6 +220,13 @@ if $? then $ ->
 							->
 								smClicking = no
 
+		getInitialState: ->
+			opened: false
+
+		handleClick: ->
+			console.log 'click'
+			@setState opened: not @state.opened
+
 		render: ->
 			quest = quests[@props.id]
 			filter = @props.filterText
@@ -248,12 +255,12 @@ if $? then $ ->
 				title = quest.title
 				text = quest.text
 
-			<article>
+			<article className={if @state.opened then "opened" else ""}>
 				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{title}<sup>{quest.solved}</sup></h4>
 				<div className="download" />
 				<p>{text}</p>
 				<footer>
-					<div className="footer-arrow"><svg ref="footer" /></div>
+					<div onClick={@handleClick} className="footer-arrow"><svg ref="footer" /></div>
 					<div className="footer-right">
 						<input type="text" placeholder="Type your flag..." />
 						<svg className="submit-quest" ref="submit" />

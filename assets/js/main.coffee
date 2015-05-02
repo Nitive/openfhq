@@ -20,9 +20,6 @@ if $? then $ ->
 	checkFlag = ->
 		console.log "send request here"
 
-	$footerArrow.hammer().bind "tap", ->
-		$(this).parent().parent().toggleClass "opened"
-
 	$submitQuest.hammer().bind "tap", ->
 		do checkFlag
 
