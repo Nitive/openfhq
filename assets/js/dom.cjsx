@@ -221,10 +221,11 @@ if $? then $ ->
 								smClicking = no
 
 		getInitialState: ->
-			opened: false
+			opened: @props.data.opened or no
 
 		handleClick: ->
-			@setState opened: not @state.opened
+			@props.data.opened = not @props.data.opened
+			@setState just: "update"
 
 		render: ->
 			quest = @props.data
@@ -254,7 +255,7 @@ if $? then $ ->
 				title = quest.title
 				text = quest.text
 
-			<article className={if @state.opened then "opened" else ""}>
+			<article className={if @props.data.opened then "opened" else ""}>
 				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{title}<sup>{quest.solved}</sup></h4>
 				<div className="download" />
 				<p>{text}</p>
