@@ -14,6 +14,7 @@ uglify = require 'gulp-uglify'
 browserify = require 'browserify'
 source = require 'vinyl-source-stream'
 watchify = require 'watchify'
+streamify = require 'gulp-streamify'
 
 # utilities
 args = require('yargs').argv
@@ -90,7 +91,7 @@ buildScript = (files, watch) ->
 				title: "Compile Error"
 				message: "<%= error.message %>"
 			.pipe source 'app.js'
-			.pipe gulpif production, uglify()
+			.pipe gulpif production, streamify do uglify
 			.pipe gulp.dest paths.dest
 			.pipe sync.reload stream: true
 
