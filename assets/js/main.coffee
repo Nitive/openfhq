@@ -1,4 +1,8 @@
-if $? then $ ->
+$ = require "jquery"
+require "hammerjs"
+require "jquery-hammerjs"
+
+module.exports = ->
 	########## jQuery variables ##########
 
 	$document = $(document)

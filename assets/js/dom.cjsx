@@ -1,4 +1,7 @@
-if $? then $ ->
+React = require "react"
+Snap = require 'snapsvg'
+
+module.exports = ->
 	quests = [
 		{
 			title: "Sudoku"
@@ -273,7 +276,7 @@ if $? then $ ->
 			filterText = @props.filterText.toLowerCase().trim()
 			data = quests
 				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
-				.map (e) -> <Quest filterText={filterText} data={e} />
+				.map (e, i) -> <Quest filterText={filterText} data={e} key={i} />
 
 			center = data.length // 2
 			center += 1 if data.length % 2 != 0
@@ -362,9 +365,9 @@ if $? then $ ->
 					strokeWidth: 1.2
 
 		render: ->
-			data = navMenuData.map (ul) ->
-				<ul>
-					{ ul.map (li) -> <li><a href={li.href}>{li.text}</a></li> }
+			data = navMenuData.map (ul, i) ->
+				<ul key={i}>
+					{ ul.map (li, j) -> <li key={j}><a href={li.href}>{li.text}</a></li> }
 				</ul>
 			<nav className="nav-menu">
 					<header>
@@ -379,7 +382,7 @@ if $? then $ ->
 			data = ratingData
 				.sort (team, prev) -> prev.score - team.score
 				.map (team, i) ->
-					<figure data-place="#{i+1}">
+					<figure data-place="#{i+1}" key={i+1}>
 						<h4>{team.name}</h4>
 						<div>{team.score}</div>
 						<div>{team.country}</div>

@@ -1,3 +1,5 @@
+module.exports = function() {
+
 function scrollTo(to, duration) {
 	if (duration <= 0) return;
 	element = (document.body.scrollTop === 0) ? document.documentElement : document.body;
@@ -40,4 +42,6 @@ function hideSignInWindow() {
 		}
 		setTimeout(displayNone, 300)
 	});
+}
+
 }

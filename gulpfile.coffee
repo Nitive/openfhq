@@ -10,9 +10,10 @@ bootstrap = require 'bootstrap-styl'
 svgmin = require 'gulp-svgmin'
 
 # js
-cjsx = require 'gulp-cjsx'
-concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
+browserify = require 'browserify'
+source = require 'vinyl-source-stream'
+watchify = require 'watchify'
 
 # utilities
 args = require('yargs').argv
@@ -35,33 +36,23 @@ fs = require 'fs'
 production = args.p or args.production
 
 paths =
-	html: 'assets/template/*.html'
-	stylus: 'assets/stylus/*.styl'
-	js: 'assets/js/**/*.{js,json}'
-	coffee: 'assets/js/**/*.{coffee,cjsx,json}'
-	img: 'assets/images/*.{png,jpg,svg}'
-	png: 'assets/images/*.png'
-	jpg: 'assets/images/*.jpg'
-	svg: 'assets/images/*.svg'
-	dest: 'public/'
-	jsmap: JSON.parse fs.readFileSync('assets/js/js.map.json').toString()
-		.map (filename) ->
-			if filename[0] == "/"
-				filename[1..]
-			else
-				'assets/js/' + filename
-
-gulp.task 'test', ->
-	console.log paths.jsmap
+	html: './assets/template/*.html'
+	stylus: './assets/stylus/*.styl'
+	deep_stylus: './assets/stylus/**/*.styl'
+	js: './assets/js/app.coffee'
+	img: './assets/images/*.{png,jpg,svg}'
+	png: './assets/images/*.png'
+	jpg: './assets/images/*.jpg'
+	svg: './assets/images/*.svg'
+	dest: './public/'
 
 gulp.task 'default', ->
-	run 'imgfont', 'html', 'stylus', 'js'
+	run 'imgfont', 'html', 'stylus', 'browserify'
 
-gulp.task 'watch', ['browser-sync'], ->
-	gulp.watch 'assets/stylus/**/*.styl',            ['stylus']
+gulp.task 'watch', ['browser-sync', 'watchjs'], ->
+	gulp.watch paths.deep_stylus,                    ['stylus']
 	gulp.watch paths.html,                     -> run 'html', 'stylus'
 	gulp.watch paths.img,                      -> run 'imgfont', 'html'
-	gulp.watch [paths.js, paths.coffee],             ['js']
 	nodemon
 		script: 'index.coffee'
 		watch: 'index.coffee'
@@ -77,7 +68,7 @@ gulp.task 'html', ->
 			return console.error(err)
 		i = 0
 		while i < files.length
-			pathToFolder = 'assets/images/'
+			pathToFolder = './assets/images/'
 			file = files[i].replace(pathToFolder, '')
 			extension = parsePath(file).extname
 			extnameFiles = file.replace(extension, '')
@@ -89,16 +80,46 @@ gulp.task 'html', ->
 				name: extnameFiles))
 			i++
 			htmlSrc.pipe gulp.dest(paths.dest)
-						 .pipe sync.reload(stream: true)
+				.pipe sync.reload stream: true
 
-gulp.task 'js', ->
-	gulp.src paths.jsmap
-		.pipe plumber errorHandler: notify.onError "Error(<%= error.location.first_line %>:<%= error.location.first_column %>): <%= error.message %>"
-		.pipe gulpif '**/*.{coffee,cjsx}', do cjsx
-		.pipe concat 'app.js'
-		.pipe gulpif production, uglify()
-		.pipe gulp.dest paths.dest
-		.pipe sync.reload(stream: true)
+buildScript = (files, watch) ->
+	rebundle = (callback) ->
+		stream = bundler.bundle()
+		stream
+			.on "error", notify.onError
+				title: "Compile Error"
+				message: "<%= error.message %>"
+			.pipe source 'app.js'
+			.pipe gulpif production, uglify()
+			.pipe gulp.dest paths.dest
+			.pipe sync.reload stream: true
+
+		stream.on 'end', ->
+			do callback if typeof callback == "function"
+
+	props = watchify.args
+	props.entries = files
+	props.debug = not production
+
+	bundler = if watch then watchify(browserify props) else browserify props
+	bundler.transform "coffee-reactify"
+	bundler.on "update", ->
+		now = new Date().toTimeString()[..7]
+		console.log "[#{now.gray}] Starting #{"'browserify'".cyan}..."
+		startTime = new Date().getTime()
+		rebundle ->
+			time = (new Date().getTime() - startTime) / 1000
+			now = new Date().toTimeString()[..7]
+			console.log "[#{now.gray}] Finished #{"'browserify'".cyan} after #{(time + 's').magenta}"
+
+	rebundle()
+
+gulp.task "browserify", ->
+	buildScript paths.js, false
+
+gulp.task "watchjs", ->
+	buildScript paths.js, true
+
 
 gulp.task 'stylus', ->
 	gulp.src(paths.stylus)
@@ -115,11 +136,11 @@ gulp.task 'stylus', ->
 		.pipe gulpif production, cssmin()
 		.pipe gulpif not production, sourcemaps.write()
 		.pipe gulp.dest paths.dest
-		.pipe sync.reload(stream: true)
+		.pipe sync.reload stream: true
 
 gulp.task 'imgfont', ->
 	gulp
-		.src 'assets/fonts/*/*'
+		.src './assets/fonts/*/*'
 		.pipe gulp.dest(paths.dest + 'fonts')
 	gulp
 		.src paths.img
