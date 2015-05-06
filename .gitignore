@@ -2,5 +2,5 @@ node_modules/
 bower_components/
 public/
 .floo*
-publish.sh
+push_to_heroku.coffee
 Procfile
