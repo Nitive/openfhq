@@ -96,34 +96,4 @@ module.exports = {
 	user:
 		name: "Nitive"
 
-	navMenu: [
-		[
-			{
-				text: "Profile"
-				href: "#"
-			}
-			{
-				text: "Starred"
-				href: "#"
-			}
-		]
-		[
-			{
-				text: "Quests"
-				href: "#"
-			}
-			{
-				text: "Games"
-				href: "#"
-			}
-			{
-				text: "Rating"
-				href: "#"
-			}
-			{
-				text: "News"
-				href: "#"
-			}
-		]
-	]
 }

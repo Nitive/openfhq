@@ -1,4 +1,13 @@
 React = require "react"
+Router = require "react-router"
+
+DefaultRoute = Router.DefaultRoute
+Link = Router.Link
+Route = Router.Route
+Redirect = Router.Redirect
+RouteHandler = Router.RouteHandler
+NotFoundRoute = Router.NotFoundRoute
+
 Snap = require 'snapsvg'
 icons = require "./icons.coffee"
 baseData = require "./data.coffee"
@@ -85,7 +94,7 @@ module.exports = ->
 			filterText = @props.filterText.toLowerCase().trim()
 			data = baseData.quests
 				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
-				.map (e, i) -> <Quest filterText={filterText} data={e} key={i} />
+				.map (e, i) -> <Quest filterText={filterText} data={e} />
 
 			center = data.length // 2
 			center += 1 if data.length % 2 != 0
@@ -132,6 +141,15 @@ module.exports = ->
 				/>
 			</div>
 
+
+	Profile = React.createClass
+		render: ->
+			<div />
+
+	Starred = React.createClass
+		render: ->
+			<div />
+
 	FilterableQuests = React.createClass
 		getInitialState: ->
 			filterText: ""
@@ -149,15 +167,18 @@ module.exports = ->
 				/>
 			</div>
 
-	MainContainer = React.createClass
+	Games = React.createClass
 		render: ->
-			<section className="main-container">
-				<PageHeader />
-				<div className="content">
-					<FilterableQuests />
-				</div>
-				<footer className="page-footer"></footer>
-			</section>
+			<div />
+
+	Rating = React.createClass
+		render: ->
+			<div />
+
+	News = React.createClass
+		render: ->
+			<div />
+
 
 	NavMenu = React.createClass
 		componentDidMount: ->
@@ -174,16 +195,22 @@ module.exports = ->
 					strokeWidth: 1.2
 
 		render: ->
-			data = baseData.navMenu.map (ul, i) ->
-				<ul key={i}>
-					{ ul.map (li, j) -> <li key={j}><a href={li.href}>{li.text}</a></li> }
-				</ul>
+			game = {id: 1}
 			<nav className="nav-menu">
-					<header>
-						<h1>Nitive</h1>
-						<svg />
-					</header>
-				{data}
+				<header>
+					<h1>Nitive</h1>
+					<svg />
+				</header>
+				<ul>
+					<li><Link to="profile">Profile</Link></li>
+					<li><Link to="starred" params={game}>Starred</Link></li>
+				</ul>
+				<ul>
+					<li><Link to="quests" params={game}>Quests</Link></li>
+					<li><Link to="games">Games</Link></li>
+					<li><Link to="rating" params={game}>Rating</Link></li>
+					<li><Link to="news">News</Link></li>
+				</ul>
 			</nav>
 
 	RatingMenu = React.createClass
@@ -191,7 +218,7 @@ module.exports = ->
 			data = baseData.rating
 				.sort (team, prev) -> prev.score - team.score
 				.map (team, i) ->
-					<figure data-place="#{i+1}" key={i+1}>
+					<figure data-place="#{i+1}">
 						<h4>{team.name}</h4>
 						<div>{team.score}</div>
 						<div>{team.country}</div>
@@ -202,8 +229,18 @@ module.exports = ->
 				{data}
 			</aside>
 
+	MainContainer = React.createClass
+		render: ->
+			<section className="main-container">
+				<PageHeader />
+				<div className="content">
+					<RouteHandler />
+				</div>
+				<footer className="page-footer"></footer>
+			</section>
 
-	Page = React.createClass
+
+	App = React.createClass
 		render: ->
 			<div className="wrap">
 				<NavMenu />
@@ -211,5 +248,19 @@ module.exports = ->
 				<RatingMenu />
 			</div>
 
+	routes =
+		<Route name="app" path="/" handler={App}>
+			<Redirect from="/" to="games" />
+			<Route path="profile" name="profile" handler={Profile} />
+			<Route path="games" name="games" handler={Games} />
+			<Route path="news" name="news" handler={News} />
+			<Route path="/game/:id">
+				<DefaultRoute name="quests" handler={FilterableQuests} />
+				<Route path="starred" name="starred" handler={Starred} />
+				<Route path="rating" name="rating" handler={Rating} />
+			</Route>
+		</Route>
 
-	React.render <Page />, document.body
+	Router.run routes, (Handler) ->
+		React.render <Handler/>, document.body
+
