@@ -244,20 +244,23 @@ module.exports = ->
 		render: ->
 			<div className="wrap">
 				<NavMenu />
-				<MainContainer />
+				<RouteHandler />
 				<RatingMenu />
 			</div>
 
 	routes =
 		<Route name="app" path="/" handler={App}>
-			<Redirect from="/" to="games" />
-			<Route path="profile" name="profile" handler={Profile} />
-			<Route path="games" name="games" handler={Games} />
-			<Route path="news" name="news" handler={News} />
-			<Route path="/game/:id">
-				<DefaultRoute name="quests" handler={FilterableQuests} />
-				<Route path="starred" name="starred" handler={Starred} />
-				<Route path="rating" name="rating" handler={Rating} />
+			<Route handler={MainContainer}>
+				<Redirect from="/" to="games" />
+				<Route path="profile" name="profile" handler={Profile} />
+				<Route path="games" name="games" handler={Games} />
+				<Route path="news" name="news" handler={News} />
+				<Route path="game/:id">
+					<DefaultRoute name="quests" handler={FilterableQuests} />
+					<Route path="starred" name="starred" handler={Starred} />
+					<Route path="rating" name="rating" handler={Rating} />
+				</Route>
+				<Redirect from="*" to="games" /> # 404 to games
 			</Route>
 		</Route>
 
