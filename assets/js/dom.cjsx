@@ -1,103 +1,9 @@
 React = require "react"
 Snap = require 'snapsvg'
 icons = require "./icons.coffee"
-console.log icons
+baseData = require "./data.coffee"
 
 module.exports = ->
-	quests = [
-		{
-			title: "Sudoku"
-			author: "sea-kg"
-			subject: "crypto"
-			text: "Necessitatibus facere excepturi fuga cum tenetur ipsa corporis perferendis deleniti deserunt, officia expedita saepe voluptate aperiam non."
-			file: null
-			score: 100
-			solved: 8
-		}
-		{
-			title: "Terrorists"
-			author: "by.smirnowmaks"
-			subject: "forensic"
-			text: "Doloribus expedita hic reiciendis eum, at ab consectetur quidem ducimus sequi, consequuntur eos quas dignissimos incidunt assumenda dicta et quisquam tenetur. Vitae, mollitia fuga sequi omnis, sint earum possimus odit cumque? Nulla?"
-			file: null
-			score: 200
-			solved: 14
-		}
-		{
-			title: "Maximus"
-			author: "IS_Chaser"
-			subject: "forensic"
-			text: "Provident voluptatibus consequatur a modi, accusamus molestiae atque debitis repellendus nostrum rerum dolores quas ipsam ex obcaecati necessitatibus nulla quasi. Temporibus cumque perspiciatis omnis molestiae praesentium rem mollitia, necessitatibus ipsam, vero ut."
-			file: null
-			score: 500
-			solved: 0
-		}
-		{
-			title: "Mikki"
-			author: "sea-kg"
-			subject: "reverse"
-			text: "Sed obcaecati recusandae, molestiae eos suscipit quod, natus dolorem facilis ipsam sunt, inventore aut."
-			file: null
-			score: 300
-			solved: 123
-		}
-		{
-			title: "Aliens"
-			author: "sea-kg"
-			subject: "stego"
-			text: "Quos ullam, tempore asperiores quae provident debitis ut repellat excepturi sapiente voluptatum illum magnam, ab saepe accusantium earum voluptatibus quibusdam eaque."
-			file: null
-			score: 500
-			solved: 999
-		}
-		{
-			title: "Small data"
-			author: "sea-kg"
-			subject: "ppc"
-			text: "Assumenda ipsa ex nisi illum impedit, minima quod deleniti enim."
-			file: null
-			score: 200
-			solved: 214552
-		}
-	]
-
-	ratingData = [
-		{
-			name: "keva"
-			score: 859195
-			country: "Russia"
-		}
-		{
-			name: "More Smoked Leet Chicken"
-			score: 769207
-			country: "Russia"
-		}
-		{
-			name: "Hackers"
-			score: 98234
-			country: "India"
-		}
-		{
-			name: "0x234"
-			score: 543623
-			country: "USA"
-		}
-		{
-			name: "hex"
-			score: 235522
-			country: "Kazakhstan"
-		}
-		{
-			name: "coolbki"
-			score: 234156
-			country: "Britain"
-		}
-		{
-			name: "Whatever"
-			score: 1235561
-			country: "Germany"
-		}
-	]
 
 	titlePrefix = "FHQ | "
 
@@ -108,39 +14,6 @@ module.exports = ->
 			navicon: "navicon.svg"
 			toggleExtraMenu: "toggle-extra-menu.svg"
 
-	userData =
-		name: "Nitive"
-
-	navMenuData = [
-		[
-			{
-				text: "Profile"
-				href: "#"
-			}
-			{
-				text: "Starred"
-				href: "#"
-			}
-		]
-		[
-			{
-				text: "Quests"
-				href: "#"
-			}
-			{
-				text: "Games"
-				href: "#"
-			}
-			{
-				text: "Rating"
-				href: "#"
-			}
-			{
-				text: "News"
-				href: "#"
-			}
-		]
-	]
 
 	random = (min, max) -> Math.floor do Math.random * (max - min) + min
 	loadIcon = (querySelector, file) ->
@@ -210,7 +83,7 @@ module.exports = ->
 	Quests = React.createClass
 		render: ->
 			filterText = @props.filterText.toLowerCase().trim()
-			data = quests
+			data = baseData.quests
 				.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
 				.map (e, i) -> <Quest filterText={filterText} data={e} key={i} />
 
@@ -301,7 +174,7 @@ module.exports = ->
 					strokeWidth: 1.2
 
 		render: ->
-			data = navMenuData.map (ul, i) ->
+			data = baseData.navMenu.map (ul, i) ->
 				<ul key={i}>
 					{ ul.map (li, j) -> <li key={j}><a href={li.href}>{li.text}</a></li> }
 				</ul>
@@ -315,7 +188,7 @@ module.exports = ->
 
 	RatingMenu = React.createClass
 		render: ->
-			data = ratingData
+			data = baseData.rating
 				.sort (team, prev) -> prev.score - team.score
 				.map (team, i) ->
 					<figure data-place="#{i+1}" key={i+1}>
@@ -334,7 +207,7 @@ module.exports = ->
 		render: ->
 			<div className="wrap">
 				<NavMenu />
-				<MainContainer quests={@props.quests} />
+				<MainContainer />
 				<RatingMenu />
 			</div>
 
