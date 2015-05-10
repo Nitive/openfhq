@@ -9,6 +9,8 @@ RouteHandler = Router.RouteHandler
 NotFoundRoute = Router.NotFoundRoute
 
 Snap = require 'snapsvg'
+marked = require 'marked'
+
 icons = require "./icons.coffee"
 baseData = require "./data.coffee"
 
@@ -74,12 +76,12 @@ module.exports = ->
 					text.push <mark>{quest.text.substr(position - len, len)}</mark> if (i != arr.length - 1) and filter
 			else
 				title = quest.title
-				text = quest.text
+				text = marked(quest.text)
 
 			<article className={if @props.data.opened then "opened" else ""}>
 				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{title}<sup>{quest.solved}</sup></h4>
 				<div className="download" />
-				<p>{text}</p>
+				<p dangerouslySetInnerHTML={__html: text} />
 				<footer>
 					<div onClick={@handleClick} className="footer-arrow"><svg ref="footer" /></div>
 					<div className="footer-right">

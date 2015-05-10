@@ -5,7 +5,7 @@ module.exports = {
 			title: "Sudoku"
 			author: "sea-kg"
 			subject: "crypto"
-			text: "Necessitatibus facere excepturi fuga cum tenetur ipsa corporis perferendis deleniti deserunt, officia expedita saepe voluptate aperiam non."
+			text: "![test](http://placehold.it/300x300)**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
 			file: null
 			score: 100
 			solved: 8
