@@ -18,12 +18,8 @@ module.exports = ->
 
 	titlePrefix = "FHQ | "
 
-	page =
-		title: "#{titlePrefix}Quests"
-		icons:
-			main: "quests-icon.svg"
-			navicon: "navicon.svg"
-			toggleExtraMenu: "toggle-extra-menu.svg"
+	currentPage =
+		title: "Quests"
 
 
 	random = (min, max) -> Math.floor do Math.random * (max - min) + min
@@ -96,8 +92,7 @@ module.exports = ->
 
 	PageHeader = React.createClass
 		componentDidMount: ->
-			loadIcon ".navicon", page.icons.navicon
-			# loadIcon ".page-icon", page.icons.main
+			loadIcon ".navicon", icons.navicon
 			sn = Snap ".page-icon"
 			for i in [0..1]
 				for j in [0..1]
@@ -227,6 +222,8 @@ module.exports = ->
 
 
 	App = React.createClass
+		componentDidMount: ->
+			document.title = "FHQ | #{currentPage.title}"
 		render: ->
 			<div className="wrap">
 				<NavMenu />

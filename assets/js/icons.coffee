@@ -70,5 +70,7 @@ submitQuestIcon = (svg) ->
 
 
 module.exports =
+	navicon: "navicon.svg"
+	toggleExtraMenu: "toggle-extra-menu.svg"
 	quest:
 		submit: submitQuestIcon
