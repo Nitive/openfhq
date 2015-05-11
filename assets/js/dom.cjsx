@@ -54,34 +54,18 @@ module.exports = ->
 			quest = @props.data
 			filter = @props.filterText
 
-			if filter
-				title = []
-				arr = quest.title.split new RegExp filter, "i"
-				position = 0
-				for i in [0...arr.length]
-					mainText = arr[i]
-					len = filter.length
-					position += mainText.length + len
-					title.push {mainText}
-					title.push <mark>{quest.title.substr(position - len, len)}</mark> if (i != arr.length - 1) and filter
+			title = quest.title
+			text = marked quest.text
 
-				text = []
-				arr = quest.text.split new RegExp filter, "i"
-				position = 0
-				for i in [0...arr.length]
-					mainText = arr[i]
-					len = filter.length
-					position += mainText.length + len
-					text.push {mainText}
-					text.push <mark>{quest.text.substr(position - len, len)}</mark> if (i != arr.length - 1) and filter
-			else
-				title = quest.title
-				text = marked(quest.text)
+			re = new RegExp "(#{filter})", "ig"
+			if title.search re != -1 and filter
+				title = title.replace re, "<mark>$1</mark>"
+			title += "<sup>#{quest.solved}</sup>"
 
 			<article className={if @props.data.opened then "opened" else ""}>
-				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}">{title}<sup>{quest.solved}</sup></h4>
+				<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}" dangerouslySetInnerHTML={__html: title} />
 				<div className="download" />
-				<p dangerouslySetInnerHTML={__html: text} />
+				<div className="quest__text" dangerouslySetInnerHTML={__html: text} />
 				<footer>
 					<div onClick={@handleClick} className="footer-arrow"><svg ref="footer" /></div>
 					<div className="footer-right">

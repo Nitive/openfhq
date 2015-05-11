@@ -5,7 +5,7 @@ module.exports = {
 			title: "Sudoku"
 			author: "sea-kg"
 			subject: "crypto"
-			text: "![test](http://placehold.it/300x300)**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
+			text: "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non.![test](http://placehold.it/700x300)"
 			file: null
 			score: 100
 			solved: 8
@@ -14,7 +14,7 @@ module.exports = {
 			title: "Terrorists"
 			author: "by.smirnowmaks"
 			subject: "forensic"
-			text: "Doloribus expedita hic reiciendis eum, at ab consectetur quidem ducimus sequi, consequuntur eos quas dignissimos incidunt assumenda dicta et quisquam tenetur. Vitae, mollitia fuga sequi omnis, sint earum possimus odit cumque? Nulla?"
+			text: "Doloribus expedita hic reiciendis eum, at ab consectetur quidem ducimus sequi.![test](http://placehold.it/1000x300) Consequuntur eos quas dignissimos incidunt assumenda dicta et quisquam tenetur. Vitae, mollitia fuga sequi omnis, sint earum possimus odit cumque? Nulla?"
 			file: null
 			score: 200
 			solved: 14
@@ -23,7 +23,7 @@ module.exports = {
 			title: "Maximus"
 			author: "IS_Chaser"
 			subject: "forensic"
-			text: "Provident voluptatibus consequatur a modi, accusamus molestiae atque debitis repellendus nostrum rerum dolores quas ipsam ex obcaecati necessitatibus nulla quasi. Temporibus cumque perspiciatis omnis molestiae praesentium rem mollitia, necessitatibus ipsam, vero ut."
+			text: "Provident voluptatibus consequatur a modi, accusamus molestiae atque debitis repellendus nostrum rerum dolores quas ipsam ex obcaecati necessitatibus nulla quasi.  \n![test](http://placehold.it/100x100)  \nTemporibus cumque perspiciatis omnis molestiae praesentium rem mollitia, necessitatibus ipsam, vero ut."
 			file: null
 			score: 500
 			solved: 0
