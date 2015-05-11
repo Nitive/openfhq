@@ -250,6 +250,6 @@ module.exports = ->
 			</Route>
 		</Route>
 
-	Router.run routes, (Handler) ->
+	Router.run routes, Router.HistoryLocation, (Handler) ->
 		React.render <Handler/>, document.body
 

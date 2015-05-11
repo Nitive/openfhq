@@ -40,7 +40,7 @@ paths =
 	html: './assets/template/*.html'
 	stylus: './assets/stylus/*.styl'
 	deep_stylus: './assets/stylus/**/*.styl'
-	js: './assets/js/app.coffee'
+	browserify: './assets/js/app.coffee'
 	img: './assets/images/*.{png,jpg,svg}'
 	png: './assets/images/*.png'
 	jpg: './assets/images/*.jpg'
@@ -116,10 +116,10 @@ buildScript = (files, watch) ->
 	rebundle()
 
 gulp.task "browserify", ->
-	buildScript paths.js, false
+	buildScript paths.browserify, false
 
 gulp.task "watchjs", ->
-	buildScript paths.js, true
+	buildScript paths.browserify, true
 
 
 gulp.task 'stylus', ->
