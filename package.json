@@ -1,6 +1,6 @@
 {
   "name": "openfhq",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Front-end for Free Hack Quest",
   "main": "index.coffee",
   "scripts": {
