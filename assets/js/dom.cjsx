@@ -105,7 +105,7 @@ module.exports = ->
 			<header className="page-header">
 				<svg className="navicon" />
 				<svg className="page-icon" />
-				<h2>Quests</h2>
+				<h2>{@props.title}</h2>
 			</header>
 
 	SearchBar = React.createClass
@@ -213,7 +213,7 @@ module.exports = ->
 	MainContainer = React.createClass
 		render: ->
 			<section className="main-container">
-				<PageHeader />
+				<PageHeader title={@props.routes[@props.routes.length-1].name} />
 				<div className="content">
 					<RouteHandler />
 				</div>
@@ -227,7 +227,7 @@ module.exports = ->
 		render: ->
 			<div className="wrap">
 				<NavMenu />
-				<RouteHandler />
+				<RouteHandler {...@props} />
 				<RatingMenu />
 			</div>
 
@@ -247,6 +247,5 @@ module.exports = ->
 			</Route>
 		</Route>
 
-	Router.run routes, Router.HistoryLocation, (Handler) ->
-		React.render <Handler/>, document.body
-
+	Router.run routes, (Handler, props) ->
+		React.render <Handler {...props}/>, document.body
