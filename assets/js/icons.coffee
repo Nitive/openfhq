@@ -1,18 +1,18 @@
 Snap = require 'snapsvg'
 
-submitQuestIcon = (svg) ->
-	bg = svg.rect 0, 0, 50, 32
+submitQuestIcon = (paper) ->
+	bg = paper.rect 0, 0, 50, 32
 		.attr
 			fill: "none"
 			opacity: 0
-	g = do svg.g
+	g = do paper.g
 	g.transform "T13,6"
 	path = g.path "M 21,0 L 9,13 3,7 0,10 9,19 24,3 21,0 Z"
 		.attr
 			fill: "#343d46"
 
 	smClicking = no
-	svg.hover (->
+	paper.hover (->
 		if smClicking then return
 		path.animate
 			fill: "#00e090"
@@ -35,7 +35,7 @@ submitQuestIcon = (svg) ->
 			100
 			mina.ease
 
-	svg.mousedown (e) ->
+	paper.mousedown (e) ->
 		if smClicking then return
 		smClicking = yes
 		rightFlag = Math.random() > .5
@@ -69,8 +69,25 @@ submitQuestIcon = (svg) ->
 						smClicking = no
 
 
+questsIcon = (paper) ->
+	for i in [0..1]
+		for j in [0..1]
+			paper.rect i*12, j*12, 8, 8, 1
+				.attr
+					fill: "none"
+					stroke: "#fff"
+					strokeWidth: 1.7
+
+gamesIcon = (paper) ->
+	paper.circle 10, 10, 15
+
+
 module.exports =
 	navicon: "navicon.svg"
 	toggleExtraMenu: "toggle-extra-menu.svg"
+	pageHeader:
+		quests: questsIcon
+		games: gamesIcon
+
 	quest:
 		submit: submitQuestIcon
