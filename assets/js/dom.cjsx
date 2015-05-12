@@ -237,6 +237,7 @@ MainContainer = React.createClass
 		</section>
 
 App = React.createClass
+	mixins: [ProgressMixin]
 	componentDidMount: ->
 		document.title = "FHQ | #{currentPage.title}"
 	render: ->
