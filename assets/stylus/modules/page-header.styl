@@ -1,19 +1,12 @@
 .page-header
 	z-index 1
-	position fixed
+	position absolute
 	height header-height
 	background-color main-dark-bg
 	color #f4f4f4
 
 	transition width fast
-	// width always is 100%
-	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
-	@media (max-width: hide-info-menu)
-		width "calc(100% - %s)" % info-menu-width
-	@media (max-width: hide-nav-menu)
-		width 100%
-	@media (min-width: max-screen)
-		width max-screen - (nav-menu-width + info-menu-width)
+	width 100%
 	h2
 		position absolute
 		display inline-block
@@ -35,8 +28,5 @@
 
 .page-icon
 	fill #f4f4f4
-	width 21px
-	height 21px
-	padding-left 20px
-	padding-right 10px
-	center-of header-height, @height
+	width 60px
+	height 60px

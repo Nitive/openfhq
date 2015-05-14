@@ -230,10 +230,12 @@ MainContainer = React.createClass
 	render: ->
 		<section className="main-container">
 			<PageHeader title={@props.routes[@props.routes.length-1].name} />
-			<div className="content">
-				<RouteHandler />
+			<div className="content-wrapper">
+				<div className="content">
+					<RouteHandler />
+				</div>
+				<footer className="page-footer"></footer>
 			</div>
-			<footer className="page-footer"></footer>
 		</section>
 
 App = React.createClass

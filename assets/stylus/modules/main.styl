@@ -18,7 +18,6 @@ body
 
 .main-container
 	position relative
-	height 100vh
 	transition margin fast, width fast
 	margin-left nav-menu-width
 	width "calc(100% - %s)" % (nav-menu-width + info-menu-width)
@@ -33,7 +32,16 @@ body
 		margin-left nav-menu-width
 		width 100%
 
+.content-wrapper
+	padding-top header-height
+	overflow-y scroll
+	overflow-x hidden
+	height "calc(100vh - %s)" % header-height
+	&::-webkit-scrollbar
+		display none
+
 .content
+	box-sizing border-box
 	min-height "calc(100% - %s)" % footer-height
 	background-color main-light-bg
 	transition padding normal
