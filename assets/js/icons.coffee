@@ -72,14 +72,14 @@ submitQuestIcon = (paper) ->
 questsIcon = (paper) ->
 	for i in [0..1]
 		for j in [0..1]
-			paper.rect i*12, j*12, 8, 8, 1
+			paper.rect 20+i*12, 20+j*12, 8, 8, 1
 				.attr
 					fill: "none"
 					stroke: "#fff"
 					strokeWidth: 1.7
 
 gamesIcon = (paper) ->
-	paper.circle 10, 10, 15
+	paper.circle 30, 30, 15
 
 
 module.exports =
