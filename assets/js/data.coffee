@@ -95,5 +95,6 @@ module.exports = {
 	]
 	user:
 		name: "Nitive"
+		token: "603EC391-4746-8B70-9D04-8DD174F9839C"
 
 }

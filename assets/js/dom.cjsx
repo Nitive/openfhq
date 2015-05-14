@@ -1,5 +1,6 @@
 React = require "react"
 Router = require "react-router"
+$ = require "jquery"
 
 DefaultRoute = Router.DefaultRoute
 Link = Router.Link
@@ -161,10 +162,42 @@ FilterableQuests = React.createClass
 			/>
 		</div>
 
+Game = React.createClass
+	render: ->
+		<article className="game">
+			<h4 data-orgs="by #{123}" className="game__title">{@props.data.title}</h4>
+			<img className="game__image" />
+			<div className="game__choose-btn game__choose-btn--active">Choose</div>
+			<div className="quest__text" dangerouslySetInnerHTML={__html: @props.data.description} />
+		</article>
+
+
 Games = React.createClass
 	mixins: [ProgressMixin]
+
+	getInitialState: ->
+		data: []
+
+	componentDidMount: ->
+		$.ajax
+			url: "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}"
+			dataType: "json"
+			cache: true
+			success: ((result) ->
+				if result.result is "ok"
+					console.log "result is #{result}"
+					@replaceState data: result.data
+			).bind this
+			error: -> alert "Error #1"
+
 	render: ->
-		<div />
+		games = []
+		$.each @state.data, (key, value) ->
+			games.push <Game data={value} />
+
+		<div>
+			{games}
+		</div>
 
 Rating = React.createClass
 	mixins: [ProgressMixin]
