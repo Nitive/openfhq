@@ -1,0 +1,33 @@
+.game
+	position relative
+	background-color #f4f4f4
+	border-radius 4px
+	min-height 280px
+
+	&__title
+		font-weight 400
+		color link-color
+		&:after
+			content attr(data-orgs)
+			color #c0c5ce
+
+	&__logo
+		position absolute
+		height 150px
+		width 150px
+		margin-left 25px
+
+	&__text
+		padding-left 200px
+
+	&__choose-btn
+		position absolute
+		display inline
+		margin-top 150px
+		border-radius 4px
+		padding 0 10px
+		font-size 24px
+
+// &--enable
+// &--disable
+

@@ -30,13 +30,11 @@ loadIcon = (querySelector, file) ->
 		s.append f.select "g"
 
 
-ProgressMixin =
-	componentWillMount: ->
-		do NProgress.start
-	componentDidMount: ->
-		do NProgress.done
-
 Quest = React.createClass
+
+	getInitialState: ->
+		opened: @props.data.opened or no
+
 	componentDidMount: ->
 		sn = Snap React.findDOMNode @refs.footer
 		sn.path "M 2,10 L 17,24 32,10"
@@ -46,9 +44,6 @@ Quest = React.createClass
 				strokeWidth: 3.0
 
 		icons.quest.submit Snap React.findDOMNode @refs.submit
-
-	getInitialState: ->
-		opened: @props.data.opened or no
 
 	handleClick: ->
 		@props.data.opened = not @props.data.opened
@@ -62,6 +57,7 @@ Quest = React.createClass
 		text = marked quest.text
 
 		re = new RegExp "(#{filter})", "ig"
+
 		if title.search re != -1 and filter
 			title = title.replace re, "<mark>$1</mark>"
 		title += "<sup>#{quest.solved}</sup>"
@@ -79,7 +75,9 @@ Quest = React.createClass
 			</footer>
 		</article>
 
+
 Quests = React.createClass
+
 	render: ->
 		filterText = @props.filterText.toLowerCase().trim()
 		data = baseData.quests
@@ -98,7 +96,9 @@ Quests = React.createClass
 			</div>
 		</div>
 
+
 PageHeader = React.createClass
+
 	componentDidMount: ->
 		loadIcon ".navicon", icons.navicon
 		icons.pageHeader[@props.title] Snap React.findDOMNode @refs.pageIcon
@@ -111,7 +111,6 @@ PageHeader = React.createClass
 		catch e
 			console.warn "Нет иконки #{@props.title}"
 
-
 	render: ->
 		<header className="page-header">
 			<svg className="navicon" />
@@ -119,9 +118,12 @@ PageHeader = React.createClass
 			<h2>{@props.title}</h2>
 		</header>
 
+
 SearchBar = React.createClass
+
 	handleChange: ->
 		@props.onUserInput @refs.filterTextInput.getDOMNode().value
+
 	render: ->
 		<div className="search">
 			<input
@@ -135,22 +137,24 @@ SearchBar = React.createClass
 
 
 Profile = React.createClass
-	mixins: [ProgressMixin]
 	render: ->
 		<div />
+
 
 Starred = React.createClass
-	mixins: [ProgressMixin]
 	render: ->
 		<div />
 
+
 FilterableQuests = React.createClass
-	mixins: [ProgressMixin]
+
 	getInitialState: ->
 		filterText: ""
+
 	handleUserInput: (filterText) ->
 		@setState
 			filterText: filterText
+
 	render: ->
 		<div>
 			<SearchBar
@@ -162,21 +166,25 @@ FilterableQuests = React.createClass
 			/>
 		</div>
 
+
 Game = React.createClass
+
 	render: ->
 		<article className="game">
-			<h4 data-orgs="by #{123}" className="game__title">{@props.data.title}</h4>
-			<img className="game__image" />
-			<div className="game__choose-btn game__choose-btn--active">Choose</div>
-			<div className="quest__text" dangerouslySetInnerHTML={__html: @props.data.description} />
+			<h4 data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
+			<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "http://fhq.keva.su/#{@props.data.logo}" } className="game__logo" />
+			<div className="game__choose-btn game__choose-btn--enable transparent-button">Choose</div>
+			<div className="game__text" dangerouslySetInnerHTML={__html: @props.data.description} />
 		</article>
 
 
 Games = React.createClass
-	mixins: [ProgressMixin]
 
 	getInitialState: ->
 		data: []
+
+	componentWillMount: ->
+		do NProgress.start
 
 	componentDidMount: ->
 		$.ajax
@@ -187,8 +195,9 @@ Games = React.createClass
 				if result.result is "ok"
 					console.log "result is #{result}"
 					@replaceState data: result.data
+					do NProgress.done
 			).bind this
-			error: -> alert "Error #1"
+			error: -> alert "Error #1. Send feedback please"
 
 	render: ->
 		games = []
@@ -199,18 +208,21 @@ Games = React.createClass
 			{games}
 		</div>
 
+
 Rating = React.createClass
-	mixins: [ProgressMixin]
+
 	render: ->
 		<div />
 
+
 News = React.createClass
-	mixins: [ProgressMixin]
+
 	render: ->
 		<div />
 
 
 NavMenu = React.createClass
+
 	componentDidMount: ->
 		sn = Snap ".nav-menu header svg"
 		sn.circle 14, 14, 13
@@ -243,7 +255,9 @@ NavMenu = React.createClass
 			</ul>
 		</nav>
 
+
 RatingMenu = React.createClass
+
 	render: ->
 		data = baseData.rating
 			.sort (team, prev) -> prev.score - team.score
@@ -259,7 +273,9 @@ RatingMenu = React.createClass
 			{data}
 		</aside>
 
+
 MainContainer = React.createClass
+
 	render: ->
 		<section className="main-container">
 			<PageHeader title={@props.routes[@props.routes.length-1].name} />
@@ -271,16 +287,20 @@ MainContainer = React.createClass
 			</div>
 		</section>
 
+
 App = React.createClass
-	mixins: [ProgressMixin]
+
 	componentDidMount: ->
 		document.title = "FHQ | #{currentPage.title}"
+		do NProgress.done
+
 	render: ->
 		<div className="wrap">
 			<NavMenu />
 			<RouteHandler {...@props} />
 			<RatingMenu />
 		</div>
+
 
 routes =
 	<Route name="app" path="/" handler={App}>
@@ -297,6 +317,7 @@ routes =
 			<Redirect from="*" to="games" /> # 404 to games
 		</Route>
 	</Route>
+
 
 module.exports = ->
 	Router.run routes, (Handler, props) ->
