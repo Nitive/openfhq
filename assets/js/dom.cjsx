@@ -94,7 +94,7 @@ Quests = React.createClass
 
 					quests = []
 					for quest in response.data
-						quest.author ||= "Nitive"
+						quest.author ||= "Author"
 						quest.text ||= "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
 						quests.push quest
 
