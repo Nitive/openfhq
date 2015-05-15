@@ -53,15 +53,19 @@ Quest = React.createClass
 
 	render: ->
 		quest = @props.data
-		filter = @props.filterText
+		filter = @props.filterText.replace /[^\w\s]/gi, ""
 
 		name = quest.name
 		text = marked quest.text
 
-		re = new RegExp "(#{filter})", "ig"
+		try
+			re = new RegExp "(#{filter})", "ig"
+			if name.search re isnt -1 and filter isnt ""
+				name = name.replace re, "<mark>$1</mark>"
 
-		if name.search re isnt -1 and filter isnt ""
-			name = name.replace re, "<mark>$1</mark>"
+		catch e
+			console.warn "Warning: #{e.message}"
+
 		name += "<sup>#{quest.solved}</sup>"
 
 		<article className={if @props.data.opened then "opened" else ""}>
@@ -99,18 +103,11 @@ Quests = React.createClass
 						quests.push quest
 
 					@setState quests: quests
-
-					# for quest in quests
-					# 	$.post "http://fhq.keva.su/api/quests/get.php?taskid=#{quest.questid}&token=#{baseData.user.token}", ((response) ->
-					# 		if response.result is "ok"
-					# 			quests[response.questid].text = response.data.text or ""
-					# 			@setState
-					# 				quests: quests
-					# 		else
-					# 	).bind this
 					do NProgress.done
+
 				else
 					alert "Error #3.\n#{response.error["message"]}.\nSend feedback please"
+
 			).bind this
 			error: -> alert "Error #2. Send feedback please"
 
