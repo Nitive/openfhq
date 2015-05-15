@@ -31,8 +31,9 @@ module.exports = ->
 
 	########## Open/Close menu ###########
 
-	$navMenu.hammer().bind "tap", ->
-		do hideMenu
+	$navMenu.find("a").hammer().bind "tap", ->
+		if $window.width() < 600
+			do hideMenu
 
 	if $window.width() < 600
 		$navMenu.hide()

@@ -22,6 +22,8 @@ titlePrefix = "FHQ | "
 currentPage =
 	title: "Quests"
 
+do NProgress.start
+
 
 random = (min, max) -> Math.floor do Math.random * (max - min) + min
 loadIcon = (querySelector, file) ->
@@ -171,9 +173,9 @@ Game = React.createClass
 
 	render: ->
 		<article className="game">
-			<h4 data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
+			<h4 data-info="#{@props.data.type_game}, #{@props.data.state}, #{@props.data.form}" data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
 			<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "http://fhq.keva.su/#{@props.data.logo}" } className="game__logo" />
-			<div className="game__choose-btn game__choose-btn--enable transparent-button">Choose</div>
+			<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable'} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
 			<div className="game__text" dangerouslySetInnerHTML={__html: @props.data.description} />
 		</article>
 
@@ -182,29 +184,43 @@ Games = React.createClass
 
 	getInitialState: ->
 		data: []
+		currentGame: 0
+
+	setCurrentGame: (id) ->
+		if @state.currentGame isnt id
+			do NProgress.start
+			$.get "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", ((result) ->
+				if result.result is "ok"
+					@setState currentGame: id
+					do NProgress.done
+			).bind this
 
 	componentWillMount: ->
 		do NProgress.start
 
 	componentDidMount: ->
+		do NProgress.start
 		$.ajax
 			url: "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}"
 			dataType: "json"
 			cache: true
 			success: ((result) ->
 				if result.result is "ok"
-					console.log "result is #{result}"
-					@replaceState data: result.data
+					@setState
+						data: result.data
+						currentGame: result.current_game
 					do NProgress.done
 			).bind this
 			error: -> alert "Error #1. Send feedback please"
 
 	render: ->
-		games = []
-		$.each @state.data, (key, value) ->
-			games.push <Game data={value} />
 
-		<div>
+		games = []
+		$.each @state.data, ((key, value) ->
+			games.push <Game isCurrent={value.id is @state.currentGame} handleClick={@setCurrentGame.bind(this, value.id)} data={value} />
+		).bind this
+
+		<div className="games">
 			{games}
 		</div>
 
