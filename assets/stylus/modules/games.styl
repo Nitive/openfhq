@@ -1,12 +1,12 @@
 .games
 	background-color main-light-bg
-	padding-top 20px
+	padding 20px 5px 0
 .game
 	margin-bottom 20px
 	position relative
 	background-color #f4f4f4
 	border-radius 4px
-	min-height 280px
+	min-height 300px
 
 	&__title
 		position relative
@@ -27,24 +27,28 @@
 			margin-left 10px
 			color dim-link
 
+	&__text
+		padding 20px
+		@media (max-width: hide-nav-menu)
+			padding-top 50px
+
+	&__imgblock
+		float left
+		margin 0 20px 0 25px
+
 	&__logo
-		position absolute
 		height 150px
 		width 150px
-		margin-left 25px
 		border-radius 5px
-
-	&__text
-		padding-left 200px
+		@media (max-width: hide-nav-menu)
+			display none
 
 	&__choose-btn
-		position absolute
 		border-radius 4px
 		width 146px
 		text-align center
 		padding 0
 		font-size 24px
-		margin 160px 25px
 
 		&--disable
 			cursor default

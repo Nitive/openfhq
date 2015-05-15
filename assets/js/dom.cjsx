@@ -174,11 +174,12 @@ Game = React.createClass
 	render: ->
 		<article className="game">
 			<h4 data-info="#{@props.data.type_game}, #{@props.data.state}, #{@props.data.form}" data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
-			<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "http://fhq.keva.su/#{@props.data.logo}" } className="game__logo" />
-			<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable'} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
+			<figure className="game__imgblock">
+				<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "http://fhq.keva.su/#{@props.data.logo}" } className="game__logo" />
+				<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable'} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
+			</figure>
 			<div className="game__text" dangerouslySetInnerHTML={__html: @props.data.description} />
 		</article>
-
 
 Games = React.createClass
 
