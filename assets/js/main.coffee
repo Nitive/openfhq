@@ -1,5 +1,5 @@
 $ = require "jquery"
-require "hammerjs"
+Hammer = require "hammerjs"
 require "jquery-hammerjs"
 
 module.exports = ->
@@ -30,6 +30,9 @@ module.exports = ->
 			if attr then "" else "upside"
 
 	########## Open/Close menu ###########
+
+	$navMenu.hammer().bind "tap", ->
+		do hideMenu
 
 	if $window.width() < 600
 		$navMenu.hide()
