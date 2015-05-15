@@ -16,11 +16,11 @@ NProgress = require 'nprogress'
 icons = require "./icons.coffee"
 baseData = require "./data.coffee"
 
+currentGame = 0
+$.post "http://fhq.keva.su/api/games/list.php?token=0C73BEA8-B080-4B87-6E82-00F325F122FB", (result) ->
+	if result.result = "ok"
+		currentGame = result.current_game
 
-titlePrefix = "FHQ | "
-
-currentPage =
-	title: "Quests"
 
 do NProgress.start
 
@@ -55,17 +55,17 @@ Quest = React.createClass
 		quest = @props.data
 		filter = @props.filterText
 
-		title = quest.title
+		name = quest.name
 		text = marked quest.text
 
 		re = new RegExp "(#{filter})", "ig"
 
-		if title.search re != -1 and filter
-			title = title.replace re, "<mark>$1</mark>"
-		title += "<sup>#{quest.solved}</sup>"
+		if name.search re isnt -1 and filter isnt ""
+			name = name.replace re, "<mark>$1</mark>"
+		name += "<sup>#{quest.solved}</sup>"
 
 		<article className={if @props.data.opened then "opened" else ""}>
-			<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}" dangerouslySetInnerHTML={__html: title} />
+			<h4 data-info="#{quest.subject} #{quest.score}" data-author="by #{quest.author}" dangerouslySetInnerHTML={__html: name} />
 			<div className="download" />
 			<div className="quest__text" dangerouslySetInnerHTML={__html: text} />
 			<footer>
@@ -80,11 +80,49 @@ Quest = React.createClass
 
 Quests = React.createClass
 
+	getInitialState: ->
+		quests: []
+
+	componentDidMount: ->
+		do NProgress.start
+		$.ajax
+			url: "http://fhq.keva.su/api/quests/list.php?token=#{baseData.user.token}"
+			dataType: "json"
+			cache: true
+			success: ((response) ->
+				if response.result is "ok"
+
+					quests = []
+					for quest in response.data
+						quest.author ||= "Nitive"
+						quest.text ||= "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
+						quests.push quest
+
+					@setState quests: quests
+
+					# for quest in quests
+					# 	$.post "http://fhq.keva.su/api/quests/get.php?taskid=#{quest.questid}&token=#{baseData.user.token}", ((response) ->
+					# 		if response.result is "ok"
+					# 			quests[response.questid].text = response.data.text or ""
+					# 			@setState
+					# 				quests: quests
+					# 		else
+					# 	).bind this
+					do NProgress.done
+				else
+					alert "Error #3.\n#{response.error["message"]}.\nSend feedback please"
+			).bind this
+			error: -> alert "Error #2. Send feedback please"
+
 	render: ->
 		filterText = @props.filterText.toLowerCase().trim()
-		data = baseData.quests
-			.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.title.toLowerCase().indexOf(filterText) != -1)
-			.map (e, i) -> <Quest filterText={filterText} data={e} />
+		data =
+			if @state.quests isnt []
+				@state.quests
+					.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.name.toLowerCase().indexOf(filterText) != -1)
+					.map (e, i) -> <Quest filterText={filterText} data={e} />
+			else
+				[]
 
 		center = data.length // 2
 		center += 1 if data.length % 2 != 0
@@ -101,15 +139,21 @@ Quests = React.createClass
 
 PageHeader = React.createClass
 
+	_paper: undefined
+
 	componentDidMount: ->
 		loadIcon ".navicon", icons.navicon
-		icons.pageHeader[@props.title] Snap React.findDOMNode @refs.pageIcon
+		@_paper = Snap React.findDOMNode @refs.pageIcon
+		try
+			icons.pageHeader[@props.title] Snap React.findDOMNode @refs.pageIcon
+		catch e
+			console.warn "Нет иконки #{@props.title}"
 
 	componentDidUpdate: ->
-		paper = Snap React.findDOMNode @refs.pageIcon
-		do paper.clear
+		document.title = "FHQ | #{@props.title.charAt(0).toUpperCase()}#{@props.title.slice 1}"
+		do @_paper.clear
 		try
-			icons.pageHeader[@props.title] paper
+			icons.pageHeader[@props.title] @_paper
 		catch e
 			console.warn "Нет иконки #{@props.title}"
 
@@ -158,6 +202,7 @@ FilterableQuests = React.createClass
 			filterText: filterText
 
 	render: ->
+
 		<div>
 			<SearchBar
 				filterText={@state.filterText}
@@ -190,9 +235,10 @@ Games = React.createClass
 	setCurrentGame: (id) ->
 		if @state.currentGame isnt id
 			do NProgress.start
-			$.get "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", ((result) ->
+			$.post "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", ((result) ->
 				if result.result is "ok"
 					@setState currentGame: id
+					currentGame = id
 					do NProgress.done
 			).bind this
 
@@ -226,6 +272,18 @@ Games = React.createClass
 		</div>
 
 
+ActiveGame = React.createClass
+
+	render: ->
+		id = @props.params.gameId
+		$.post "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", (result) ->
+			if result.result is "ok"
+				currentGame = id
+
+		<RouteHandler />
+
+
+
 Rating = React.createClass
 
 	render: ->
@@ -254,7 +312,7 @@ NavMenu = React.createClass
 				strokeWidth: 1.2
 
 	render: ->
-		game = {id: 1}
+		game = {gameId: currentGame}
 		<nav className="nav-menu">
 			<header>
 				<h1>Nitive</h1>
@@ -308,7 +366,7 @@ MainContainer = React.createClass
 App = React.createClass
 
 	componentDidMount: ->
-		document.title = "FHQ | #{currentPage.title}"
+		document.title = "FHQ"
 		do NProgress.done
 
 	render: ->
@@ -326,8 +384,8 @@ routes =
 			<Route path="profile" name="profile" handler={Profile} />
 			<Route path="games" name="games" handler={Games} />
 			<Route path="news" name="news" handler={News} />
-			<Route path="game/:id">
-				<DefaultRoute name="quests" handler={FilterableQuests} />
+			<Route path="game/:gameId" handler={ActiveGame}>
+				<Route path="quests" name="quests" handler={FilterableQuests} />
 				<Route path="starred" name="starred" handler={Starred} />
 				<Route path="rating" name="rating" handler={Rating} />
 			</Route>
