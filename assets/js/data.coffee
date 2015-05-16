@@ -1,61 +1,31 @@
+$ = require 'jquery'
+
+u = require './utilities.coffee'
+
+# $.ajax({
+# 	type: 'POST',
+# 	url: url,
+# 	data: data,
+# 	success: success,
+# 	dataType: dataType,
+# 	async:false
+# })
+
+
+
+# $.post "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq", (response) ->
+# 	if token then return token
+# 	if response.result = "ok"
+# 		token = response.data.token
+# 	else
+# 		alert "Authorization error"
+
+# $.post "http://fhq.keva.su/api/games/list.php?token=0C73BEA8-B080-4B87-6E82-00F325F122FB", (result) ->
+# 	if result.result = "ok"
+# 		currentGame = result.current_game
+
 # get data from server here
-module.exports = {
-	quests: [
-		{
-			title: "Sudoku"
-			author: "sea-kg"
-			subject: "crypto"
-			text: "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non.![test](http://placehold.it/700x300)"
-			file: null
-			score: 100
-			solved: 8
-		}
-		{
-			title: "Terrorists"
-			author: "by.smirnowmaks"
-			subject: "forensic"
-			text: "Doloribus expedita hic reiciendis eum, at ab consectetur quidem ducimus sequi.![test](http://placehold.it/1000x300) Consequuntur eos quas dignissimos incidunt assumenda dicta et quisquam tenetur. Vitae, mollitia fuga sequi omnis, sint earum possimus odit cumque? Nulla?"
-			file: null
-			score: 200
-			solved: 14
-		}
-		{
-			title: "Maximus"
-			author: "IS_Chaser"
-			subject: "forensic"
-			text: "Provident voluptatibus consequatur a modi, accusamus molestiae atque debitis repellendus nostrum rerum dolores quas ipsam ex obcaecati necessitatibus nulla quasi.  \n![test](http://placehold.it/100x100)  \nTemporibus cumque perspiciatis omnis molestiae praesentium rem mollitia, necessitatibus ipsam, vero ut."
-			file: null
-			score: 500
-			solved: 0
-		}
-		{
-			title: "Mikki"
-			author: "sea-kg"
-			subject: "reverse"
-			text: "Sed obcaecati recusandae, molestiae eos suscipit quod, natus dolorem facilis ipsam sunt, inventore aut."
-			file: null
-			score: 300
-			solved: 123
-		}
-		{
-			title: "Aliens"
-			author: "sea-kg"
-			subject: "stego"
-			text: "Quos ullam, tempore asperiores quae provident debitis ut repellat excepturi sapiente voluptatum illum magnam, ab saepe accusantium earum voluptatibus quibusdam eaque."
-			file: null
-			score: 500
-			solved: 999
-		}
-		{
-			title: "Small data"
-			author: "sea-kg"
-			subject: "ppc"
-			text: "Assumenda ipsa ex nisi illum impedit, minima quod deleniti enim."
-			file: null
-			score: 200
-			solved: 214552
-		}
-	]
+baseData =
 	rating: [
 		{
 			name: "keva"
@@ -95,6 +65,24 @@ module.exports = {
 	]
 	user:
 		name: "Nitive"
-		token: "0C73BEA8-B080-4B87-6E82-00F325F122FB"
+		token: null
+		currentGame: 0
 
-}
+
+u.postSync "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq",
+	(response) ->
+		if response.result is "ok"
+			baseData.user.token = response.data.token
+			console.log "Token is #{baseData.user.token} now"
+		else
+			console.warn "Authorization error"
+
+u.postSync "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}",
+	(response) ->
+		if response.result is "ok"
+			baseData.user.currentGame = response.current_game
+			console.log "Current game is #{baseData.user.currentGame} now"
+		else
+			console.warn "getting current game error"
+
+module.exports = baseData

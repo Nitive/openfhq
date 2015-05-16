@@ -16,12 +16,6 @@ NProgress = require 'nprogress'
 icons = require "./icons.coffee"
 baseData = require "./data.coffee"
 
-currentGame = 0
-$.post "http://fhq.keva.su/api/games/list.php?token=0C73BEA8-B080-4B87-6E82-00F325F122FB", (result) ->
-	if result.result = "ok"
-		currentGame = result.current_game
-
-
 do NProgress.start
 
 
@@ -89,8 +83,9 @@ Quests = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
+		url = "http://fhq.keva.su/api/quests/list.php?token=#{baseData.user.token}"
 		$.ajax
-			url: "http://fhq.keva.su/api/quests/list.php?token=#{baseData.user.token}"
+			url: url
 			dataType: "json"
 			cache: true
 			success: ((response) ->
@@ -106,7 +101,7 @@ Quests = React.createClass
 					do NProgress.done
 
 				else
-					alert "Error #3.\n#{response.error["message"]}.\nSend feedback please"
+					console.warn "Error while #{url} #Quests -> componentDidMount"
 
 			).bind this
 			error: -> alert "Error #2. Send feedback please"
@@ -232,11 +227,15 @@ Games = React.createClass
 	setCurrentGame: (id) ->
 		if @state.currentGame isnt id
 			do NProgress.start
-			$.post "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", ((result) ->
-				if result.result is "ok"
+			url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
+			$.post url, ((response) ->
+				if response.result is "ok"
 					@setState currentGame: id
-					currentGame = id
+					baseData.user.currentGame = id
 					do NProgress.done
+				else
+					console.warn "Error while #{url} #Games -> setCurrentGame"
+					console.log response
 			).bind this
 
 	componentWillMount: ->
@@ -244,8 +243,9 @@ Games = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
+		url = "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}"
 		$.ajax
-			url: "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}"
+			url: url
 			dataType: "json"
 			cache: true
 			success: ((result) ->
@@ -255,7 +255,7 @@ Games = React.createClass
 						currentGame: result.current_game
 					do NProgress.done
 			).bind this
-			error: -> alert "Error #1. Send feedback please"
+			error: -> console.warn "Error while #{url} #Games -> componentDidMount"
 
 	render: ->
 
@@ -273,9 +273,12 @@ ActiveGame = React.createClass
 
 	render: ->
 		id = @props.params.gameId
-		$.post "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}", (result) ->
-			if result.result is "ok"
-				currentGame = id
+		url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
+		$.post url, (response) ->
+			if response.result is "ok"
+				baseData.user.currentGame = id
+			else
+				console.warn "Error while #{url} #ActiveGame -> render"
 
 		<RouteHandler />
 
@@ -309,7 +312,7 @@ NavMenu = React.createClass
 				strokeWidth: 1.2
 
 	render: ->
-		game = {gameId: currentGame}
+		game = {gameId: baseData.user.currentGame}
 		<nav className="nav-menu">
 			<header>
 				<h1>Nitive</h1>
