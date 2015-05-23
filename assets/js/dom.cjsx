@@ -228,7 +228,7 @@ Games = React.createClass
 		if @state.currentGame isnt id
 			do NProgress.start
 			url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
-			$.post url, ((response) ->
+			$.get url, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
 					baseData.user.currentGame = id
@@ -274,7 +274,7 @@ ActiveGame = React.createClass
 	render: ->
 		id = @props.params.gameId
 		url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
-		$.post url, (response) ->
+		$.get url, (response) ->
 			if response.result is "ok"
 				baseData.user.currentGame = id
 			else
