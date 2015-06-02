@@ -1,6 +1,7 @@
 React = require "react"
 Router = require "react-router"
 $ = require "jquery"
+Cookie = require "js-cookie"
 
 DefaultRoute = Router.DefaultRoute
 Link = Router.Link
@@ -83,7 +84,7 @@ Quests = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "http://fhq.keva.su/api/quests/list.php?token=#{baseData.user.token}"
+		url = "http://fhq.keva.su/api/quests/list.php?token=#{Cookie.get 'token'}"
 		$.ajax
 			url: url
 			dataType: "json"
@@ -221,21 +222,21 @@ Game = React.createClass
 Games = React.createClass
 
 	getInitialState: ->
+		console.log "Games#getInitialState: #{Cookie.get 'currentGame'}"
 		data: []
-		currentGame: 0
+		currentGame: Cookie.get 'currentGame'
 
 	setCurrentGame: (id) ->
 		if @state.currentGame isnt id
 			do NProgress.start
-			url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
+			url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
 			$.get url, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
-					baseData.user.currentGame = id
+					Cookie.set 'currentGame', id
 					do NProgress.done
 				else
 					console.warn "Error while #{url} #Games -> setCurrentGame"
-					console.log response
 			).bind this
 
 	componentWillMount: ->
@@ -243,7 +244,7 @@ Games = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}"
+		url = "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}"
 		$.ajax
 			url: url
 			dataType: "json"
@@ -258,7 +259,7 @@ Games = React.createClass
 			error: -> console.warn "Error while #{url} #Games -> componentDidMount"
 
 	render: ->
-
+		console.log "Games#render"
 		games = []
 		$.each @state.data, ((key, value) ->
 			games.push <Game isCurrent={value.id is @state.currentGame} handleClick={@setCurrentGame.bind(this, value.id)} data={value} />
@@ -273,10 +274,11 @@ ActiveGame = React.createClass
 
 	render: ->
 		id = @props.params.gameId
-		url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{baseData.user.token}"
+		console.log "ActiveGame: #{id}"
+		url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
 		$.get url, (response) ->
 			if response.result is "ok"
-				baseData.user.currentGame = id
+				Cookie.set 'currentGame', id
 			else
 				console.warn "Error while #{url} #ActiveGame -> render"
 
@@ -312,7 +314,8 @@ NavMenu = React.createClass
 				strokeWidth: 1.2
 
 	render: ->
-		game = {gameId: baseData.user.currentGame}
+		gameParams = {gameId: Cookie.get 'currentGame'}
+		console.log "NavMenu: #{gameParams.gameId}"
 		<nav className="nav-menu">
 			<header>
 				<h1>Nitive</h1>
@@ -320,12 +323,12 @@ NavMenu = React.createClass
 			</header>
 			<ul>
 				<li><Link to="profile">Profile</Link></li>
-				<li><Link to="starred" params={game}>Starred</Link></li>
+				<li><Link to="starred" params={gameParams}>Starred</Link></li>
 			</ul>
 			<ul>
-				<li><Link to="quests" params={game}>Quests</Link></li>
+				<li><Link to="quests" params={gameParams}>Quests</Link></li>
 				<li><Link to="games">Games</Link></li>
-				<li><Link to="rating" params={game}>Rating</Link></li>
+				<li><Link to="rating" params={gameParams}>Rating</Link></li>
 				<li><Link to="news">News</Link></li>
 			</ul>
 		</nav>

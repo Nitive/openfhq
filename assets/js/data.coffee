@@ -1,30 +1,8 @@
 $ = require 'jquery'
+Cookie = require "js-cookie"
 
 u = require './utilities.coffee'
 
-# $.ajax({
-# 	type: 'POST',
-# 	url: url,
-# 	data: data,
-# 	success: success,
-# 	dataType: dataType,
-# 	async:false
-# })
-
-
-
-# $.post "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq", (response) ->
-# 	if token then return token
-# 	if response.result = "ok"
-# 		token = response.data.token
-# 	else
-# 		alert "Authorization error"
-
-# $.post "http://fhq.keva.su/api/games/list.php?token=0C73BEA8-B080-4B87-6E82-00F325F122FB", (result) ->
-# 	if result.result = "ok"
-# 		currentGame = result.current_game
-
-# get data from server here
 baseData =
 	rating: [
 		{
@@ -63,25 +41,18 @@ baseData =
 			country: "Germany"
 		}
 	]
-	user:
-		name: "Nitive"
-		token: null
-		currentGame: 0
-
 
 u.postSync "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq",
 	(response) ->
 		if response.result is "ok"
-			baseData.user.token = response.data.token
-			console.log "Token is #{baseData.user.token} now"
+			Cookie.set 'token', response.data.token
 		else
 			console.warn "Authorization error"
 
-u.postSync "http://fhq.keva.su/api/games/list.php?token=#{baseData.user.token}",
+u.postSync "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}",
 	(response) ->
 		if response.result is "ok"
-			baseData.user.currentGame = response.current_game
-			console.log "Current game is #{baseData.user.currentGame} now"
+			Cookie.set 'currentGame', response.current_game
 		else
 			console.warn "getting current game error"
 
