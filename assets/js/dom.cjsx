@@ -53,7 +53,7 @@ Quest = React.createClass
 		filter = @props.filterText.replace /[^\w\s]/gi, ""
 
 		name = quest.name
-		text = marked quest.text
+		text = (marked quest.text).replace /src="(?!http:\/\/)/, 'src="http://fhq.keva.su/'
 
 		try
 			re = new RegExp "(#{filter})", "ig"
