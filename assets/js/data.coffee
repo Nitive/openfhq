@@ -42,18 +42,20 @@ baseData =
 		}
 	]
 
-u.postSync "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq",
-	(response) ->
-		if response.result is "ok"
-			Cookie.set 'token', response.data.token
-		else
-			console.warn "Authorization error"
+unless Cookie.get 'token'
+	u.postSync "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq",
+		(response) ->
+			if response.result is "ok"
+				Cookie.set 'token', response.data.token
+			else
+				console.warn "Authorization error"
 
-u.postSync "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}",
-	(response) ->
-		if response.result is "ok"
-			Cookie.set 'currentGame', response.current_game
-		else
-			console.warn "getting current game error"
+unless Cookie.get 'currentGame'
+	u.postSync "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}",
+		(response) ->
+			if response.result is "ok"
+				Cookie.set 'currentGame', response.current_game
+			else
+				console.warn "getting current game error"
 
 module.exports = baseData

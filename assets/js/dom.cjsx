@@ -17,6 +17,8 @@ NProgress = require 'nprogress'
 icons = require "./icons.coffee"
 baseData = require "./data.coffee"
 
+u = require './utilities.coffee'
+
 do NProgress.start
 
 
@@ -232,7 +234,7 @@ Games = React.createClass
 			$.get url, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
-					Cookie.set 'currentGame', id
+					u.setCookie 'currentGame', id
 					do NProgress.done
 				else
 					console.warn "Error while #{url} #Games -> setCurrentGame"
