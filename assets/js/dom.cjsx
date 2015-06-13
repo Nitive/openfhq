@@ -222,7 +222,6 @@ Game = React.createClass
 Games = React.createClass
 
 	getInitialState: ->
-		console.log "Games#getInitialState: #{Cookie.get 'currentGame'}"
 		data: []
 		currentGame: Cookie.get 'currentGame'
 
@@ -253,13 +252,12 @@ Games = React.createClass
 				if result.result is "ok"
 					@setState
 						data: result.data
-						currentGame: result.current_game
+						currentGame: Cookie.get 'currentGame'
 					do NProgress.done
 			).bind this
 			error: -> console.warn "Error while #{url} #Games -> componentDidMount"
 
 	render: ->
-		console.log "Games#render"
 		games = []
 		$.each @state.data, ((key, value) ->
 			games.push <Game isCurrent={value.id is @state.currentGame} handleClick={@setCurrentGame.bind(this, value.id)} data={value} />
@@ -268,22 +266,6 @@ Games = React.createClass
 		<div className="games">
 			{games}
 		</div>
-
-
-ActiveGame = React.createClass
-
-	render: ->
-		id = @props.params.gameId
-		console.log "ActiveGame: #{id}"
-		url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
-		$.get url, (response) ->
-			if response.result is "ok"
-				Cookie.set 'currentGame', id
-			else
-				console.warn "Error while #{url} #ActiveGame -> render"
-
-		<RouteHandler />
-
 
 
 Rating = React.createClass
@@ -314,8 +296,6 @@ NavMenu = React.createClass
 				strokeWidth: 1.2
 
 	render: ->
-		gameParams = {gameId: Cookie.get 'currentGame'}
-		console.log "NavMenu: #{gameParams.gameId}"
 		<nav className="nav-menu">
 			<header>
 				<h1>Nitive</h1>
@@ -323,12 +303,12 @@ NavMenu = React.createClass
 			</header>
 			<ul>
 				<li><Link to="profile">Profile</Link></li>
-				<li><Link to="starred" params={gameParams}>Starred</Link></li>
+				<li><Link to="starred">Starred</Link></li>
 			</ul>
 			<ul>
-				<li><Link to="quests" params={gameParams}>Quests</Link></li>
+				<li><Link to="quests">Quests</Link></li>
 				<li><Link to="games">Games</Link></li>
-				<li><Link to="rating" params={gameParams}>Rating</Link></li>
+				<li><Link to="rating">Rating</Link></li>
 				<li><Link to="news">News</Link></li>
 			</ul>
 		</nav>
@@ -387,11 +367,10 @@ routes =
 			<Route path="profile" name="profile" handler={Profile} />
 			<Route path="games" name="games" handler={Games} />
 			<Route path="news" name="news" handler={News} />
-			<Route path="game/:gameId" handler={ActiveGame}>
-				<Route path="quests" name="quests" handler={FilterableQuests} />
-				<Route path="starred" name="starred" handler={Starred} />
-				<Route path="rating" name="rating" handler={Rating} />
-			</Route>
+			<Route path="quests" name="quests" handler={FilterableQuests} />
+			<Route path="starred" name="starred" handler={Starred} />
+			<Route path="rating" name="rating" handler={Rating} />
+
 			<Redirect from="*" to="games" /> # 404 to games
 		</Route>
 	</Route>
