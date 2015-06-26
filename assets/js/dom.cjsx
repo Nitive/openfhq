@@ -40,7 +40,7 @@ Quest = React.createClass
 			.attr
 				fill: "none"
 				stroke: "#343d46"
-				strokeWidth: 3.0
+				strokeWidth: 3
 
 		icons.quest.submit Snap React.findDOMNode @refs.submit
 
@@ -289,12 +289,10 @@ NavMenu = React.createClass
 		sn.circle 14, 14, 13
 			.attr
 				fill: "#000"
-				stroke: "#00e090"
 				strokeWidth: 1.2
 		sn.path "M8,11 L14,18 L20,11"
 			.attr
 				fill: "none"
-				stroke: "#00e090"
 				strokeWidth: 1.2
 
 	render: ->

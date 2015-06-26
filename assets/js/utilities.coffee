@@ -2,6 +2,8 @@ $ = require 'jquery'
 Cookie = require "js-cookie"
 
 module.exports =
+	colors:
+		linkColor: "#00e090"
 	postSync: (url, success) ->
 		$.ajax
 			type: "POST"
