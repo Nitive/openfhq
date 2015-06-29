@@ -22,6 +22,13 @@ u = require './utilities.coffee'
 do NProgress.start
 
 
+$(document).on 'click', '.page-header', ->
+	themes = ['standart', 'violet'].map (e) -> "theme_#{e}.css"
+	$('link[href^=theme]').attr 'href', (i, value) ->
+		next = themes.indexOf(value) + 1
+		themes[if next >= themes.length then 0 else next]
+
+
 random = (min, max) -> Math.floor do Math.random * (max - min) + min
 loadIcon = (querySelector, file) ->
 	s = Snap querySelector
