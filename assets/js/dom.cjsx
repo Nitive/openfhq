@@ -44,10 +44,6 @@ Quest = React.createClass
 		opened: @props.data.opened or no
 
 	componentDidMount: ->
-		if $(@.getDOMNode()).find('.quest__text').height() < 73
-			@props.data.opened = yes
-			@setState just: "update"
-
 		sn = Snap React.findDOMNode @refs.footer
 		sn.path "M 2,10 L 17,24 32,10"
 			.attr
