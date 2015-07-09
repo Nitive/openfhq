@@ -18,6 +18,7 @@ icons = require "./icons.coffee"
 baseData = require "./data.coffee"
 
 u = require './utilities.coffee'
+api = require './api.coffee'
 
 do NProgress.start
 
@@ -97,28 +98,22 @@ Quests = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "#{u.domen}/api/quests/list.php?token=#{Cookie.get 'token'}"
-		$.ajax
-			url: url
-			dataType: "json"
-			cache: true
-			success: ((response) ->
-				if response.result is "ok"
+		api.quests.list ((response) ->
+			if response.result is "ok"
 
-					quests = []
-					for quest in response.data
-						quest.author ||= "Author"
-						quest.text ||= "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
-						quests.push quest
+				quests = []
+				for quest in response.data
+					quest.author ||= "Author"
+					quest.text ||= "**Necessitatibus** facere excepturi ~~fuga~~ cum _tenetur_ ipsa `corporis perferendis` deleniti deserunt, officia expedita saepe voluptate aperiam non."
+					quests.push quest
 
-					@setState quests: quests
-					do NProgress.done
+				@setState quests: quests
+				do NProgress.done
 
-				else
-					console.warn "Error while #{url} #Quests -> componentDidMount"
+			else
+				console.warn "Error while #{url} #Quests -> componentDidMount"
 
-			).bind this
-			error: -> alert "Error #2. Send feedback please"
+		).bind this
 
 	render: ->
 		filterText = @props.filterText.toLowerCase().trim()
@@ -242,7 +237,7 @@ Games = React.createClass
 		if @state.currentGame isnt id
 			do NProgress.start
 			url = "#{u.domen}/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
-			$.get url, ((response) ->
+			api.games.choose id, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
 					u.setCookie 'currentGame', id
@@ -257,18 +252,13 @@ Games = React.createClass
 	componentDidMount: ->
 		do NProgress.start
 		url = "#{u.domen}/api/games/list.php?token=#{Cookie.get 'token'}"
-		$.ajax
-			url: url
-			dataType: "json"
-			cache: true
-			success: ((result) ->
-				if result.result is "ok"
-					@setState
-						data: result.data
-						currentGame: Cookie.get 'currentGame'
-					do NProgress.done
-			).bind this
-			error: -> console.warn "Error while #{url} #Games -> componentDidMount"
+		api.games.list ((result) ->
+			if result.result is "ok"
+				@setState
+					data: result.data
+					currentGame: Cookie.get 'currentGame'
+				do NProgress.done
+		).bind this
 
 	render: ->
 		games = []
