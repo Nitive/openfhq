@@ -14,8 +14,8 @@ Snap = require 'snapsvg'
 marked = require 'marked'
 NProgress = require 'nprogress'
 
-icons = require "./icons.coffee"
-baseData = require "./data.coffee"
+icons = require './icons.coffee'
+baseData = require './data.coffee'
 
 u = require './utilities.coffee'
 api = require './api.coffee'
@@ -54,11 +54,15 @@ Quest = React.createClass
 				stroke: "#343d46"
 				strokeWidth: 3
 
-		icons.quest.submit Snap React.findDOMNode @refs.submit
+		@cat = icons.quest.submit Snap React.findDOMNode @refs.submit
 
-	handleClick: ->
+	toggle: ->
 		@props.data.opened = not @props.data.opened
 		@setState just: "update"
+
+	submitQuest: (e) ->
+		if e.type is 'keypress' and e.which is 13 or e.type is 'click' # if enter or click
+			@cat.submitQuest true
 
 	render: ->
 		quest = @props.data
@@ -82,10 +86,10 @@ Quest = React.createClass
 			<div className="download" />
 			<div className="quest__text" dangerouslySetInnerHTML={__html: text} />
 			<footer>
-				<div onClick={@handleClick} className="footer-arrow"><svg ref="footer" /></div>
+				<div onClick={@toggle} className="footer-arrow"><svg ref="footer" /></div>
 				<div className="footer-right">
-					<input type="text" placeholder="Type your flag..." />
-					<svg className="submit-quest" ref="submit" />
+					<input type="text" placeholder="Type your flag..." onKeyPress={@submitQuest} />
+					<svg className="submit-quest" ref="submit" onClick={@submitQuest} />
 				</div>
 			</footer>
 		</article>

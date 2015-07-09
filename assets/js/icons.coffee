@@ -35,14 +35,12 @@ submitQuestIcon = (paper) ->
 			100
 			mina.ease
 
-	paper.mousedown (e) ->
+	paper.submitQuest = (rightFlag) ->
 		if smClicking then return
 		smClicking = yes
-		rightFlag = Math.random() > .5
 		bg.stop()
 		path.stop()
-		bgColor =
-		if rightFlag then "#00e090" else "#f22e3e"
+		bgColor = if rightFlag then "#00e090" else "#f22e3e"
 		path.attr
 			fill: "#fff"
 		bg.attr
@@ -67,6 +65,8 @@ submitQuestIcon = (paper) ->
 					mina.lineal
 					->
 						smClicking = no
+
+	paper
 
 
 questsIcon = (paper) ->
