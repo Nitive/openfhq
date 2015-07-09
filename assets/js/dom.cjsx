@@ -128,13 +128,10 @@ Quests = React.createClass
 
 	render: ->
 		filterText = @props.filterText.toLowerCase().trim()
-		data =
-			if @state.quests isnt []
-				@state.quests
-					.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.name.toLowerCase().indexOf(filterText) != -1)
-					.map (e, i) -> <Quest filterText={filterText} data={e} />
-			else
-				[]
+		data = @state.quests
+			.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.name.toLowerCase().indexOf(filterText) != -1)
+			.map (e, i) -> <Quest filterText={filterText} data={e} />
+		console.log data
 
 		center = data.length // 2
 		center += 1 if data.length % 2 != 0
@@ -146,6 +143,7 @@ Quests = React.createClass
 			<div>
 				{data[center..]}
 			</div>
+			{if data.length is 0 then <center>Nothing is here...</center>}
 		</div>
 
 
