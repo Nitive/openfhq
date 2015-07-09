@@ -43,7 +43,7 @@ baseData =
 	]
 
 unless Cookie.get 'token'
-	u.postSync "http://fhq.keva.su/api/security/login.php?email=nitive@icloud.com&password=523105fd&client=openfhq",
+	u.postSync "#{u.domen}/api/security/login.php", email: 'nitive@icloud.com', password: 'fb827d8d', client: 'openfhq',
 		(response) ->
 			if response.result is "ok"
 				Cookie.set 'token', response.data.token
@@ -51,7 +51,7 @@ unless Cookie.get 'token'
 				console.warn "Authorization error"
 
 unless Cookie.get 'currentGame'
-	u.postSync "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}",
+	u.postSync "#{u.domen}/api/games/list.php", token: Cookie.get 'token',
 		(response) ->
 			if response.result is "ok"
 				Cookie.set 'currentGame', response.current_game

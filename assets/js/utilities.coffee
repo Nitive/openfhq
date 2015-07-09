@@ -2,10 +2,12 @@ $ = require 'jquery'
 Cookie = require "js-cookie"
 
 module.exports =
-	postSync: (url, success) ->
+	domen: "http://fhq.sea-kg.com"
+	postSync: (url, data, success) ->
 		$.ajax
 			type: "POST"
 			url: url
+			data: data
 			success: success
 			dataType: "json"
 			async: false

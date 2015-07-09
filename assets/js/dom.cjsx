@@ -42,6 +42,10 @@ Quest = React.createClass
 		opened: @props.data.opened or no
 
 	componentDidMount: ->
+		if $(@.getDOMNode()).find('.quest__text').height() < 73
+			@props.data.opened = yes
+			@setState just: "update"
+
 		sn = Snap React.findDOMNode @refs.footer
 		sn.path "M 2,10 L 17,24 32,10"
 			.attr
@@ -60,7 +64,7 @@ Quest = React.createClass
 		filter = @props.filterText.replace /[^\w\s]/gi, ""
 
 		name = quest.name
-		text = (marked quest.text).replace /src="(?!http:\/\/)/, 'src="http://fhq.keva.su/'
+		text = (marked quest.text).replace /src="(?!http:\/\/)/, 'src="#{u.domen}/'
 
 		try
 			re = new RegExp "(#{filter})", "ig"
@@ -93,7 +97,7 @@ Quests = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "http://fhq.keva.su/api/quests/list.php?token=#{Cookie.get 'token'}"
+		url = "#{u.domen}/api/quests/list.php?token=#{Cookie.get 'token'}"
 		$.ajax
 			url: url
 			dataType: "json"
@@ -222,7 +226,7 @@ Game = React.createClass
 		<article className="game">
 			<h4 data-info="#{@props.data.type_game}, #{@props.data.state}, #{@props.data.form}" data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
 			<figure className="game__imgblock">
-				<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "http://fhq.keva.su/#{@props.data.logo}" } className="game__logo" />
+				<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "#{u.domen}/#{@props.data.logo}" } className="game__logo" />
 				<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable'} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
 			</figure>
 			<div className="game__text" dangerouslySetInnerHTML={__html: @props.data.description} />
@@ -237,7 +241,7 @@ Games = React.createClass
 	setCurrentGame: (id) ->
 		if @state.currentGame isnt id
 			do NProgress.start
-			url = "http://fhq.keva.su/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
+			url = "#{u.domen}/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
 			$.get url, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
@@ -252,7 +256,7 @@ Games = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "http://fhq.keva.su/api/games/list.php?token=#{Cookie.get 'token'}"
+		url = "#{u.domen}/api/games/list.php?token=#{Cookie.get 'token'}"
 		$.ajax
 			url: url
 			dataType: "json"
