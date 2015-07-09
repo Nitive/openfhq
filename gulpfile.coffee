@@ -126,7 +126,7 @@ gulp.task 'stylus', ->
 	gulp.src(paths.stylus)
 		.pipe plumber errorHandler: notify.onError "Error: <%= error.message %>"
 		.pipe gulpif production, rename (path) -> path.basename = path.basename.replace '_', ''
-		.pipe gulpif !production, ignore.exclude /_.*\.styl$/
+		.pipe gulpif !production, ignore.exclude /^_.*\.styl$/
 		.pipe gulpif not production, sourcemaps.init()
 		.pipe stylus
 			'include css': true

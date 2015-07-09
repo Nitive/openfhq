@@ -13,6 +13,7 @@ NotFoundRoute = Router.NotFoundRoute
 Snap = require 'snapsvg'
 marked = require 'marked'
 NProgress = require 'nprogress'
+humane = require 'humane-js'
 
 icons = require './icons.coffee'
 baseData = require './data.coffee'
@@ -62,7 +63,16 @@ Quest = React.createClass
 
 	submitQuest: (e) ->
 		if e.type is 'keypress' and e.which is 13 or e.type is 'click' # if enter or click
-			@cat.submitQuest true
+			answer = @refs.flagInput.getDOMNode().value
+			if answer
+				api.quests.pass @props.data.questid, answer, ((response) ->
+					if response.result is 'ok'
+						@cat.submitQuest yes
+					else if response.result is 'fail'
+						@cat.submitQuest no
+						notify = do humane.create
+						notify.log baseData.errors[response.error.code] or response.error.message
+				).bind this
 
 	render: ->
 		quest = @props.data
@@ -88,7 +98,7 @@ Quest = React.createClass
 			<footer>
 				<div onClick={@toggle} className="footer-arrow"><svg ref="footer" /></div>
 				<div className="footer-right">
-					<input type="text" placeholder="Type your flag..." onKeyPress={@submitQuest} />
+					<input type="text" ref='flagInput' placeholder="Type your flag..." onKeyPress={@submitQuest} />
 					<svg className="submit-quest" ref="submit" onClick={@submitQuest} />
 				</div>
 			</footer>
@@ -113,9 +123,6 @@ Quests = React.createClass
 
 				@setState quests: quests
 				do NProgress.done
-
-			else
-				console.warn "Error while #{url} #Quests -> componentDidMount"
 
 		).bind this
 
@@ -226,7 +233,7 @@ Game = React.createClass
 			<h4 data-info="#{@props.data.type_game}, #{@props.data.state}, #{@props.data.form}" data-orgs=" by #{@props.data.organizators}" className="game__title">{@props.data.title}</h4>
 			<figure className="game__imgblock">
 				<img src={unless @props.data.logo.indexOf("http") then @props.data.logo else "#{u.domen}/#{@props.data.logo}" } className="game__logo" />
-				<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable'} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
+				<div onClick={@props.handleClick} className="game__choose-btn #{if @props.isCurrent then 'game__choose-btn--disable' else ''} transparent-button">{if @props.isCurrent then 'Chosen' else 'Choose'}</div>
 			</figure>
 			<div className="game__text" dangerouslySetInnerHTML={__html: @props.data.description} />
 		</article>
@@ -240,14 +247,11 @@ Games = React.createClass
 	setCurrentGame: (id) ->
 		if @state.currentGame isnt id
 			do NProgress.start
-			url = "#{u.domen}/api/games/choose.php?id=#{id}&token=#{Cookie.get 'token'}"
 			api.games.choose id, ((response) ->
 				if response.result is "ok"
 					@setState currentGame: id
 					u.setCookie 'currentGame', id
 					do NProgress.done
-				else
-					console.warn "Error while #{url} #Games -> setCurrentGame"
 			).bind this
 
 	componentWillMount: ->
@@ -255,7 +259,6 @@ Games = React.createClass
 
 	componentDidMount: ->
 		do NProgress.start
-		url = "#{u.domen}/api/games/list.php?token=#{Cookie.get 'token'}"
 		api.games.list ((result) ->
 			if result.result is "ok"
 				@setState

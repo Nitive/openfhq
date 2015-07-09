@@ -4,6 +4,10 @@ Cookie = require "js-cookie"
 u = require './utilities.coffee'
 
 baseData =
+	errors:
+		1216: 'Answer incorrect'
+		1217: 'Quest already passed'
+		1318: 'Your already try this answer'
 	rating: [
 		{
 			name: "keva"

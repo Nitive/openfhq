@@ -27,6 +27,11 @@ module.exports =
 
 	quests:
 
+		pass: (questid, answer, callback) ->
+			url = "#{u.domen}/api/quests/pass.php"
+			data = questid: questid, answer: answer, token: Cookie.get 'token'
+			$.post url, data, callback
+
 		list: (success) ->
 			url = "#{u.domen}/api/quests/list.php"
 			data = token: Cookie.get 'token'
