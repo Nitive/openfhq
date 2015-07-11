@@ -1,38 +1,38 @@
 // colors
-main-dark-bg = #343d46
-main-light-bg = #c0c5ce
-link-color = #00e090
-dim-link = #0e775f
+main-dark-bg ?= #343d46
+main-light-bg ?= #c0c5ce
+link-color ?= #00e090
+dim-link ?= #0e775f
 
 // font
-font-min-size = 20
-font-max-size = 25
-font-max-screen-height = 1440
-font-min-screen-height = 320
+font-min-size ?= 20
+font-max-size ?= 25
+font-max-screen-height ?= 1440
+font-min-screen-height ?= 320
 
 // for font-weight
 ultra-light = 200
 light = 400
 
 // main page
-nav-menu-width = 228px
-info-menu-width = 227px
-max-screen = 1440px
-header-height = 60px
-hide-info-menu = 1100px
-hide-nav-menu = 600px
-footer-height = 100px
-fast = .2s
-normal = .4s
-slow = .6s
-separator = linear-gradient(to left, alpha(link-color, 0) 0%, link-color 19%, link-color 83%, alpha(link-color, 0) 100%)
-hover-gradient = radial-gradient(35% 120%, alpha(link-color, .2) 10%, alpha(link-color, 0) 120%)
+nav-menu-width ?= 228px
+info-menu-width ?= 227px
+max-screen ?= 1440px
+header-height ?= 60px
+hide-info-menu ?= 1100px
+hide-nav-menu ?= 600px
+footer-height ?= 100px
+fast ?= .2s
+normal ?= .4s
+slow ?= .6s
+separator ?= linear-gradient(to left, alpha(link-color, 0) 0%, link-color 19%, link-color 83%, alpha(link-color, 0) 100%)
+hover-gradient ?= radial-gradient(35% 120%, alpha(link-color, .2) 10%, alpha(link-color, 0) 120%)
 
-nprogress-color = link-color
+nprogress-color ?= link-color
 
-easeInOutBack = cubic-bezier(0.68, -0.25, 0.265, 1.25)
+easeInOutBack ?= cubic-bezier(0.68, -0.25, 0.265, 1.25)
 
-menu-font-size = 24px
+menu-font-size ?= 24px
 center-of(height, font-size = menu-font-size)
 	padding-top ((height - font-size) / 2)
 	padding-bottom ((height - font-size) / 2)
