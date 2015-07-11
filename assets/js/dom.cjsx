@@ -127,7 +127,6 @@ Quests = React.createClass
 		data = @state.quests
 			.filter (e) -> (e.text.toLowerCase().indexOf(filterText) != -1) or (e.name.toLowerCase().indexOf(filterText) != -1)
 			.map (e, i) -> <Quest filterText={filterText} data={e} />
-		console.log data
 
 		center = data.length // 2
 		center += 1 if data.length % 2 != 0
