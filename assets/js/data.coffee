@@ -2,6 +2,7 @@ $ = require 'jquery'
 Cookie = require "js-cookie"
 
 u = require './utilities.coffee'
+api = require './api.coffee'
 
 baseData =
 	errors:
@@ -47,19 +48,17 @@ baseData =
 	]
 
 unless Cookie.get 'token'
-	u.postSync "#{u.domen}/api/security/login.php", email: 'nitive@icloud.com', password: 'fb827d8d', client: 'openfhq',
-		(response) ->
-			if response.result is "ok"
-				Cookie.set 'token', response.data.token
-			else
-				console.warn "Authorization error"
+	api.security.login 'nitive@icloud.com', 'fb827d8d', 'openfhq', ((response) ->
+		if response.result is 'ok'
+			Cookie.set 'token', response.data.token
+		else
+			console.warn 'Authorization error'
+	), async: no
 
 unless Cookie.get 'currentGame'
-	u.postSync "#{u.domen}/api/games/list.php", token: Cookie.get 'token',
-		(response) ->
-			if response.result is "ok"
-				Cookie.set 'currentGame', response.current_game
-			else
-				console.warn "getting current game error"
+	api.games.list ((response) ->
+		if response.result is 'ok'
+			Cookie.set 'currentGame', response.current_game
+	), async: no
 
 module.exports = baseData

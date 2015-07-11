@@ -378,5 +378,5 @@ routes =
 
 
 module.exports = ->
-	Router.run routes, (Handler, props) ->
+	Router.run routes, Router.HistoryLocation, (Handler, props) ->
 		React.render <Handler {...props}/>, document.body
