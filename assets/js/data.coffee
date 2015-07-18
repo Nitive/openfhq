@@ -47,13 +47,10 @@ baseData =
 		}
 	]
 
-unless Cookie.get 'token'
-	api.security.login 'nitive@icloud.com', 'fb827d8d', 'openfhq', ((response) ->
-		if response.result is 'ok'
-			Cookie.set 'token', response.data.token
-		else
-			console.warn 'Authorization error'
-	), async: no
+api.security.login 'nitive@icloud.com', 'test', 'openfhq', ((response) ->
+	if response.result is 'ok'
+		Cookie.set 'token', response.data.token
+), async: no
 
 unless Cookie.get 'currentGame'
 	api.games.list ((response) ->
