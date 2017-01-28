@@ -1,6 +1,8 @@
 OpenFHQ
 =======
 ##Get started
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Nitive/openfhq.svg)](https://greenkeeper.io/)
 1. Клонировать репозиторий
 2. Установить [node.js](http://nodejs.org) (npm будет установлен автоматически)
 3. Выполнить `npm install --global gulp`
